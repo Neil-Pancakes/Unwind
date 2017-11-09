@@ -5,37 +5,13 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController">
+    <div ng-cloak ng-controller="floorController" data-ng-init="init()">
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom>
-          <md-tab label="1st floor">
+          <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}">
             <md-content>
             </md-content>
           </md-tab>
-
-          <md-tab label="2nd floor">
-            <md-content>
-            </md-content>
-          </md-tab>
-
-          <md-tab label="3rd floor">
-            <md-content>
-            </md-content> 
-          </md-tab>
-
-          <md-tab label="4th floor">
-            <md-content>
-            </md-content> 
-          </md-tab>
-
-          <md-tab label="5th floor">
-            <md-content>
-            </md-content> 
-          </md-tab>
-
-          <!--Weird bug with last tab-->
-          <md-tab ng-hide="true"></md-tab>
-
         </md-tabs>
       </md-content>
     </div>  
@@ -53,5 +29,12 @@ include '../control_sidebar.php';
 
 <script>
 var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('floorController', function($scope) {});
+
+app.controller('floorController', function($scope, $http, $mdDialog) {
+    $scope.init = function () {
+      $http.get("../queries/get/getFloor.php").then(function (response) {
+        $scope.floor = response.data.records;
+      });
+    };
+});
 </script>
