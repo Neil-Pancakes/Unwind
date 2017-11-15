@@ -4,9 +4,13 @@
   $request = json_decode($postdata, true);
   
   if(count($request>0)){
-   
-
-    $query = "";
+    $requestId = $request['reservation_request_id'];
+    $roomQty = $request['room_qty'];
+    
+    $query = "INSERT INTO `reservation`
+    (`reservation_request_id`, `room_qty`)
+    VALUES
+    ('$requestId', '$roomQty');";
     $result = mysqli_query($mysqli, $query);
   }else{
       echo "error";
