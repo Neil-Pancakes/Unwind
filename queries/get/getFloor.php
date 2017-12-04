@@ -5,6 +5,7 @@ require("../../functions/sql_connect.php");
 
 $result = $mysqli->query("SELECT `floor_id`, `floor_number` FROM `floor`");
 $outp = "";
+
 while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     if ($outp != "") {
         $outp .= ",";
