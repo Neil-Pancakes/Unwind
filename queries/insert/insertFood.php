@@ -4,9 +4,9 @@
   $request = json_decode($postdata, true);
   
   if(count($request>0)){
-    $name = $request['name'];
-    $desc = $request['description'];
-    $price = $request['price'];
+    $name = $request['foodName'];
+    $desc = $request['foodDesc'];
+    $price = $request['foodPrice'];
     $menuId = $request['menu_id'];
     
     $query = "INSERT INTO `food` 

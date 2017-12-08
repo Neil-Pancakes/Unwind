@@ -4,7 +4,7 @@
   $request = json_decode($postdata, true);
   
   if(count($request>0)){
-    $name = $request['name'];
+    $name = $request['menuName'];
     
     $query = "INSERT INTO `menu` 
     (`name`) 
