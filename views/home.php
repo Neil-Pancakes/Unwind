@@ -35,15 +35,16 @@ include '../sidebar.php';
 
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom>
-          <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}">
+          <md-tab ng-repeat="x in floor" label="Floor {{x.FloorNumber}}">
             <md-content>  
             <div>
               <md-content class="md-padding" layout-xs="column" layout="row">
-                <div flex-xs flex-gt-xs="50" layout="column">
+
+                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in roomSet.rooms track by $index">
                   <md-card md-theme-watch ng-click="">
                     <md-card-title>
                       <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
+                        <span class="md-headline">Room {{room.RoomNumber}}</span>
                       </md-card-title-text>
                       <md-card-title-media>
                         <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
@@ -51,156 +52,6 @@ include '../sidebar.php';
                     </md-card-title>
                   </md-card>              
                 </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column">
-                  <md-card  md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column" >
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-              </md-content>
-
-              <md-content class="md-padding" layout-xs="column" layout="row">
-                <div flex-xs flex-gt-xs="50" layout="column">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column">
-                  <md-card  md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column" >
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-              </md-content>
-
-              <md-content class="md-padding" layout-xs="column" layout="row">
-                <div flex-xs flex-gt-xs="50" layout="column">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column">
-                  <md-card  md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column" >
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room 101</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-
               </md-content>
             </div>
             </md-content>
@@ -225,15 +76,31 @@ var app = angular.module('unwindApp', ['ngMaterial']);
 
 app.controller('floorController', function($scope, $http, $mdDialog) {
     $scope.init = function () {
+      $scope.roomSet = {rooms: []};
+      $scope.rooms = [];
       $http.get("../queries/get/getFloor.php").then(function (response) {
-        
         $scope.floor = response.data.records;
-      });
+        $floorList = $scope.floor;
 
+        for($x=0; $x<$scope.floor.length; $x++){
+          $http.get("../queries/get/getRoomPerFloor.php?floorId="+$floorList[$x].FloorId).then(function (response) {
+            
+            $scope.roomPerFloor = response.data.records;
+            if($scope.roomPerFloor!=""){
+              $scope.roomSet.rooms = $scope.roomPerFloor;
+            }
+          });
+          
+        }
+      });
+      
+      
+
+/*
       $http.get("../queries/get/getRoomTypes.php").then(function (response) {
         
         $scope.roomTypeList = response.data.records;
-      });
+      });*/
     };
 });
 </script>
