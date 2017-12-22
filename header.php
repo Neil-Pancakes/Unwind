@@ -13,13 +13,14 @@
   <script src="../includes/js/angular-messages.min.js"></script>
   <script src="../includes/js/angular-material.min.js"></script>
   
+  <link rel="stylesheet" href="../includes/css/style.css">
   <link rel="stylesheet" href="../includes/css/bootstrap.min.css">
   <link rel="stylesheet" href="../includes/css/font-awesome.min.css">
   <link rel="stylesheet" href="../includes/css/ionicons.min.css">
   <link rel="stylesheet" href="../includes/css/AdminLTE.min.css">
   <link rel="stylesheet" href="../includes/css/skins/_all-skins.min.css">
   <!--<link rel="stylesheet" href="../https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
-  <link rel="stylesheet" href="../includes/css/style.css">
+  
   
   <link rel="stylesheet" href="../includes/css/angular-material.min.css">
 </head>
