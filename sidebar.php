@@ -10,34 +10,40 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active">
+        <li id="homeTab">
           <a href="home.php">
             <i class="fa fa-home"></i>
             <span>Home</span>
           </a>
         </li>
-        <li>
+        <li id="reservationsTab">
           <a href="reservations.php">
             <i class="fa fa-suitcase"></i> 
             <span>Reservations</span>
           </a>
         </li>
-        <li>
+        <li id="servicesTab">
           <a href="services.php">
             <i class="fa fa-wrench"></i> 
             <span>Services</span>
           </a>
         </li>
-        <li>
+        <li id="reportsTab">
           <a href="reports.php">
             <i class="fa fa-line-chart"></i> 
             <span>Reports</span>
           </a>
         </li>
-        <li>
+        <li id="inquiriesTab">
           <a href="inquiries.php">
             <i class="fa fa-phone"></i> 
             <span>Inquiries</span>
+          </a>
+        </li>
+        <li id="menuTab">
+          <a href="menu.php">
+            <i class="fa fa-cutlery"></i> 
+            <span>Menu</span>
           </a>
         </li>
         </ul>

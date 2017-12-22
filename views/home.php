@@ -72,6 +72,9 @@ include '../control_sidebar.php';
 </body>
 
 <script>
+var active = angular.element( document.querySelector( '#homeTab' ) );
+active.addClass('active');
+
 var app = angular.module('unwindApp', ['ngMaterial']);
 
 app.controller('floorController', function($scope, $http, $mdDialog) {

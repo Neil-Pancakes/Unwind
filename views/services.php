@@ -24,6 +24,9 @@ include '../control_sidebar.php';
 
 
 <script>
+var active = angular.element( document.querySelector( '#servicesTab' ) );
+active.addClass('active');
+
 var app = angular.module('unwindApp', ['ngMaterial']);
 
 app.controller('floorController', function($scope, $http, $mdDialog) {
