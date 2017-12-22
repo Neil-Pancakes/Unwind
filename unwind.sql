@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.1
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 09, 2017 at 02:52 PM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 5.5.38
+-- Host: den1.mysql2.gear.host
+-- Generation Time: Dec 22, 2017 at 08:23 AM
+-- Server version: 5.6.29
+-- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `unwind_db`
+-- Database: `unwind`
 --
 
 -- --------------------------------------------------------
@@ -108,6 +110,15 @@ CREATE TABLE `food` (
   `menu_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `food`
+--
+
+INSERT INTO `food` (`food_id`, `name`, `description`, `price`, `menu_id`) VALUES
+(1, 'Chicken', '1 whole chicken grilled to perfection', 400, NULL),
+(2, 'Plain Rice', 'Platter of plain rice hunted down from the plains of Africa', 250, NULL),
+(3, 'Chocolate Milk', 'Milk from chocolate cows', 500, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -166,7 +177,11 @@ CREATE TABLE `reservation` (
 CREATE TABLE `reservation_request` (
   `reservation_request_id` int(11) NOT NULL,
   `reservation_request_date` datetime NOT NULL,
-  `reservation_request_status` enum('Accepted','Rejected','Pending') NOT NULL,
+  `checkin_date` date NOT NULL,
+  `checkout_date` date NOT NULL,
+  `adult_qty` int(11) NOT NULL,
+  `child_qty` int(11) NOT NULL DEFAULT '0',
+  `reservation_request_status` enum('Accepted','Rejected','Pending','Cancelled','Checked In') NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -175,9 +190,14 @@ CREATE TABLE `reservation_request` (
 -- Dumping data for table `reservation_request`
 --
 
-INSERT INTO `reservation_request` (`reservation_request_id`, `reservation_request_date`, `reservation_request_status`, `user_id`, `employee_id`) VALUES
-(1, '2017-11-07 21:23:14', 'Pending', 1, NULL),
-(2, '2017-11-07 21:44:36', 'Pending', 1, NULL);
+INSERT INTO `reservation_request` (`reservation_request_id`, `reservation_request_date`, `checkin_date`, `checkout_date`, `adult_qty`, `child_qty`, `reservation_request_status`, `user_id`, `employee_id`) VALUES
+(4, '2017-11-18 04:39:26', '2017-11-20', '2017-11-23', 0, 0, 'Cancelled', 5, NULL),
+(5, '2017-11-22 16:55:43', '2017-11-29', '2017-12-08', 0, 0, 'Pending', 5, NULL),
+(6, '2017-11-25 01:12:18', '2017-12-19', '2017-12-23', 0, 0, 'Pending', 5, NULL),
+(7, '2017-11-25 01:23:00', '2018-03-15', '2018-04-15', 0, 0, 'Pending', 5, NULL),
+(8, '2017-11-25 01:41:08', '2018-05-15', '2018-05-20', 0, 0, 'Pending', 5, NULL),
+(9, '2017-11-25 01:44:37', '2018-06-15', '2018-06-18', 0, 0, 'Pending', 5, NULL),
+(10, '2017-12-17 13:54:20', '2017-12-18', '2018-05-15', 0, 0, 'Checked In', 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -198,7 +218,11 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`room_id`, `room_number`, `room_status`, `room_type_id`, `floor_id`) VALUES
-(1, 101, 'Available', 1, 1);
+(1, 101, 'Available', 1, 1),
+(2, 102, 'Available', 1, 1),
+(3, 103, 'Available', 1, 1),
+(4, 401, 'Available', 2, 4),
+(5, 402, 'Available', 2, 4);
 
 -- --------------------------------------------------------
 
@@ -230,7 +254,8 @@ CREATE TABLE `room_type` (
 --
 
 INSERT INTO `room_type` (`room_type_id`, `name`, `price`, `description`) VALUES
-(1, 'Regular', 10000, 'Standard Room');
+(1, 'Regular', 10000, 'Standard Room'),
+(2, 'Suite', 25000, 'A beautiful suite');
 
 -- --------------------------------------------------------
 
@@ -273,15 +298,17 @@ CREATE TABLE `user_account` (
   `birthdate` date NOT NULL,
   `gender` enum('Male','Female') NOT NULL,
   `contact_no` varchar(16) DEFAULT NULL,
-  `date_account_created` datetime NOT NULL
+  `date_account_created` datetime NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_account`
 --
 
-INSERT INTO `user_account` (`user_id`, `first_name`, `last_name`, `middle_initial`, `email`, `birthdate`, `gender`, `contact_no`, `date_account_created`) VALUES
-(1, 'Robin Dalmy', 'Tubungbanua', 'M', 'dalmiet@gmail.com', '1997-10-19', 'Male', '09091234567', '2017-11-07 21:21:33');
+INSERT INTO `user_account` (`user_id`, `first_name`, `last_name`, `middle_initial`, `email`, `birthdate`, `gender`, `contact_no`, `date_account_created`, `password`) VALUES
+(1, 'Robin Dalmy', 'Tubungbanua', 'M', 'dalmiet@gmail.com', '1997-10-19', 'Male', '09091234567', '2017-11-07 21:21:33', ''),
+(5, 'Jesus', 'Ramos', 'M', 'robin@gmail.com', '1994-05-15', 'Male', '09254430683', '2017-11-12 04:16:48', '$2y$10$m33rrgoXE2oolU0Y2ARuMebKvY5WLvng/BL/GljpNgMek9MjHFXRm');
 
 --
 -- Indexes for dumped tables
@@ -428,7 +455,7 @@ ALTER TABLE `floor`
 -- AUTO_INCREMENT for table `food`
 --
 ALTER TABLE `food`
-  MODIFY `food_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `food_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `food_item`
 --
@@ -453,12 +480,12 @@ ALTER TABLE `reservation`
 -- AUTO_INCREMENT for table `reservation_request`
 --
 ALTER TABLE `reservation_request`
-  MODIFY `reservation_request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `reservation_request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `room_reserved`
 --
@@ -468,7 +495,7 @@ ALTER TABLE `room_reserved`
 -- AUTO_INCREMENT for table `room_type`
 --
 ALTER TABLE `room_type`
-  MODIFY `room_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `room_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `service`
 --
@@ -483,7 +510,7 @@ ALTER TABLE `service_request`
 -- AUTO_INCREMENT for table `user_account`
 --
 ALTER TABLE `user_account`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
@@ -554,6 +581,7 @@ ALTER TABLE `service_request`
   ADD CONSTRAINT `service_request_fk1` FOREIGN KEY (`service_id`) REFERENCES `service` (`service_id`),
   ADD CONSTRAINT `service_request_fk2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`),
   ADD CONSTRAINT `service_request_fk3` FOREIGN KEY (`check_in_id`) REFERENCES `check_in` (`check_in_id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
