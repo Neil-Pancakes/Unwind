@@ -7,14 +7,19 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
       <md-content>
-        <md-list-item class="md-3-line" ng-repeat="x in pending">
-            <div>
+        <md-list-item class="md-3-line rrList" ng-repeat="x in pending">
+            <div id="rrListDiv">
                 <h3>{{x.Name}}</h3>
-                <span>{{x.ReservationRequestDate}}</span>
-                <span ng-model="requestId">{{x.ReservationRequestId}}</span>
-                <button class="btn btn-success">Accept</button>
-                <button class="btn btn-danger">Reject</button>
-            </div>            
+                <span>{{x.CheckInMonth}} {{x.CheckInDay}}, {{x.CheckInYear}} - {{x.CheckOutMonth}} {{x.CheckOutDay}}, {{x.CheckOutYear}}</span>
+                <br>
+                <span>Adults: {{AdultQty}}</span>
+                <br>
+                <span>Children: {{ChildQty}}
+                <div class="acceptrejectDiv">
+                    <button class="btn btn-success">Accept</button>
+                    <button class="btn btn-danger">Reject</button>
+                </div>
+            </div>       
         </md-list-item>
       </md-content>
     </div>  
@@ -56,5 +61,9 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
             $scope.showEdit();
         })
     };
+
+    $scope.insertReservation = function(){
+        
+    }
 });
 </script>

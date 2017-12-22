@@ -22,7 +22,15 @@ include '../control_sidebar.php';
 <!-- End of body-->
 </body>
 
+
 <script>
 var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('floorController', function($scope) {});
+
+app.controller('floorController', function($scope, $http, $mdDialog) {
+    $scope.init = function () {
+      $http.get("../queries/get/getFloor.php").then(function (response) {
+        
+      });
+    };
+});
 </script>

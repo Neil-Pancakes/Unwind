@@ -7,14 +7,14 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
       <div layout="row">
-        <md-button class="md-raised" style="color:white; background-color:lightgreen" data-target="#createRoom" data-toggle="modal">Add New Room</md-button>
+        <md-button id="createRoomButton" class="md-raised" data-target="#createRoom" data-toggle="modal">Add New Room</md-button>
       </div>
 
       <div id="createRoom" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <form ng-submit="createRoom()">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color:#003300; color:white;">
+                        <div class="modal-header" id="createHeader">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h2>Create Menu</h2>
                         </div>

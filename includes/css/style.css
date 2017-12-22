@@ -1,3 +1,9 @@
 .navbar { background-color: #66ffff !important }
 .logo { background-color: #00ffff !important }
-.content-wrapper { background-color:  !important }
+.content-wrapper { background-color: #ffffff !important }
+#rrListDiv{ float:left; width:100%; margin-bottom:1%;}
+.acceptrejectDiv{ float:right }
+.rrList:nth-child(odd) { background-color: #f2f2f2 }
+#createRoomButton{ color:white; background-color:lightgreen }
+#createHeader{ background-color:#003300; color:white; }
+.rightFloat{ float:right; }
