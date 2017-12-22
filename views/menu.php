@@ -6,15 +6,15 @@ include '../sidebar.php';
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
-        <div layout="row" style="float:right;">
-            <md-button class="md-raised" style="color:white; background-color:lightgreen" data-target="#insertMenu" data-toggle="modal">Add New Menu</md-button>
+        <div layout="row" class="rightFloat">
+            <md-button class="md-raised" id="createRoomButton" data-target="#insertMenu" data-toggle="modal">Add New Menu</md-button>
         </div>
 
         <div id="insertMenu" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <form ng-submit="createMenu()">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color:#003300; color:white;">
+                        <div class="modal-header" id="createHeader">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h2>Create Menu</h2>
                         </div>
@@ -33,7 +33,7 @@ include '../sidebar.php';
       <md-content>
         
         <md-tabs md-dynamic-height md-border-bottom>
-          <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}">
+          <md-tab ng-repeat="x in menuList track by $index" label="{{x.Name}}">
             <md-content>
                 
                 <div layout="row" style="float:right;">
@@ -132,9 +132,9 @@ var app = angular.module('unwindApp', ['ngMaterial']);
 
 app.controller('floorController', function($scope, $http, $mdDialog) {
     $scope.init = function () {
-      $http.get("../queries/get/getFloor.php").then(function (response) {
+      $http.get("../queries/get/getMenu.php").then(function (response){
+        $scope.menuList = response.data.records;
         
-        $scope.floor = response.data.records;
       });
     };
 
