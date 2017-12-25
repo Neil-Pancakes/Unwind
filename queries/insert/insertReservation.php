@@ -5,12 +5,11 @@
   
   if(count($request>0)){
     $requestId = $request['reservation_request_id'];
-    $roomQty = $request['room_qty'];
     
     $query = "INSERT INTO `reservation`
-    (`reservation_request_id`, `room_qty`)
+    (`reservation_request_id`)
     VALUES
-    ('$requestId', '$roomQty');";
+    ('$requestId');";
     $result = mysqli_query($mysqli, $query);
   }else{
       echo "error";

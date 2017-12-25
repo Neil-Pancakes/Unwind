@@ -7,3 +7,9 @@
 #createRoomButton{ color:white; background-color:lightgreen }
 #createHeader{ background-color:#003300; color:white; }
 .rightFloat{ float:right; }
+md-tabs.md-no-animation md-tab-content {
+    transition: none;
+}
+md-tabs.md-no-animation md-ink-bar {
+    transition: none;
+}

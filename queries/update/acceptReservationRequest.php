@@ -7,7 +7,7 @@
         $id = $request['id'];
         $employeeId = 1; //Change to session value//
         
-        $query = "UPDATE `unwind_db` 
+        $query = "UPDATE `reservation_request` 
         SET `reservation_request_status` = 'Accepted', `employee_id` = $employeeId
         WHERE `reservation_request_id` = $id";
         $result = mysqli_query($mysqli, $query);
