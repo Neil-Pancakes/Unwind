@@ -46,6 +46,12 @@
             <span>Menu</span>
           </a>
         </li>
+        <li id="menuTab">
+          <a href="employeeList.php">
+            <i class="fa fa-users"></i> 
+            <span>Employees</span>
+          </a>
+        </li>
         </ul>
     </section>
     <!-- /.sidebar -->

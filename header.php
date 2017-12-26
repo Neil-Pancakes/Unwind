@@ -12,6 +12,7 @@
   <script src="../includes/js/angular-aria.min.js"></script>
   <script src="../includes/js/angular-messages.min.js"></script>
   <script src="../includes/js/angular-material.min.js"></script>
+  <script src="../includes/js/moment.js"></script>
   <script src="../bower_components/angular-pusher/angular-pusher.min.js" type="text/javascript"></script>
   
   <link rel="stylesheet" href="../includes/css/style.css">

@@ -7,7 +7,7 @@
     $position = $request['position'];
     $fn = $request['firstName'];
     $ln = $request['lastName'];
-    $mi = $request['middleName'];
+    $mi = $request['mi'];
     $email = $request['email'];
     $bday = $request['birthDate'];
     $gender = $request['gender'];

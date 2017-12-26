@@ -13,3 +13,6 @@ md-tabs.md-no-animation md-tab-content {
 md-tabs.md-no-animation md-ink-bar {
     transition: none;
 }
+.employeeName{
+    font-size:20px;
+}

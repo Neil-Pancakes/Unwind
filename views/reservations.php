@@ -3,7 +3,7 @@ require ("../header.php");
 include '../sidebar.php';
 ?>
 
- <div class="content-wrapper">
+<div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
       <md-content>
