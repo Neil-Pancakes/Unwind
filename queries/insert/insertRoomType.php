@@ -7,11 +7,13 @@
     $name = $request['name'];
     $price = $request['price'];
     $desc = $request['description'];
+    $maxAdult = $request['max_adult'];
+    $maxChild = $request['max_child'];
     
     $query = "INSERT INTO `room_type` 
-    (`name`, `price`, `description`) 
+    (`name`, `price`, `description`, `max_adult`, `max_child`) 
     VALUES 
-    ('$name', '$price', '$desc');";
+    ('$name', '$price', '$desc', $maxAdult, $maxChild);";
     
     $result = mysqli_query($mysqli, $query);
   }else{

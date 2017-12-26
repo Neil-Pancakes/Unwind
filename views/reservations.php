@@ -88,11 +88,12 @@ app.controller('floorController', function($scope, $http, $mdDialog, $interval, 
         $scope.init();
     }, 5000);*/
 
-    $scope.acceptReservation = function($id){
+    $scope.acceptReservation = function($id, $room_qty){
         $http.post('../queries/update/acceptReservationRequest.php', {
             'id': $id,
         }).then(function(data, status){
             $scope.insertReservation($id);
+            $scope.insertRoomReserved($id, $room_qty);
             $scope.init();
         })
     };
@@ -110,6 +111,19 @@ app.controller('floorController', function($scope, $http, $mdDialog, $interval, 
             'reservation_request_id': $id,
         }).then(function(data, status){
         })
+    }
+
+    $scope.insertRoomReserved($reservationId, $room_qty){
+        $http.get("../queries/get/getAvailableRooms.php").then(function (response) {
+            $scope.availableRooms = response.data.records;
+            for($x=0; $x<$room_qty; $x++){
+                $http.post('../queries/insert/insertRoomReserved.php', {
+                'reservation_id': $reservationId,
+                'room_id': $scope.availableRooms[$x]
+                }).then(function(data, status){
+                })
+            }
+        });
     }
 });
 </script>
