@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: den1.mysql2.gear.host
--- Generation Time: Dec 22, 2017 at 08:23 AM
+-- Generation Time: Dec 26, 2017 at 10:00 AM
 -- Server version: 5.6.29
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -115,9 +115,10 @@ CREATE TABLE `food` (
 --
 
 INSERT INTO `food` (`food_id`, `name`, `description`, `price`, `menu_id`) VALUES
-(1, 'Chicken', '1 whole chicken grilled to perfection', 400, NULL),
-(2, 'Plain Rice', 'Platter of plain rice hunted down from the plains of Africa', 250, NULL),
-(3, 'Chocolate Milk', 'Milk from chocolate cows', 500, NULL);
+(1, 'Chicken', '1 whole chicken grilled to perfection', 400, 1),
+(2, 'Plain Rice', 'Platter of plain rice hunted down from the plains of Africa', 250, 1),
+(3, 'Chocolate Milk', 'Milk from chocolate cows', 500, 1),
+(4, 'Pork', 'Scrumptious pork!', 175, 1);
 
 -- --------------------------------------------------------
 
@@ -157,6 +158,13 @@ CREATE TABLE `menu` (
   `name` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `menu`
+--
+
+INSERT INTO `menu` (`menu_id`, `name`) VALUES
+(1, 'Regular');
+
 -- --------------------------------------------------------
 
 --
@@ -165,8 +173,16 @@ CREATE TABLE `menu` (
 
 CREATE TABLE `reservation` (
   `reservation_id` int(11) NOT NULL,
+  `reservation_status` enum('Waiting','Checked-in','Cancelled') NOT NULL DEFAULT 'Waiting',
   `reservation_request_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`reservation_id`, `reservation_status`, `reservation_request_id`) VALUES
+(1, 'Checked-in', 11);
 
 -- --------------------------------------------------------
 
@@ -181,7 +197,7 @@ CREATE TABLE `reservation_request` (
   `checkout_date` date NOT NULL,
   `adult_qty` int(11) NOT NULL,
   `child_qty` int(11) NOT NULL DEFAULT '0',
-  `reservation_request_status` enum('Accepted','Rejected','Pending','Cancelled','Checked In') NOT NULL,
+  `reservation_request_status` enum('Accepted','Rejected','Pending') NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `employee_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -191,13 +207,14 @@ CREATE TABLE `reservation_request` (
 --
 
 INSERT INTO `reservation_request` (`reservation_request_id`, `reservation_request_date`, `checkin_date`, `checkout_date`, `adult_qty`, `child_qty`, `reservation_request_status`, `user_id`, `employee_id`) VALUES
-(4, '2017-11-18 04:39:26', '2017-11-20', '2017-11-23', 0, 0, 'Cancelled', 5, NULL),
+(4, '2017-11-18 04:39:26', '2017-11-20', '2017-11-23', 0, 0, '', 5, NULL),
 (5, '2017-11-22 16:55:43', '2017-11-29', '2017-12-08', 0, 0, 'Pending', 5, NULL),
 (6, '2017-11-25 01:12:18', '2017-12-19', '2017-12-23', 0, 0, 'Pending', 5, NULL),
-(7, '2017-11-25 01:23:00', '2018-03-15', '2018-04-15', 0, 0, 'Pending', 5, NULL),
-(8, '2017-11-25 01:41:08', '2018-05-15', '2018-05-20', 0, 0, 'Pending', 5, NULL),
-(9, '2017-11-25 01:44:37', '2018-06-15', '2018-06-18', 0, 0, 'Pending', 5, NULL),
-(10, '2017-12-17 13:54:20', '2017-12-18', '2018-05-15', 0, 0, 'Checked In', 5, NULL);
+(7, '2017-11-25 01:23:00', '2018-03-15', '2018-04-15', 0, 0, 'Accepted', 5, 1),
+(8, '2017-11-25 01:41:08', '2018-05-15', '2018-05-20', 0, 0, 'Accepted', 5, 1),
+(9, '2017-11-25 01:44:37', '2018-06-15', '2018-06-18', 0, 0, 'Accepted', 5, 1),
+(10, '2017-12-17 13:54:20', '2017-12-18', '2018-05-15', 0, 0, '', 5, NULL),
+(11, '2017-12-25 14:30:23', '2017-12-26', '2018-01-13', 1, 0, 'Accepted', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -233,8 +250,15 @@ INSERT INTO `room` (`room_id`, `room_number`, `room_status`, `room_type_id`, `fl
 CREATE TABLE `room_reserved` (
   `room_reserved_id` int(11) NOT NULL,
   `room_id` int(11) DEFAULT NULL,
-  `reservation_id` int(11) DEFAULT NULL
+  `reservation_request_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `room_reserved`
+--
+
+INSERT INTO `room_reserved` (`room_reserved_id`, `room_id`, `reservation_request_id`) VALUES
+(1, 1, 11);
 
 -- --------------------------------------------------------
 
@@ -246,16 +270,18 @@ CREATE TABLE `room_type` (
   `room_type_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `price` float NOT NULL,
-  `description` text
+  `description` text,
+  `max_adult` int(11) NOT NULL,
+  `max_child` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `room_type`
 --
 
-INSERT INTO `room_type` (`room_type_id`, `name`, `price`, `description`) VALUES
-(1, 'Regular', 10000, 'Standard Room'),
-(2, 'Suite', 25000, 'A beautiful suite');
+INSERT INTO `room_type` (`room_type_id`, `name`, `price`, `description`, `max_adult`, `max_child`) VALUES
+(1, 'Regular', 10000, 'Standard Room', 2, 2),
+(2, 'Suite', 25000, 'A beautiful suite', 6, 6);
 
 -- --------------------------------------------------------
 
@@ -398,7 +424,7 @@ ALTER TABLE `room`
 ALTER TABLE `room_reserved`
   ADD PRIMARY KEY (`room_reserved_id`),
   ADD KEY `room_reserved_fk1` (`room_id`),
-  ADD KEY `room_reserved_fk2` (`reservation_id`);
+  ADD KEY `room_reserved_fk2` (`reservation_request_id`);
 
 --
 -- Indexes for table `room_type`
@@ -455,7 +481,7 @@ ALTER TABLE `floor`
 -- AUTO_INCREMENT for table `food`
 --
 ALTER TABLE `food`
-  MODIFY `food_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `food_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `food_item`
 --
@@ -470,17 +496,17 @@ ALTER TABLE `food_order`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `reservation_request`
 --
 ALTER TABLE `reservation_request`
-  MODIFY `reservation_request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `reservation_request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `room`
 --
@@ -490,7 +516,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `room_reserved`
 --
 ALTER TABLE `room_reserved`
-  MODIFY `room_reserved_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `room_reserved_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `room_type`
 --
@@ -572,7 +598,7 @@ ALTER TABLE `room`
 --
 ALTER TABLE `room_reserved`
   ADD CONSTRAINT `room_reserved_fk1` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`),
-  ADD CONSTRAINT `room_reserved_fk2` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`);
+  ADD CONSTRAINT `room_reserved_fk2` FOREIGN KEY (`reservation_request_id`) REFERENCES `reservation_request` (`reservation_request_id`);
 
 --
 -- Constraints for table `service_request`
