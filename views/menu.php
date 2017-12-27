@@ -36,11 +36,11 @@ include '../sidebar.php';
           <md-tab ng-repeat="x in menuList track by $index" label="{{x.Name}}">
             <md-content>
                 
-                <div layout="row" style="float:right;">
-                    <md-button class="md-raised md-warn" style="float:right;" data-target="#removeFood" data-toggle="modal">Remove Food from Menu</md-button>
-                </div>
-                <div layout="row" style="float:right;">
+                <div>
                     <md-button class="md-raised" style="color:white; background-color:green" data-target="#insertFood" data-toggle="modal">Add Food to Menu</md-button>
+                </div>
+                <div>
+                    <md-button class="md-raised md-warn" data-target="#removeFood" data-toggle="modal">Remove Food from Menu</md-button>
                 </div>
 
                 <div id="insertFood" class="modal fade" role="dialog">
@@ -86,28 +86,16 @@ include '../sidebar.php';
                     </div>
                 </div>
 
-                <md-list flex style="width:68%;">
-                    <md-list-item class="md-3-line" ng-click="null">
-                        <div class="md-list-item-text" layout="column">
-                            <h3>Name</h3>
-                            <h4>Description</h4>
-                            <p>price</p>
-                        </div>
-                    </md-list-item>
-
-                    <md-list-item class="md-3-line" ng-click="null">
-                        <div class="md-list-item-text" layout="column">
-                            <h3>Name</h3>
-                            <h4>Description</h4>
-                            <p>price</p>
-                        </div>
-                    </md-list-item>
-                    <md-list-item class="md-3-line" ng-click="null">
-                        <div class="md-list-item-text" layout="column">
-                            <h3>Name</h3>
-                            <h4>Description</h4>
-                            <p>price</p>
-                        </div>
+                <md-list flex ng-repeat = "food in foodSet.food track by $index">
+                    <md-list-item class="md-3-line rrList" ng-click="null">
+                            <div>
+                                <img src="{{food.Picture}}" class="logoPic">
+                            </div>
+                            <div>
+                                <div>{{food.Name}}</div>
+                                <div>{{food.Description}}</div>
+                                <div>{{food.Price}} Php</div>
+                            </div>  
                     </md-list-item>
                 <md-list>            
             </md-content>
@@ -134,10 +122,20 @@ active.addClass('active');
 var app = angular.module('unwindApp', ['ngMaterial']);
 app.controller('floorController', function($scope, $http, $mdDialog) {
     $scope.init = function () {
-      $http.get("../queries/get/getMenu.php").then(function (response){
-        $scope.menuList = response.data.records;
-        
-      });
+        $scope.foodSet = {food: []};
+        $scope.food = [];
+
+        $http.get("../queries/get/getMenu.php").then(function (response){
+            $scope.menuList = response.data.records;
+            for($x=0; $x<$scope.menuList.length; $x++){
+                $http.get("../queries/get/getFoodFromMenu.php?menuId="+$scope.menuList[$x].MenuId).then(function (response){
+                    $scope.foodPerMenu = response.data.records;
+                    if($scope.foodPerMenu!=""){
+                        $scope.foodSet.food = $scope.foodPerMenu;
+                    }
+                });
+            }
+        });
     };
 
     $scope.createMenu = function() {

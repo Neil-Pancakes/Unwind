@@ -1,5 +1,5 @@
-.navbar { background-color: #66ffff !important }
-.logo { background-color: #00ffff !important }
+.navbar { background-color: #2fa8ef !important }
+.logo { background-color: #1ba1f1 !important }
 .content-wrapper { background-color: #ffffff !important }
 #rrListDiv{ float:left; width:100%; margin-bottom:1%;}
 .acceptrejectDiv{ float:right }
@@ -15,4 +15,12 @@ md-tabs.md-no-animation md-ink-bar {
 }
 .employeeName{
     font-size:20px;
+}
+.logoPic{
+    height:128px;
+    width:128px;
+    float:left;
+}
+.foodDetails{
+    margin-top:1%;
 }
