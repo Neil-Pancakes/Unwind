@@ -10,10 +10,10 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     if ($outp != "") {
         $outp .= ",";
     }
-    $outp .= '{"RoomTypeId":"'  . $rs["floor_id"] . '",';
-    $outp .= '"RoomName":"'   . $rs["floor_number"] . '",';
-    $outp .= '"RoomPrice":"'   . $rs["floor_number"] . '",';
-    $outp .= '"RoomDesc":"'   . $rs["floor_number"] . '"}';
+    $outp .= '{"RoomTypeId":"'  . $rs["room_type_id"] . '",';
+    $outp .= '"RoomName":"'   . $rs["name"] . '",';
+    $outp .= '"RoomPrice":"'   . $rs["price"] . '",';
+    $outp .= '"RoomDesc":"'   . $rs["description"] . '"}';
 }
 $outp ='{"records":['.$outp.']}';
 $mysqli->close();

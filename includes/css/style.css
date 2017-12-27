@@ -4,8 +4,10 @@
 #rrListDiv{ float:left; width:100%; margin-bottom:1%;}
 .acceptrejectDiv{ float:right }
 .rrList:nth-child(odd) { background-color: #f2f2f2 }
-#createRoomButton{ color:white; background-color:lightgreen }
+.createRoomType{ color:white; background-color:#660066 }
 #createHeader{ background-color:#003300; color:white; }
+#createRoomTypeButton{ background-color:#660066; color:white; }
+.createRoom{ background-color:#ff0066; color:white; }
 .rightFloat{ float:right; }
 md-tabs.md-no-animation md-tab-content {
     transition: none;

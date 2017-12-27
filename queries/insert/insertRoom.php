@@ -4,15 +4,29 @@
   $request = json_decode($postdata, true);
   
   if(count($request>0)){
-    $number = $request['room_number'];
-    $floor = $request['floor'];
-    $status = $request['room_status'];
+    $floor = $request['floor_id'];
     $typeId = $request['room_type_id'];
+
+    $sql = $mysqli->query("SELECT SUBSTRING(`room_number`+1, 2, LENGTH(`room_number`)) AS 'number'
+    FROM `room` 
+    WHERE `floor_id`=$floor
+    ORDER BY `room_number` DESC
+    LIMIT 1");
+
+    $rs = $sql->fetch_array(MYSQLI_ASSOC);
+    $val = $rs["number"];
+    if($rs["number"]==""){
+      $val = "01";
+    }
+    $number = $floor.$val;
+    echo $number;
     
+    echo $floor;
+    echo $typeId;
     $query = "INSERT INTO `room` 
-    (`room_number`, `floor`, `room_status`, `room_type_id`) 
+    (`room_number`, `floor_id`, `room_type_id`) 
     VALUES 
-    ('$number', '$floor', '$status', '$typeId');";
+    ('$number', '$floor', '$typeId');";
     
     $result = mysqli_query($mysqli, $query);
   }else{
