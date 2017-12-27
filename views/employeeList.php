@@ -15,16 +15,21 @@ include '../sidebar.php';
                         <span class="employeeName">{{x.Name}}</span>
                         <span>({{x.Position}})</span>
                         <div>
-                            {{x.Email}}
+                            <img src="{{x.Picture}}" class="logoPic">
                         </div>
-                        <div>
-                            {{x.Birthdate}}
-                        </div>
-                        <div>
-                            {{x.Gender}}
-                        </div>
-                        <div>
-                            {{x.ContactNo}}
+                        <div id="employeeDetails">
+                            <div>
+                                {{x.Email}}
+                            </div>
+                            <div>
+                                {{x.Birthdate}}
+                            </div>
+                            <div>
+                                {{x.Gender}}
+                            </div>
+                            <div>
+                                {{x.ContactNo}}
+                            </div>
                         </div>
                     </div>       
                 </md-list-item>
@@ -73,6 +78,11 @@ include '../sidebar.php';
                                         </md-select>
                                     </md-input-container>
                                     <br>
+                                    <label>Picture</label>
+                                    <input type="file" file-model="myFile"/>
+                                    <input type="text" ng-model="picture" ng-hide="true"></input>
+                                    <br>
+                                    <br>
                                     <md-datepicker ng-model="birthDate" md-placeholder="Birth date" required></md-datepicker>
                                     <br>
                                 </div>
@@ -106,7 +116,52 @@ active.addClass('active');
 
 var app = angular.module('unwindApp', ['ngMaterial']);
 
-app.controller('floorController', function($scope, $http, $mdDialog) {
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
+app.service('fileUpload', ['$http', function ($http) {
+    this.uploadFileAndFieldsToUrl = function(file, fields, uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+        for(var i = 0; i < fields.length; i++){
+            fd.append(fields[i].name, fields[i].data)
+        }
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        });
+    }
+}]);
+
+
+app.controller('floorController', function($scope, $http, $mdDialog, fileUpload) {
+    
+    $scope.$watch('myFile', function(newFileObj){
+        if(newFileObj){
+            $scope.picture = newFileObj.name; 
+        }
+    });
+
+    $scope.uploadForm = function(){
+        var file = $scope.myFile;
+        var uploadUrl = "http://localhost/Unwind/includes/img/";
+        var fields = [{"name": "picture", "data": $scope.picture}];
+        fileUpload.uploadFileAndFieldsToUrl(file, fields, uploadUrl);
+    };
+
     $scope.init = function () {
         $http.get("../queries/get/getEmployee.php").then(function (response) {
            $scope.employee = response.data.records;
@@ -114,6 +169,7 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
     };
 
     $scope.createEmployee = function(){
+        $scope.uploadForm();
         $http.post('../queries/insert/insertEmployee.php', {
             'firstName': $scope.firstName,
             'lastName': $scope.lastName,
@@ -122,7 +178,8 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
             'email': $scope.email,
             'contactNo': $scope.contactNo,
             'birthDate': moment($scope.birthDate).format('YYYY-MM-DD'),
-            'gender': $scope.gender
+            'gender': $scope.gender,
+            'picture': $scope.picture  
         }).then(function(data, status){
             $scope.init();
         })

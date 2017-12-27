@@ -12,12 +12,14 @@
     $bday = $request['birthDate'];
     $gender = $request['gender'];
     $num = $request['contactNo'];
+    $pic = $request['picture'];
+    $pic = "http://localhost/Unwind/includes/img/".$pic;
 
     $query = "INSERT INTO `employee` 
     (`position`, `first_name`, `last_name`, `middle_initial`, `email`, `birthdate`, `gender`, 
-    `contact_no`, `date_account_created`) 
+    `contact_no`, `date_account_created`, `picture`) 
     VALUES 
-    ('$position', '$fn', '$ln', '$mi', '$email', '$bday', '$gender', '$num', NOW());";
+    ('$position', '$fn', '$ln', '$mi', '$email', '$bday', '$gender', '$num', NOW(), '$pic');";
     $result = mysqli_query($mysqli, $query);
   }else{
       echo "error";
