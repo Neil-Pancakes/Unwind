@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: den1.mysql2.gear.host
--- Generation Time: Dec 26, 2017 at 10:00 AM
+-- Generation Time: Dec 28, 2017 at 05:19 AM
 -- Server version: 5.6.29
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -51,16 +51,19 @@ CREATE TABLE `employee` (
   `birthdate` date NOT NULL,
   `gender` enum('Male','Female') NOT NULL,
   `contact_no` varchar(16) DEFAULT NULL,
-  `date_account_created` datetime NOT NULL
+  `date_account_created` datetime NOT NULL,
+  `picture` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`employee_id`, `position`, `first_name`, `last_name`, `middle_initial`, `email`, `birthdate`, `gender`, `contact_no`, `date_account_created`) VALUES
-(1, 'Admin', 'Neil Patrick', 'Llenes', 'D', 'neil.llenes@gmail.com', '1997-11-13', 'Male', '09339356829', '2017-11-07 21:20:20'),
-(2, 'Janitor', 'Dave', 'Concepcion', 'L', 'dave@gmail.com', '1997-10-20', 'Male', '09111111111', '2017-11-08 09:55:23');
+INSERT INTO `employee` (`employee_id`, `position`, `first_name`, `last_name`, `middle_initial`, `email`, `birthdate`, `gender`, `contact_no`, `date_account_created`, `picture`) VALUES
+(1, 'Admin', 'Neil Patrick', 'Llenes', 'D', 'neil.llenes@gmail.com', '1997-11-13', 'Male', '09339356829', '2017-11-07 21:20:20', 'http://localhost/Unwind/includes/img/googlepic.jpg'),
+(2, 'Janitor', 'Dave', 'Concepcion', 'L', 'dave@gmail.com', '1997-10-20', 'Male', '09111111111', '2017-11-08 09:55:23', 'http://localhost/Unwind/includes/img/employeeM.png'),
+(3, 'Conceirge', 'Reg', 'User', 'U', 'reguser@gmail.com', '1990-12-25', 'Female', '9111234567', '2017-12-26 04:25:02', 'http://localhost/Unwind/includes/img/employeeM.png'),
+(10, 'Janitor', 'Mary', 'Lamb', 'J', 'marylamb@yahoo.com', '1985-12-13', 'Female', '9097654321', '2017-12-26 19:24:18', 'http://localhost/Unwind/includes/img/employeeF.png');
 
 -- --------------------------------------------------------
 
@@ -107,6 +110,7 @@ CREATE TABLE `food` (
   `name` varchar(50) DEFAULT NULL,
   `description` text,
   `price` float NOT NULL,
+  `food_picture` longtext NOT NULL,
   `menu_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -114,11 +118,11 @@ CREATE TABLE `food` (
 -- Dumping data for table `food`
 --
 
-INSERT INTO `food` (`food_id`, `name`, `description`, `price`, `menu_id`) VALUES
-(1, 'Chicken', '1 whole chicken grilled to perfection', 400, 1),
-(2, 'Plain Rice', 'Platter of plain rice hunted down from the plains of Africa', 250, 1),
-(3, 'Chocolate Milk', 'Milk from chocolate cows', 500, 1),
-(4, 'Pork', 'Scrumptious pork!', 175, 1);
+INSERT INTO `food` (`food_id`, `name`, `description`, `price`, `food_picture`, `menu_id`) VALUES
+(1, 'Chicken', '1 whole chicken grilled to perfection', 400, 'http://localhost/Unwind/includes/img/menu/grilledChicken1.jpg', 1),
+(2, 'Plain Rice', 'Platter of plain rice hunted down from the plains of Africa', 250, 'http://localhost/Unwind/includes/img/menu/plainRice1.jpg', 1),
+(3, 'Chocolate Milk', 'Milk from chocolate cows', 500, 'http://localhost/Unwind/includes/img/menu/chocolateMilk1.jpg', 1),
+(4, 'Lechon Kawali', 'Scrumptious lechon kawali cooked to a perfect golden brown!', 175, 'http://localhost/Unwind/includes/img/menu/lechonKawali.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -225,7 +229,7 @@ INSERT INTO `reservation_request` (`reservation_request_id`, `reservation_reques
 CREATE TABLE `room` (
   `room_id` int(11) NOT NULL,
   `room_number` int(11) NOT NULL,
-  `room_status` enum('Available','Occupied','Unavailable') NOT NULL,
+  `room_status` enum('Available','Occupied','Unavailable') NOT NULL DEFAULT 'Available',
   `room_type_id` int(11) DEFAULT NULL,
   `floor_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -239,7 +243,15 @@ INSERT INTO `room` (`room_id`, `room_number`, `room_status`, `room_type_id`, `fl
 (2, 102, 'Available', 1, 1),
 (3, 103, 'Available', 1, 1),
 (4, 401, 'Available', 2, 4),
-(5, 402, 'Available', 2, 4);
+(5, 402, 'Available', 2, 4),
+(7, 201, 'Available', 3, 2),
+(8, 104, 'Available', 1, 1),
+(9, 301, 'Available', 1, 3),
+(10, 302, 'Available', 1, 3),
+(11, 303, 'Available', 1, 3),
+(12, 202, 'Available', 3, 2),
+(13, 203, 'Available', 3, 2),
+(14, 204, 'Available', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -272,16 +284,18 @@ CREATE TABLE `room_type` (
   `price` float NOT NULL,
   `description` text,
   `max_adult` int(11) NOT NULL,
-  `max_child` int(11) NOT NULL
+  `max_child` int(11) NOT NULL,
+  `room_type_picture` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `room_type`
 --
 
-INSERT INTO `room_type` (`room_type_id`, `name`, `price`, `description`, `max_adult`, `max_child`) VALUES
-(1, 'Regular', 10000, 'Standard Room', 2, 2),
-(2, 'Suite', 25000, 'A beautiful suite', 6, 6);
+INSERT INTO `room_type` (`room_type_id`, `name`, `price`, `description`, `max_adult`, `max_child`, `room_type_picture`) VALUES
+(1, 'Regular', 10000, 'Standard Room', 2, 2, 'http://localhost/Unwind/includes/img/singlebed.png'),
+(2, 'Suite', 25000, 'A beautiful suite', 6, 6, 'http://localhost/Unwind/includes/img/suite.png'),
+(3, 'Twin Queen Bedroom', 12000, 'A beautiful bedroom with 2 Queen sized beds', 4, 4, 'http://localhost/Unwind/includes/img/twin.png');
 
 -- --------------------------------------------------------
 
@@ -466,7 +480,7 @@ ALTER TABLE `check_in`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `feedback`
 --
@@ -511,7 +525,7 @@ ALTER TABLE `reservation_request`
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `room_reserved`
 --
@@ -521,7 +535,7 @@ ALTER TABLE `room_reserved`
 -- AUTO_INCREMENT for table `room_type`
 --
 ALTER TABLE `room_type`
-  MODIFY `room_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `room_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `service`
 --
