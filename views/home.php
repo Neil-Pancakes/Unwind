@@ -67,7 +67,7 @@ include '../sidebar.php';
                             </select>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn createRoom" onclick="$('#createRoom').modal('hide');">Create Menu <span class="fa fa-check"></span></button>
+                            <button type="submit" class="btn createRoom" onclick="$('#createRoom').modal('hide');">Create Room <span class="fa fa-check"></span></button>
                             <button type="button" class="btn btn-danger" onclick="$('#createRoom').modal('hide');">Close <span class="fa fa-close"></span></button>
                         </div>
                     </div>
@@ -89,7 +89,9 @@ include '../sidebar.php';
                         <span class="md-headline">Room {{room.RoomNumber}}</span>
                       </md-card-title-text>
                       <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
+                        <div class="md-media-xs card-media">
+                          <img src="{{room.Picture}}" class="logoPic">
+                        </div>  
                       </md-card-title-media>
                     </md-card-title>
                   </md-card>      
@@ -127,7 +129,9 @@ include '../sidebar.php';
                         <span class="md-headline">Room {{room.RoomNumber}}</span>
                       </md-card-title-text>
                       <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
+                        <div class="md-media-xs card-media">
+                          <img src="{{room.Picture}}" class="logoPic">
+                        </div>   
                       </md-card-title-media>
                     </md-card-title>
                   </md-card>              
@@ -149,7 +153,9 @@ include '../sidebar.php';
                         <span class="md-headline">Room {{room.RoomNumber}}</span>
                       </md-card-title-text>
                       <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
+                        <div class="md-media-xs card-media">
+                          <img src="{{room.Picture}}" class="logoPic">
+                        </div>  
                       </md-card-title-media>
                     </md-card-title>
                   </md-card>              
@@ -171,7 +177,9 @@ include '../sidebar.php';
                         <span class="md-headline">Room {{room.RoomNumber}}</span>
                       </md-card-title-text>
                       <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
+                        <div class="md-media-xs card-media">
+                          <img src="{{room.Picture}}" class="logoPic">
+                        </div>  
                       </md-card-title-media>
                     </md-card-title>
                   </md-card>              
