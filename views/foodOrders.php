@@ -24,8 +24,10 @@ include '../control_sidebar.php';
 
 
 <script>
-var active = angular.element( document.querySelector( '#servicesTab' ) );
+var active = angular.element( document.querySelector( '#foodTab' ) );
 active.addClass('active');
+var active2 = angular.element( document.querySelector( '#orderTab' ) );
+active2.addClass('active'); 
 
 var app = angular.module('unwindApp', ['ngMaterial']);
 

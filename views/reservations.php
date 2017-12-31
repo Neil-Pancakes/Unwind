@@ -40,15 +40,7 @@ var active = angular.element( document.querySelector( '#reservationsTab' ) );
 active.addClass('active');
 
 var app = angular.module('unwindApp', ['ngMaterial', 'doowb.angular-pusher']);
-app.config(['PusherServiceProvider',
-  function(PusherServiceProvider) {
-    PusherServiceProvider
-    .setToken('c6d79884ae59d5152965')
-    .setOptions({
-        cluster: 'ap2'
-    });
-  }
-]);
+
 
 
 app.controller('floorController', function($scope, $http, $mdDialog, $interval, Pusher) {
@@ -110,10 +102,11 @@ app.controller('floorController', function($scope, $http, $mdDialog, $interval, 
         $http.post('../queries/insert/insertReservation.php', {
             'reservation_request_id': $id,
         }).then(function(data, status){
+            $scope.init();
         })
-    }
+    };
 
-    $scope.insertRoomReserved($reservationId, $room_qty){
+    $scope.insertRoomReserved = function($reservationId, $room_qty){
         $http.get("../queries/get/getAvailableRooms.php").then(function (response) {
             $scope.availableRooms = response.data.records;
             for($x=0; $x<$room_qty; $x++){
@@ -124,6 +117,6 @@ app.controller('floorController', function($scope, $http, $mdDialog, $interval, 
                 })
             }
         });
-    }
+    };
 });
 </script>

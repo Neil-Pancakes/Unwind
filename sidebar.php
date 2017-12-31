@@ -40,18 +40,24 @@
             <span>Inquiries</span>
           </a>
         </li>
-        <li id="menuTab">
-          <a href="menu.php">
-            <i class="fa fa-cutlery"></i> 
-            <span>Menu</span>
+        <li id="foodTab" class="treeview">
+          <a href="#"><i class="fa fa-cutlery"></i> <span>Food</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li id="menuTab"><a href="menu.php"><i class="fa fa-coffee"></i> <span>Menu</span></a></li>
+            <li id="orderTab"><a href="foodOrders.php"><i class="fa fa-book"></i> <span>Food Order</span></a></li>
+          </ul>
         </li>
-        <li id="menuTab">
+        <li id="employeeTab">
           <a href="employeeList.php">
             <i class="fa fa-users"></i> 
             <span>Employees</span>
           </a>
         </li>
+
         </ul>
     </section>
     <!-- /.sidebar -->

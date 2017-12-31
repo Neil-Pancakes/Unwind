@@ -111,7 +111,7 @@ include '../control_sidebar.php';
 
 
 <script>
-var active = angular.element( document.querySelector( '#servicesTab' ) );
+var active = angular.element( document.querySelector( '#employeeTab' ) );
 active.addClass('active');
 
 var app = angular.module('unwindApp', ['ngMaterial']);

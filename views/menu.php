@@ -116,8 +116,10 @@ include '../control_sidebar.php';
 </body>
 
 <script>
-var active = angular.element( document.querySelector( '#menuTab' ) );
-active.addClass('active');    
+var active = angular.element( document.querySelector( '#foodTab' ) );
+active.addClass('active');
+var active2 = angular.element( document.querySelector( '#menuTab' ) );
+active2.addClass('active');  
 
 var app = angular.module('unwindApp', ['ngMaterial']);
 app.controller('floorController', function($scope, $http, $mdDialog) {
