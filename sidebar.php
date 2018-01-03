@@ -40,6 +40,12 @@
             <span>Inquiries</span>
           </a>
         </li>
+        <li id="feedbackTab">
+          <a href="feedback.php">
+            <i class="fa fa-star"></i> 
+            <span>Feedback</span>
+          </a>
+        </li>
         <li id="foodTab" class="treeview">
           <a href="#"><i class="fa fa-cutlery"></i> <span>Food</span>
             <span class="pull-right-container">
