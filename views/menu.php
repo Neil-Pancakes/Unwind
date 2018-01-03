@@ -144,7 +144,7 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
         $http.post('../queries/insert/insertMenu.php', {
             'menuName': $scope.menuName
         }).then(function(data, status){
-        
+            $scope.init();
         })
     };
 
@@ -155,7 +155,7 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
             'foodPrice': $scope.foodPrice,
             'menuId': $scope.menuId
         }).then(function(data, status){
-        
+            $scope.init();
         })
     };  
 });
