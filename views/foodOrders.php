@@ -6,9 +6,30 @@ include '../sidebar.php';
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController">
-      <md-content>
-       
-      </md-content>
+        <md-content>
+            <md-list flex ng-repeat = "x in orderList">
+                <md-list-item class="md-3-line rrList" ng-click="null">
+                    <div>
+                        <div>{{x.FoodOrderId}}</div>
+                        <div>{{x.Price}}</div>
+                        <div>{{x.TimestampOrdered}}</div>
+                        <div>{{x.Name}}</div>
+                        
+                        <md-list flex ng-repeat = "food in foodSet.food track by $index">
+                            <md-list-item class="md-3-line rrList" ng-click="null">
+                                    <div>
+                                        <div>{{food.FoodItemId}}</div>
+                                        <div>{{food.Name}}</div>
+                                        <div>{{food.Description}}</div>
+                                        <div>{{food.Qty}}</div>
+                                        <div>{{food.Price}} Php</div>
+                                    </div>  
+                            </md-list-item>
+                        <md-list>            
+                    </div>  
+                </md-list-item>
+            <md-list>            
+        </md-content>
     </div>  
   </section>
 </div>
