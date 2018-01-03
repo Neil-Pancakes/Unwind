@@ -4,8 +4,8 @@
   $request = json_decode($postdata, true);
   
   if(count($request>0)){
-    $name = $request['name'];
-    $type = $request['type'];
+    $name = $request['serviceName'];
+    $type = $request['serviceType'];
     
     $query = "INSERT INTO `service` 
     (`service_name`, `service_type`) 
