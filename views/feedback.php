@@ -7,8 +7,8 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
         <md-content>
-            <md-list flex ng-repeat = "x in feedback track by $index">
-                <md-list-item class="md-3-line rrList" ng-click="null">
+            <md-list flex>
+                <md-list-item class="md-3-line rrList" ng-click="null" ng-repeat = "x in feedback track by $index">
                     <div>
                         <div>{{x.Name}}</div>
                         <div>{{x.Comment}}</div>

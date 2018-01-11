@@ -14,6 +14,8 @@
   <script src="../includes/js/angular-material.min.js"></script>
   <script src="../includes/js/moment.js"></script>
   <script src="../bower_components/angular-pusher/angular-pusher.min.js" type="text/javascript"></script>
+  <script src="../includes/js/SweetAlert.min.js"></script>
+  <script src="../includes/js/sweetalert2.min.js"></script>
   
   <link rel="stylesheet" href="../includes/css/style.css">
   <link rel="stylesheet" href="../includes/css/bootstrap.min.css">
@@ -21,6 +23,7 @@
   <link rel="stylesheet" href="../includes/css/ionicons.min.css">
   <link rel="stylesheet" href="../includes/css/AdminLTE.min.css">
   <link rel="stylesheet" href="../includes/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../includes/css/sweetalert2.min.css">
   <!--<link rel="stylesheet" href="../https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
   
   

@@ -1,8 +1,24 @@
 <?php
 require ("../header.php");
 include '../sidebar.php';
-?>
+require(dirname(__FILE__).'/../vendor/autoload.php');
+$pusher = new Pusher('c6d79884ae59d5152965', '5c63ac5939edc6da56dd', '449720');
+$text = "Ayyyy Lmao";
+$data['message'] = $text;
+$pusher->trigger('notifications', 'new_notification', $data);
 
+?>
+ Reservations
+ Services
+ Reports
+ Inquiries
+ Feedback
+ Food
+ Employees
+
+Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservations.php on line 5
+<input class="create-notification" placeholder="Send a notification :)"></input>
+<button class="submit-notification">Go!</button>
 <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
@@ -45,7 +61,23 @@ var app = angular.module('unwindApp', ['ngMaterial', 'doowb.angular-pusher']);
 
 app.controller('floorController', function($scope, $http, $mdDialog, $interval, Pusher) {
     
-    $scope.items = [];
+    
+    $pusher = new Pusher('c6d79884ae59d5152965', '5c63ac5939edc6da56dd', '449720');
+	var notificationsChannel = pusher.subscribe('notifications');
+	notificationsChannel.bind('new_notification', function(notification){
+		var message = notification.message;
+		toastr.success(message)
+	});
+	var sendNotification = function(){
+		var text = $('input.create-notification').val();
+		$.post('/notification', {message: text}).success(function(){
+			console.log('Notification sent!');
+		});
+	};
+	
+	$('button.submit-notification').on('click', sendNotification);
+	
+
     Pusher.subscribe('items', 'updated', function (item) {
     // an item was updated. find it in our list and update it.
         for (var i = 0; i < $scope.items.length; i++) {
@@ -85,6 +117,10 @@ app.controller('floorController', function($scope, $http, $mdDialog, $interval, 
             'id': $id,
         }).then(function(data, status){
             $scope.insertReservation($id);
+            $http.get("../queries/get/getAvailableRoomsByTypeLimited.php").then(function (response) {
+                $scope.pending = response.data.records;
+           
+            });
             $scope.insertRoomReserved($id, $room_qty);
             $scope.init();
         })

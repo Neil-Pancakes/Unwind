@@ -5,7 +5,7 @@ require("../../functions/sql_connect.php");
 session_start();
 
 //$emp_id = $_SESSION['user_id'];
-$result = $mysqli->query("SELECT `r`.`reservation_request_id`, `r`.`reservation_request_date`, 
+$result = $mysqli->query("SELECT `r`.`reservation_request_id`, `r`.`reservation_request_date`, `r`.`checkin_date`, `r`.`checkout_date`,
 YEAR(`r`.`checkin_date`) AS `checkin_year`, MONTHNAME(`r`.`checkin_date`) AS `checkin_month`, DAY(`r`.`checkin_date`) AS `checkin_day`,
 YEAR(`r`.`checkout_date`) AS `checkout_year`, MONTHNAME(`r`.`checkout_date`) AS `checkout_month`, DAY(`r`.`checkout_date`) AS `checkout_day`,
 `r`.`adult_qty`, `r`.`child_qty`, `r`.`user_id`, CONCAT(`u`.`first_Name`,' ', `u`.`last_name`) AS `name`
@@ -21,6 +21,8 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     }
     $outp .= '{"ReservationRequestId":"'  . $rs["reservation_request_id"] . '",';
     $outp .= '"ReservationRequestDate":"'  . $rs["reservation_request_date"] . '",';
+    $outp .= '"CheckInDate":"'  . $rs["checkin_date"] . '",';
+    $outp .= '"CheckOutDate":"'  . $rs["checkout_date"] . '",';
     $outp .= '"CheckInYear":"'  . $rs["checkin_year"] . '",';
     $outp .= '"CheckInMonth":"'  . $rs["checkin_month"] . '",';
     $outp .= '"CheckInDay":"'  . $rs["checkin_day"] . '",';

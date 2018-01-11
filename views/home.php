@@ -77,12 +77,12 @@ include '../sidebar.php';
 
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
-          <md-tab label="Floor 1">
+          <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}" ng-click="getRooms(x.FloorId)">
             <md-content>  
             <div>
               <md-content class="md-padding" layout-xs="column" layout="row">
 
-                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room1">
+                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room">
                   <md-card md-theme-watch ng-click="">
                     <md-card-title>
                       <md-card-title-text>
@@ -117,77 +117,6 @@ include '../sidebar.php';
             </md-content>-->
           </md-tab>
 
-          <md-tab label="Floor 2">
-            <md-content>  
-            <div>
-              <md-content class="md-padding" layout-xs="column" layout="row">
-
-                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room2">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room {{room.RoomNumber}}</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media">
-                          <img src="{{room.Picture}}" class="logoPic">
-                        </div>   
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-              </md-content>
-            </div>
-            </md-content>
-          </md-tab>
-
-          <md-tab label="Floor 3">
-            <md-content>  
-            <div>
-              <md-content class="md-padding" layout-xs="column" layout="row">
-
-                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room3">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room {{room.RoomNumber}}</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media">
-                          <img src="{{room.Picture}}" class="logoPic">
-                        </div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-              </md-content>
-            </div>
-            </md-content>
-          </md-tab>
-
-          <md-tab label="Floor 4">
-            <md-content>  
-            <div>
-              <md-content class="md-padding" layout-xs="column" layout="row">
-
-                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room4">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room {{room.RoomNumber}}</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media">
-                          <img src="{{room.Picture}}" class="logoPic">
-                        </div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>              
-                </div>
-              </md-content>
-            </div>
-            </md-content>
-          </md-tab>
         </md-tabs>
       </md-content>
     </div>  
@@ -207,9 +136,11 @@ include '../control_sidebar.php';
 var active = angular.element( document.querySelector( '#homeTab' ) );
 active.addClass('active');
 
-var app = angular.module('unwindApp', ['ngMaterial']);
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert']);
 
-app.controller('floorController', function($scope, $http, $mdDialog) {
+app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
+  
+  
     $scope.init = function () {
       $scope.roomSet = {rooms: []};
       $scope.rooms = [];
@@ -217,25 +148,20 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
         $scope.floor = response.data.records;
         $floorList = $scope.floor;
 
-        $http.get("../queries/get/getRoomPerFloor.php?floorId=1").then(function (response) {
+        $http.get("../queries/get/getRoomPerFloor.php?floorId="+$scope.floor[0].FloorId).then(function (response) {
             
-            $scope.room1 = response.data.records;
-        });
-        $http.get("../queries/get/getRoomPerFloor.php?floorId=2").then(function (response) {
-            
-            $scope.room2 = response.data.records;
-        });
-        $http.get("../queries/get/getRoomPerFloor.php?floorId=3").then(function (response) {
-            
-            $scope.room3 = response.data.records;
-        });
-        $http.get("../queries/get/getRoomPerFloor.php?floorId=4").then(function (response) {
-            
-            $scope.room4 = response.data.records;
+            $scope.room = response.data.records;
         });
       });
       $http.get("../queries/get/getRoomTypes.php").then(function (response) {
         $scope.roomTypeList = response.data.records;
+      });
+    };
+
+    $scope.getRooms = function($id){
+      $http.get("../queries/get/getRoomPerFloor.php?floorId="+$id).then(function (response) {
+            
+            $scope.room = response.data.records;
       });
     };
 
@@ -257,6 +183,7 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
             'floor_id': $scope.floor_id
         }).then(function(data, status){
             $scope.init();
+            SweetAlert.swal("Success!", "You Created A Room", "success");
         })
     };
 });

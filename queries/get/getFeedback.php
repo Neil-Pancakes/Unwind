@@ -14,7 +14,7 @@ INNER JOIN `reservation` `r`
 ON `r`.`reservation_id` = `c`.`reservation_id`
 INNER JOIN `reservation_request` `rr`
 ON `rr`.`reservation_request_id` = `r`.`reservation_request_id`
-INNER JOIn `user_account` `u`
+INNER JOIN `user_account` `u`
 ON `rr`.`user_id` = `u`.`user_id`
 ORDER BY `c`.`check_in_end`");
 

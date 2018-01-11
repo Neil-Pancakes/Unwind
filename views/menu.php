@@ -33,7 +33,7 @@ include '../sidebar.php';
       <md-content>
         
         <md-tabs md-dynamic-height md-border-bottom>
-          <md-tab ng-repeat="x in menuList track by $index" label="{{x.Name}}">
+          <md-tab ng-repeat="x in menuList track by $index" label="{{x.Name}}" ng-click="getFood(x.MenuId)">
             <md-content>
                 
                 <div>
@@ -86,7 +86,7 @@ include '../sidebar.php';
                     </div>
                 </div>
 
-                <md-list flex ng-repeat = "food in foodSet.food track by $index">
+                <md-list flex ng-repeat = "food in foodPerMenu track by $index">
                     <md-list-item class="md-3-line rrList" ng-click="null">
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic">
@@ -129,14 +129,9 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
 
         $http.get("../queries/get/getMenu.php").then(function (response){
             $scope.menuList = response.data.records;
-            for($x=0; $x<$scope.menuList.length; $x++){
-                $http.get("../queries/get/getFoodFromMenu.php?menuId="+$scope.menuList[$x].MenuId).then(function (response){
-                    $scope.foodPerMenu = response.data.records;
-                    if($scope.foodPerMenu!=""){
-                        $scope.foodSet.food = $scope.foodPerMenu;
-                    }
-                });
-            }
+            $http.get("../queries/get/getFoodFromMenu.php?menuId="+$scope.menuList[0].MenuId).then(function (response){
+                $scope.foodPerMenu = response.data.records;
+            });
         });
     };
 
@@ -148,6 +143,11 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
         })
     };
 
+    $scope.getFood = function ($id) {
+        $http.get("../queries/get/getFoodFromMenu.php?menuId="+$id).then(function (response){
+            $scope.foodPerMenu = response.data.records;
+        });
+    };
     $scope.insertFood = function() {
         $http.post('../queries/insert/insertFood.php', {
             'foodName': $scope.foodName,

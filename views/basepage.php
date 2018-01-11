@@ -7,7 +7,7 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController">
       <md-content>
-        
+       
       </md-content>
     </div>  
   </section>
@@ -27,13 +27,5 @@ var active = angular.element( document.querySelector( '#inquiriesTab' ) );
 active.addClass('active');
 
 var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('floorController', function($scope, $http, $mdDialog) {
-    $scope.init = function () {
-
-        $http.get("../queries/get/getFeedback.php").then(function (response){
-            $scope.feedback = response.data.records;
-            
-        });
-    };
-});
+app.controller('floorController', function($scope) {});
 </script>

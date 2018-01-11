@@ -19,10 +19,6 @@
       $val = "01";
     }
     $number = $floor.$val;
-    echo $number;
-    
-    echo $floor;
-    echo $typeId;
     $query = "INSERT INTO `room` 
     (`room_number`, `floor_id`, `room_type_id`) 
     VALUES 
