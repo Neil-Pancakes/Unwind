@@ -23,6 +23,11 @@ md-tabs.md-no-animation md-ink-bar {
     width:128px;
     float:left;
 }
+.servicePic{
+    height:32px;
+    width:32px;
+    float:right;
+}
 .foodDetails{
     margin-top:1%;
 }

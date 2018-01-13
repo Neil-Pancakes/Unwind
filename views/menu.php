@@ -7,7 +7,7 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
         <div layout="row" class="rightFloat">
-            <md-button class="md-raised" id="createRoomButton" data-target="#insertMenu" data-toggle="modal">Add New Menu</md-button>
+            <md-button class="md-raised" id="createMenuButton" data-target="#insertMenu" data-toggle="modal">Add New Menu</md-button>
         </div>
 
         <div id="insertMenu" class="modal fade" role="dialog">
@@ -66,36 +66,40 @@ include '../sidebar.php';
                     </div>
                 </div>
 
-                <div id="removeFood" class="modal fade" role="dialog">
+                <div id="editFood" class="modal fade" role="dialog">
                     <div class="modal-dialog">
                         <form ng-submit="removeFood()">
                             <div class="modal-content">
                                 <div class="modal-header" style="background-color:#003300; color:white;">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h2>Create Food</h2>
+                                        <h2>Edit Food</h2>
                                 </div>
                                 <div class="modal-body">
-                                    
+                                    <input ng-model="modalId" required>
+                                    <input class="form-control" placeholder="Menu Name" ng-model="modalName" required>
+                                    <textarea class="form-control" placeholder="Description" ng-model="modalDesc" required></textarea>
+                                    <input class="form-control" placeholder="Price" ng-model="modalPrice" type="number" required>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success" onclick="$('#removeFood').modal('hide');">Create Food <span class="fa fa-edit"></span></button>
-                                    <button type="button" class="btn btn-danger" onclick="$('#removeFood').modal('hide');">Close <span class="fa fa-close"></span></button>
+                                    <button type="submit" class="btn btn-success" onclick="$('#editFood').modal('hide');">Create Food <span class="fa fa-edit"></span></button>
+                                    <button type="button" class="btn btn-danger" onclick="$('#editFood').modal('hide');">Close <span class="fa fa-close"></span></button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <md-list flex ng-repeat = "food in foodPerMenu track by $index">
-                    <md-list-item class="md-3-line rrList" ng-click="null">
+                <md-list flex>
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)">
+                        <md-checkbox ng-model="food.selected"></md-checkbox>
                             <div>
-                                <img src="{{food.Picture}}" class="logoPic">
+                                <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
                             </div>
-                            <div>
-                                <div>{{food.Name}}</div>
-                                <div>{{food.Description}}</div>
-                                <div>{{food.Price}} Php</div>
-                            </div>  
+                            <div style="width:100%;">
+                                {{food.Name}}<br>
+                                {{food.Description}}<br>
+                                <div style="float:right;"><strong>{{food.Price}} Php</strong></div>
+                            </div>
                     </md-list-item>
                 <md-list>            
             </md-content>
@@ -157,6 +161,12 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
         }).then(function(data, status){
             $scope.init();
         })
-    };  
+    };
+    $scope.editFoodModal = function($id, $name, $price, $desc) {
+        $scope.modalId = $id;
+        $scope.modalName = $name;
+        $scope.modalDesc = $desc;
+        $scope.modalPrice = parseInt($price);
+    };
 });
 </script>

@@ -28,10 +28,7 @@ include '../sidebar.php';
                               <label>Price</label>
                               <input type="number" class="form-control" ng-model="price" required>
                             </md-input-container>
-                            <md-input-container>
-                              <label>Description</label>
-                              <input type="text" class="form-control" ng-model="description" required>
-                            </md-input-container>
+                            
                             <md-input-container>
                               <label>Max Adults</label>
                               <input type="number" class="form-control" ng-model="max_adult" required>
@@ -40,6 +37,7 @@ include '../sidebar.php';
                               <label>Max Children</label>
                               <input type="number" class="form-control" ng-model="max_child" required>
                             </md-input-container>
+                            <textarea placeholder="Description of the Room" ng-model="description" rows="4" cols="40" style="width:100%;"></textarea>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn createRoomType" onclick="$('#createRoomType').modal('hide');">Create Room Type <span class="fa fa-check"></span></button>
@@ -61,9 +59,11 @@ include '../sidebar.php';
                         <div class="modal-body">
                             <select class="form-control" placeholder="Room Type" ng-model="room_type_id" required>
                               <option ng-repeat="x in roomTypeList" value="{{x.RoomTypeId}}">{{x.RoomName}}</option>
+                              <option value="" disabled hidden selected>Type of Room</option>
                             </select>
                             <select class="form-control" placeholder="Floor" ng-model="floor_id" required>
-                              <option ng-repeat="x in floor" value="{{x.FloorId}}">{{x.FloorNumber}}</option>
+                              <option ng-repeat="x in floor" value="{{x.FloorId}}" >Floor {{x.FloorNumber}}</option>
+                              <option value="" disabled hidden selected>Floor Number</option>
                             </select>
                         </div>
                         <div class="modal-footer">
@@ -83,15 +83,18 @@ include '../sidebar.php';
               <md-content class="md-padding" layout-xs="column" layout="row">
 
                 <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room">
-                  <md-card md-theme-watch ng-click="">
+                  <md-card md-theme-watch ng-click="" style="{{room.Color}}">
                     <md-card-title>
                       <md-card-title-text>
-                        <span class="md-headline">Room {{room.RoomNumber}}</span>
+                        <span ng-if="room.RoomStatus=='Available' || room.RoomStatus=='Occupied'" class="md-headline">Room {{room.RoomNumber}}</span>
+                        <span ng-if="room.RoomStatus=='Unavailable'" class="md-headline" style="color:white;">Room {{room.RoomNumber}} (Unavailable)</span>
                       </md-card-title-text>
                       <md-card-title-media>
                         <div class="md-media-xs card-media">
                           <img src="{{room.Picture}}" class="logoPic">
-                        </div>  
+                        </div>
+                        <img src="../includes/img/room-service.png" class="servicePic">
+                        <img src="../includes/img/cleaning.png" class="servicePic" style="margin-right:2%;">
                       </md-card-title-media>
                     </md-card-title>
                   </md-card>      
@@ -142,6 +145,7 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
   
   
     $scope.init = function () {
+      $scope.name=$scope.price=$scope.description=$scope.max_child=$scope.max_adult=$scope.room_type_id=$scope.floor_id="";
       $scope.roomSet = {rooms: []};
       $scope.rooms = [];
       $http.get("../queries/get/getFloor.php").then(function (response) {
@@ -174,6 +178,7 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
             'max_child': $scope.max_child
         }).then(function(data, status){
             $scope.init();
+            SweetAlert.swal("Success!", "You Created a New Type of Room", "success");
         })
     };
 
@@ -183,7 +188,7 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
             'floor_id': $scope.floor_id
         }).then(function(data, status){
             $scope.init();
-            SweetAlert.swal("Success!", "You Created A Room", "success");
+            SweetAlert.swal("Success!", "You Created a Room", "success");
         })
     };
 });
