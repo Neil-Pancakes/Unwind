@@ -53,15 +53,15 @@ include '../sidebar.php';
                 <md-list-item class="md-3-line rrList" ng-click="null">
                   <div>
                     {{x.Name}}
-                    <span><small>({{x.ServiceRequestDate}})</small></span><br>
+                    <span><small>({{x.ServiceRequestMonth}} {{x.ServiceRequestDay}}, {{x.ServiceRequestYear}})</small></span><br>
                     {{x.ServiceName}}<br>
                     {{x.ServiceType}}<br>
                     <div ng-if="x.ServiceRequestStatus=='Pending'">
-                        <button class="btn btn-success" ng-click="acceptServiceRequest(x.ServiceRequestId)">Accept</button>
-                        <button class="btn btn-danger">Reject</button>
+                        <button class="btn btn-success" ng-click="acceptServiceRequest(x.ServiceRequestId)">Accept <span class="fa fa-check"></button>
+                        <button class="btn btn-danger" ng-click="rejectServiceRequest(x.ServiceRequestId)">Reject <span class="fa fa-close"></button>
                     </div>
                     <div ng-if="x.ServiceRequestStatus=='Waiting'">
-                        <button class="btn btn-warning" ng-click="completeServiceRequest(x.ServiceRequestId)">Complete Service Request</button>
+                        <button class="btn btn-warning" ng-click="completeServiceRequest(x.ServiceRequestId)">Complete Service Request <span class="fa fa-check-square-o"></span></button>
                     </div>
                   </div>  
                 </md-list-item>
@@ -115,6 +115,14 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
 
     $scope.acceptServiceRequest = function($id){
         $http.post('../queries/update/updateServiceRequestWaiting.php', {
+            'id': $id,
+        }).then(function(data, status){
+            $scope.init();
+        })
+    };
+
+    $scope.rejectServiceRequest = function($id){
+        $http.post('../queries/update/updateServiceRequestRejected.php', {
             'id': $id,
         }).then(function(data, status){
             $scope.init();

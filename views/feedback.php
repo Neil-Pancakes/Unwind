@@ -24,8 +24,7 @@ include '../sidebar.php';
                         <img ng-if="x.Rating<2" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
                         <img ng-if="x.Rating<1" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
                         
-                        
-                    </div>  
+                    </div>
                 </md-list-item>
             <md-list>        
         </md-content>
