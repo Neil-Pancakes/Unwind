@@ -31,7 +31,6 @@ include '../sidebar.php';
         </div>
         
       <md-content>
-        
         <md-tabs md-dynamic-height md-border-bottom>
           <md-tab ng-repeat="x in menuList track by $index" label="{{x.Name}}" ng-click="getFood(x.MenuId)">
             <md-content>
@@ -65,30 +64,6 @@ include '../sidebar.php';
                         </form>
                     </div>
                 </div>
-
-                <div id="editFood" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <form ng-submit="removeFood()">
-                            <div class="modal-content">
-                                <div class="modal-header" style="background-color:#003300; color:white;">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h2>Edit Food</h2>
-                                </div>
-                                <div class="modal-body">
-                                    <input ng-model="modalId" required>
-                                    <input class="form-control" placeholder="Menu Name" ng-model="modalName" required>
-                                    <textarea class="form-control" placeholder="Description" ng-model="modalDesc" required></textarea>
-                                    <input class="form-control" placeholder="Price" ng-model="modalPrice" type="number" required>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success" onclick="$('#editFood').modal('hide');">Create Food <span class="fa fa-edit"></span></button>
-                                    <button type="button" class="btn btn-danger" onclick="$('#editFood').modal('hide');">Close <span class="fa fa-close"></span></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)">
                         <md-checkbox ng-model="food.selected"></md-checkbox>
@@ -101,11 +76,36 @@ include '../sidebar.php';
                                 <div style="float:right;"><strong>{{food.Price}} Php</strong></div>
                             </div>
                     </md-list-item>
-                <md-list>            
+                <md-list>
+                    
+                <div id="editFood" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <form ng-submit="editFood()">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#003300; color:white;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h2>Edit Food</h2>
+                                </div>
+                                <div class="modal-body">
+                                    <input ng-model="mod.modalId" required>
+                                    <input class="form-control" placeholder="Menu Name" ng-model="mod.modalName" required>
+                                    <textarea class="form-control" placeholder="Description" ng-model="mod.modalDesc" required></textarea>
+                                    <input class="form-control" placeholder="Price" ng-model="mod.modalPrice" type="number" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-warning" onclick="$('#editFood').modal('hide');">Edit Food <span class="fa fa-edit"></span></button>
+                                    <button type="button" class="btn btn-danger" onclick="$('#editFood').modal('hide');">Close <span class="fa fa-close"></span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+    
             </md-content>
           </md-tab>
         </md-tabs>
       </md-content>
+
     </div>  
   </section>
 </div>
@@ -123,10 +123,12 @@ include '../control_sidebar.php';
 var active = angular.element( document.querySelector( '#foodTab' ) );
 active.addClass('active');
 var active2 = angular.element( document.querySelector( '#menuTab' ) );
-active2.addClass('active');  
+active2.addClass('active');
 
-var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('floorController', function($scope, $http, $mdDialog) {
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert']);
+
+app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
+  
     $scope.init = function () {
         $scope.foodSet = {food: []};
         $scope.food = [];
@@ -162,11 +164,44 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
             $scope.init();
         })
     };
+
+    $scope.mod = {
+        $modalId: "",
+        $modalName: "",
+        $modalDesc: "",
+        $modalPrice: ""
+    };
+    
     $scope.editFoodModal = function($id, $name, $price, $desc) {
-        $scope.modalId = $id;
-        $scope.modalName = $name;
-        $scope.modalDesc = $desc;
-        $scope.modalPrice = parseInt($price);
+        $scope.mod.modalId = $id;
+        $scope.mod.modalName = $name;
+        $scope.mod.modalDesc = $desc;
+        $scope.mod.modalPrice = parseInt($price);
+    };
+    
+    
+    $scope.editFood = function() {
+        SweetAlert.swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                $http.post('../queries/update/editFood.php', {
+                    'id': $scope.mod.modalId,
+                    'name': $scope.mod.modalName,
+                    'desc': $scope.mod.modalDesc,
+                    'price': $scope.mod.modalPrice
+                }).then(function(data, status){
+                    $scope.init();
+                })
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
     };
 });
 </script>

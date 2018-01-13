@@ -88,8 +88,10 @@ include '../control_sidebar.php';
 var active = angular.element( document.querySelector( '#servicesTab' ) );
 active.addClass('active');
 
-var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('floorController', function($scope, $http, $mdDialog) {
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert']);
+
+app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
+  
     $scope.init = function () {
         $scope.serviceName=$scope.serviceType="";
         $scope.foodSet = {food: []};
