@@ -49,13 +49,13 @@ include '../sidebar.php';
           </md-tab>
           <md-tab label="Service Requests">
             <md-content>
-              <md-list flex ng-repeat = "x in requestList track by $index">
-                <md-list-item class="md-3-line rrList" ng-click="null">
+              <md-list flex>
+                <md-list-item class="md-3-line rrList" ng-click="null" ng-repeat = "x in requestList track by $index">
                   <div>
                     {{x.Name}}
                     <span><small>({{x.ServiceRequestMonth}} {{x.ServiceRequestDay}}, {{x.ServiceRequestYear}})</small></span><br>
-                    {{x.ServiceName}}<br>
-                    {{x.ServiceType}}<br>
+                    <strong>{{x.ServiceName}}</strong>
+                    ({{x.ServiceType}})<br>
                     <div ng-if="x.ServiceRequestStatus=='Pending'">
                         <button class="btn btn-success" ng-click="acceptServiceRequest(x.ServiceRequestId)">Accept <span class="fa fa-check"></button>
                         <button class="btn btn-danger" ng-click="rejectServiceRequest(x.ServiceRequestId)">Reject <span class="fa fa-close"></button>
@@ -88,9 +88,12 @@ include '../control_sidebar.php';
 var active = angular.element( document.querySelector( '#servicesTab' ) );
 active.addClass('active');
 
-var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('floorController', function($scope, $http, $mdDialog) {
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert']);
+
+app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
+  
     $scope.init = function () {
+        $scope.serviceName=$scope.serviceType="";
         $scope.foodSet = {food: []};
         $scope.food = [];
 
@@ -110,6 +113,7 @@ app.controller('floorController', function($scope, $http, $mdDialog) {
             'serviceType': $scope.serviceType
         }).then(function(data, status){
           $scope.init();
+          SweetAlert.swal("Success!", "You Created a Service", "success");
         })
     };
 
