@@ -16,10 +16,10 @@
     $pic = "http://localhost/Unwind/includes/img/".$pic;
 
     $query = "INSERT INTO `employee` 
-    (`position`, `first_name`, `last_name`, `middle_initial`, `email`, `birthdate`, `gender`, 
+    (`position`, `first_name`, `last_name`, `middle_initial`, `email`, `password`, `birthdate`, `gender`, 
     `contact_no`, `date_account_created`, `picture`) 
     VALUES 
-    ('$position', '$fn', '$ln', '$mi', '$email', '$bday', '$gender', '$num', NOW(), '$pic');";
+    ('$position', '$fn', '$ln', '$mi', '$email', '123','$bday', '$gender', '$num', NOW(), '$pic');";
     $result = mysqli_query($mysqli, $query);
   }else{
       echo "error";
