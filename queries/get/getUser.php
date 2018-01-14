@@ -6,7 +6,7 @@ $postdata = file_get_contents("php://input");
 $request = json_decode($postdata, true);
 $ret=0;
 
-$result = $mysqli->query("SELECT `password`
+$result = $mysqli->query("SELECT *
 FROM `user_account`
 WHERE `username`='".$request["username"]."'");
 while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -15,7 +15,14 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     }
 }
 
-echo $ret;
 $mysqli->close();
+
+session_start();
+$_SESSION['username']=$request['username'];
+$_SESSION['password']=$request['password'];
+// $_SESSION['position']=$request['position'];
+// position needed
+
+echo $ret;
 
 ?>

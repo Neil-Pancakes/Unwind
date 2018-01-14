@@ -34,15 +34,25 @@
 		<div ng-controller="loginCtrl">
 			<div>
 				<div class="login-box">
+          <div class="login-logo">
+            <b>Unwind</b>
+          </div>
 					<md-content>
 						<div>
 					         	<!-- /.box-header -->
 					        	<!-- form start -->
 					        <div class="login-box-body">
 					        <form ng-submit="checkUser()">
-						        Username:<input type="text" id="username" class="form-control" ng-model="username" required>
-						        Password:<input type="password" id="password" class="form-control" ng-model="password" required>
+                    <md-input-container>
+                      <label>Username</label>
+                      <input type="text" id="username" class="form-control" ng-model="username" required>
+                    </md-input-container>
+                    <md-input-container>
+                      <label>Password</label>
+                      <input type="password" id="password" class="form-control" ng-model="password" required>
+                    </md-input-container>
 					            <!-- /.box-body -->
+                      <br>
 					            No existing account?<a href="register.php">Register here.</a><br>
 					            <button type="submit" class="btn btn-default">Cancel</button>
 					            <button type="submit" class="btn btn-info pull-right">Sign in</button>

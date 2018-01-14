@@ -1,3 +1,9 @@
+<?php
+  session_start();
+  if(!isset($_SESSION['username'])){
+    header("Location: login.php");
+  }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -150,7 +156,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
