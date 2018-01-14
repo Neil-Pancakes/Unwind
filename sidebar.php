@@ -63,6 +63,12 @@
             <span>Employees</span>
           </a>
         </li>
+        <li id="uploadTab">
+          <a href="uploadTest.php">
+            <i class="fa fa-wrench"></i> 
+            <span>Upload Test</span>
+          </a>
+        </li>
 
         </ul>
     </section>
