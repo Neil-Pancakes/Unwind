@@ -139,10 +139,12 @@ include '../control_sidebar.php';
 var active = angular.element( document.querySelector( '#homeTab' ) );
 active.addClass('active');
 
-var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert']);
-
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
+app.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  })
 app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
-  
+
   
     $scope.init = function () {
       $scope.name=$scope.price=$scope.description=$scope.max_child=$scope.max_adult=$scope.room_type_id=$scope.floor_id="";
@@ -151,7 +153,6 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
       $http.get("../queries/get/getFloor.php").then(function (response) {
         $scope.floor = response.data.records;
         $floorList = $scope.floor;
-
         $http.get("../queries/get/getRoomPerFloor.php?floorId="+$scope.floor[0].FloorId).then(function (response) {
             
             $scope.room = response.data.records;
