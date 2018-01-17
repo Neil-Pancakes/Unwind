@@ -42,14 +42,6 @@
 					        <form ng-submit="registerUser()">
 						            <div>
                                 <div>
-                                  <md-input-container>
-                                        <label>Username</label>
-                                        <input type="text" class="form-control" ng-model="username" required>
-                                    </md-input-container>
-                                    <md-input-container>
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" ng-model="password" required>
-                                    </md-input-container>
                                     <md-input-container>
                                         <label>First Name</label>
                                         <input type="text" class="form-control" ng-model="firstName" required>
@@ -68,6 +60,10 @@
                                         <input type="text" class="form-control" ng-model="email" required>
                                     </md-input-container>
                                     
+                                    <md-input-container>
+                                        <label>Password</label>
+                                        <input type="password" class="form-control" ng-model="password" required>
+                                    </md-input-container>
                                     <md-input-container>
                                         <label>Number</label>
                                         <input type="number" class="form-control" ng-model="contactNo" required>
@@ -99,7 +95,6 @@ var app = angular.module('unwindApp', ['ngMaterial']);
 app.controller('loginCtrl', function($scope, $http) {
 	$scope.registerUser = function(){	
     	$http.post('../queries/insert/registerUser.php', {
-            'username':$scope.username,
             'password':$scope.password,
             'firstName':$scope.firstName,
             'middleInitial':$scope.middleInitial,

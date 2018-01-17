@@ -5,7 +5,7 @@
 	$database_name = "unwind";
 	$port = "3306";
 
-	$mysqli = new mysqli($server_address, $username, $password, $database_name, $port);
+	$mysqli = new mysqli($server_address,$username,$password,$database_name,$port);
 	
 	//check connection
 	if (!$mysqli) {

@@ -44,8 +44,8 @@
 					        <div class="login-box-body">
 					        <form ng-submit="checkUser()">
                     <md-input-container>
-                      <label>Username</label>
-                      <input type="text" id="username" class="form-control" ng-model="username" required>
+                      <label>Email</label>
+                      <input type="text" id="username" class="form-control" ng-model="email" required>
                     </md-input-container>
                     <md-input-container>
                       <label>Password</label>
@@ -72,15 +72,15 @@ var app = angular.module('unwindApp', ['ngMaterial']);
 app.controller('loginCtrl', function($scope, $http) {
 	$scope.checkUser = function(){	
     	$http.post('../queries/get/getUser.php', {
-            'username': $scope.username,
+            'email': $scope.email,
             'password': $scope.password  
         }).then(function(response){
-        	console.log(response);
-            if(response.data==1){
-            	window.location.assign("home.php");
-            }else{
-            	alert("Incorrect username or password");
-            }
+        	if(response.data==1){
+            alert("Login Successful!");
+            window.location.assign("home.php");
+          }else{
+            alert("Login Failed!");
+          }
         })
     };
 });
