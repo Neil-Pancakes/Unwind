@@ -7,7 +7,6 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
       <md-content>
-      <md-content>
         
         <md-tabs md-dynamic-height md-border-bottom>
           <md-tab label="Service List">
@@ -16,7 +15,7 @@ include '../sidebar.php';
                     <md-button class="md-raised" style="color:white; background-color:green" data-target="#insertService" data-toggle="modal">Add Service</md-button>
                 </div>
 
-                <div id="insertService" class="modal fade" role="dialog">
+                <div id="insertService" class="modal fade" role="dialog" ng-hide="serviceModal">
                     <div class="modal-dialog">
                         <form ng-submit="createService()">
                             <div class="modal-content">
@@ -26,7 +25,11 @@ include '../sidebar.php';
                                 </div>
                                 <div class="modal-body">
                                     <input class="form-control" placeholder="Service Name" ng-model="serviceName" required>
-                                    <input class="form-control" placeholder="Service Type" ng-model="serviceType" required>
+                                    <select class="form-control" ng-model="serviceType" required>
+                                        <option value="" hidden disabled selected>Choose Service Type</option>
+                                        <option value="Cleaning">Cleaning</option>
+                                        <option value="Restock">Restock</option>
+                                    </select>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-success" onclick="$('#insertService').modal('hide');">Create Service <span class="fa fa-check"></span></button>
@@ -36,15 +39,46 @@ include '../sidebar.php';
                         </form>
                     </div>
                 </div>
+                <div ng-cloak layout-gt-sm="row" layout="column">
+                
+    <div flex-gt-sm="50" flex >
 
-                <md-list flex ng-repeat = "x in serviceList track by $index">
-                    <md-list-item class="md-3-line rrList" ng-click="null">
-                            <div>
-                                <div>{{x.ServiceName}}</div>
-                                <div>{{x.ServiceType}}</div>
-                            </div>  
-                    </md-list-item>
-                <md-list>            
+        <md-toolbar layout="row" class="md-hue-3">
+        <div class="md-toolbar-tools">
+            <span>Cleaning</span>
+        </div>
+        </md-toolbar>
+
+        <md-content>
+            <md-list flex>
+                <md-list-item class="md-3-line rrList" ng-repeat = "x in serviceList track by $index" ng-click="null" ng-if="x.ServiceType=='Cleaning'" style="border: 1px solid grey;">
+                    <div>
+                        <div>{{x.ServiceName}}</div>
+                    </div>  
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </div>
+    <md-divider></md-divider>
+    <div flex-gt-sm="50" flex>
+
+        <md-toolbar layout="row" class="md-hue-3">
+        <div class="md-toolbar-tools">
+            <span>Restock</span>
+        </div>
+        </md-toolbar>
+
+        <md-content>
+            <md-list flex>
+                <md-list-item class="md-3-line rrListB" ng-repeat = "x in serviceList track by $index" ng-click="null" ng-if="x.ServiceType=='Restock'" style="border: 1px solid grey;">
+                    <div>
+                        <div>{{x.ServiceName}}</div>
+                    </div>  
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </div>
+                
             </md-content>
           </md-tab>
           <md-tab label="Service Requests">
