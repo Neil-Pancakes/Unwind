@@ -1,14 +1,15 @@
 <?php
 require ("../header.php");
 include '../sidebar.php';
+/*
 require(dirname(__FILE__).'/../vendor/autoload.php');
 $pusher = new Pusher('c6d79884ae59d5152965', '5c63ac5939edc6da56dd', '449720');
 $text = "Ayyyy Lmao";
 $data['message'] = $text;
-$pusher->trigger('notifications', 'new_notification', $data);
+$pusher->trigger('notifications', 'new_notification', $data);*/
 
 ?>
- Reservations
+<!-- Reservations
  Services
  Reports
  Inquiries
@@ -18,7 +19,7 @@ $pusher->trigger('notifications', 'new_notification', $data);
 
 Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservations.php on line 5
 <input class="create-notification" placeholder="Send a notification :)"></input>
-<button class="submit-notification">Go!</button>
+<button class="submit-notification">Go!</button>-->
 <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="floorController" data-ng-init="init()">
@@ -28,12 +29,12 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
                 <h3>{{x.Name}}</h3>
                 <span>{{x.CheckInMonth}} {{x.CheckInDay}}, {{x.CheckInYear}} - {{x.CheckOutMonth}} {{x.CheckOutDay}}, {{x.CheckOutYear}}</span>
                 <br>
-                <span>Adults: {{AdultQty}}</span>
+                <span>Adults: {{x.AdultQty}}</span>
                 <br>
-                <span>Children: {{ChildQty}}
+                <span>Children: {{x.ChildQty}}
                 <div class="acceptrejectDiv">
                     <button class="btn btn-success" ng-click="acceptReservation(x.ReservationRequestId)">Accept</button>
-                    <button class="btn btn-danger">Reject</button>
+                    <button class="btn btn-danger" ng-click="rejectReservation(x.ReservationRequestId)">Reject</button>
                 </div>
             </div>       
         </md-list-item>
@@ -55,13 +56,13 @@ include '../control_sidebar.php';
 var active = angular.element( document.querySelector( '#reservationsTab' ) );
 active.addClass('active');
 
-var app = angular.module('unwindApp', ['ngMaterial', 'doowb.angular-pusher']);
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
+app.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  })
+app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
 
-
-
-app.controller('floorController', function($scope, $http, $mdDialog, $interval, Pusher) {
-    
-    
+    /*
     $pusher = new Pusher('c6d79884ae59d5152965', '5c63ac5939edc6da56dd', '449720');
 	var notificationsChannel = pusher.subscribe('notifications');
 	notificationsChannel.bind('new_notification', function(notification){
@@ -100,7 +101,7 @@ app.controller('floorController', function($scope, $http, $mdDialog, $interval, 
      };
 
     retrieveItems();
-
+*/
     $scope.init = function () {
         $http.get("../queries/get/getPendingReservations.php").then(function (response) {
            $scope.pending = response.data.records;
@@ -112,7 +113,7 @@ app.controller('floorController', function($scope, $http, $mdDialog, $interval, 
         $scope.init();
     }, 5000);*/
 
-    $scope.acceptReservation = function($id, $room_qty){
+    $scope.acceptReservation = function($id){
         $http.post('../queries/update/acceptReservationRequest.php', {
             'id': $id,
         }).then(function(data, status){
@@ -121,16 +122,17 @@ app.controller('floorController', function($scope, $http, $mdDialog, $interval, 
                 $scope.pending = response.data.records;
            
             });
-            $scope.insertRoomReserved($id, $room_qty);
             $scope.init();
+            SweetAlert.swal("Success!", "You Accepted the Request", "success");
         })
     };
 
-    $scope.rejectReservation = function(){
+    $scope.rejectReservation = function($id){
         $http.post('../queries/update/rejectReservationRequest.php', {
-            'id': $scope.requestId,
+            'id': $id,
         }).then(function(data, status){
             $scope.init();
+            SweetAlert.swal("Success!", "You Rejected the Request", "error");
         })
     };
 

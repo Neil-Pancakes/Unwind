@@ -5,11 +5,14 @@
 
     if(count($request>0)){
         $id = $request['id'];
-        $employeeId = 1; //Change to session value//
+        $number = $request['number'];
+        $status = $request['status'];
         
-        $query = "UPDATE `reservation_request` 
-        SET `reservation_request_status` = 'Rejected', `employee_id` = $employeeId
-        WHERE `reservation_request_id` = $id";
+        $query = "UPDATE `room` 
+        SET `room_number` = '$number', `room_status` = '$status'
+        WHERE `room_id` = $id";
+        echo $query;
         $result = mysqli_query($mysqli, $query);
+        echo $result;
     }
 ?>

@@ -9,6 +9,7 @@ include '../sidebar.php';
       <div layout="row">
         <md-button id="createRoomTypeButton" class="md-raised" data-target="#createRoomType" data-toggle="modal">Create Room Type</md-button>
         <md-button id="createRoomButton" class="md-accent md-raised" data-target="#createRoom" data-toggle="modal">Add New Room <span class="fa fa-bed"></span></md-button>
+        <md-button id="createFloorButton" class="md-raised" data-target="#createFloor" data-toggle="modal">Add New Floor </md-button>
       </div>
 
       <div id="createRoomType" class="modal fade" role="dialog">
@@ -75,97 +76,86 @@ include '../sidebar.php';
             </div>
         </div>
 
+        <div id="createFloor" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <form ng-submit="createFloor()">
+                    <div class="modal-content">
+                        <div class="modal-header createFloor">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2>Create Floor</h2>
+                        </div>
+                        <div class="modal-body">
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn createFloor" onclick="$('#createFloor').modal('hide');">Create Room <span class="fa fa-check"></span></button>
+                            <button type="button" class="btn btn-danger" onclick="$('#createFloor').modal('hide');">Close <span class="fa fa-close"></span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
           <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}" ng-click="getRooms(x.FloorId)">
-            
-              <md-content class="md-padding" layout-xs="column" layout="row">
-
-                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room">
-                  <md-card md-theme-watch ng-click="getInfo(room.RoomId, room.RoomStatus)" style="{{room.Color}}" data-target="#viewRoom" data-toggle="modal">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span ng-if="room.RoomStatus=='Available' || room.RoomStatus=='Occupied'" class="md-headline">Room {{room.RoomNumber}}</span>
-                        <span ng-if="room.RoomStatus=='Unavailable'" class="md-headline" style="color:white;">Room {{room.RoomNumber}} (Unavailable)</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media">
-                          <img src="{{room.Picture}}" class="logoPic">
-                        </div>
-                        <img src="../includes/img/room-service.png" class="servicePic">
-                        <img src="../includes/img/cleaning.png" class="servicePic" style="margin-right:2%;">
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>
-                </div>
-              </md-content>
-              
-<!--
-            <md-content class="md-padding" layout-xs="column" layout="row">
-
-                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room1 | limitTo : -3">
-                  <md-card md-theme-watch ng-click="">
-                    <md-card-title>
-                      <md-card-title-text>
-                        <span class="md-headline">Room {{room.RoomNumber}}</span>
-                      </md-card-title-text>
-                      <md-card-title-media>
-                        <div class="md-media-xs card-media"><img src="../includes/img/bed2.png"></div>  
-                      </md-card-title-media>
-                    </md-card-title>
-                  </md-card>      
-                </div>
-                
-            </md-content>-->
+            <div id="rrListDiv">
+                <md-list-item class="md-3-line" ng-repeat="room in room" data-target="#editRoom" data-toggle="modal" ng-click="editFoodModal(room.RoomId, room.RoomNumber, room.RoomStatus)">
+                    <img ng-src="{{room.Picture}}" class="roomListPic"/>
+                    <div class="md-list-item-text" layout="column" style="text-indent:2%;">
+                        <h3>{{ room.RoomNumber }}</h3>
+                        <h4>{{ room.RoomStatus }}</h4>
+                    </div>
+                    
+                    
+                </md-list-item>
+            </div>
           </md-tab>
-
+            
         </md-tabs>
         
+        <div id="editRoom" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <form ng-submit="editRoom()">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:#003300; color:white;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h2>Edit Room</h2>
+                        </div>
+                        <div class="modal-body">
+                            <input ng-model="mod.modalId" required hidden>
+                            <input class="form-control" placeholder="Price" ng-model="mod.modalNumber" type="number" required>
 
-        <div id="viewRoom" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content" ng-if="occupied">
-                      <div class="modal-header viewUserRoom">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h2>{{user[0].Name}}</h2>
-                      </div>
-                      <div class="modal-body">
-                        Check-In Information<br>
-                        {{user[0].CheckInMonth}} {{user[0].CheckInDay}}, {{user[0].CheckInYear}} - {{user[0].CheckOutMonth}} {{user[0].CheckOutDay}}, {{user[0].CheckOutYear}}
-                      </div>
-                      <div class="modal-footer"><button type="button" class="btn btn-danger" onclick="$('#viewRoom').modal('hide');">Close <span class="fa fa-close"></span></button>
-                      </div>
+                            <select class="form-control" ng-if="mod.modalStatus=='Available'" ng-init="mod.modalStatusUpdated=mod.modalStatus" ng-model="mod.modalStatusUpdated" required>
+                              <option value="Available">Available</option>
+                              <option value="Occupied">Occupied</option>
+                              <option value="Unavailable">Unavailable</option>
+                            </select>
+
+                            <select class="form-control" ng-if="mod.modalStatus=='Occupied'" ng-init="mod.modalStatusUpdated=mod.modalStatus" ng-model="mod.modalStatusUpdated" required>
+                              <option value="Occupied">Occupied</option>
+                              <option value="Available">Available</option>
+                              <option value="Unavailable">Unavailable</option>
+                            </select>
+
+                            <select class="form-control" ng-if="mod.modalStatus=='Unavailable'" ng-init="mod.modalStatusUpdated=mod.modalStatus" ng-model="mod.modalStatusUpdated" required>
+                              <option value="Unavailable">Unavailable</option>
+                              <option value="Available">Available</option>
+                              <option value="Occupied">Occupied</option>
+                            </select>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-warning" onclick="$('#editRoom').modal('hide');">Edit Room <span class="fa fa-edit"></span></button>
+                            <button type="button" class="btn btn-danger" onclick="$('#editRoom').modal('hide');">Close <span class="fa fa-close"></span></button>
+                        </div>
                     </div>
-
-                    <div class="modal-content" ng-if="available">
-                      <div class="modal-header viewUserRoom">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h2>Ayyyy</h2>
-                      </div>
-                      <div class="modal-body">
-                        There is nobody staying in this Room
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="$('#viewRoom').modal('hide');">Close <span class="fa fa-close"></span></button>
-                      </div>
-                    </div>
-
-                    <div class="modal-content" ng-if="unavailable">
-                      <div class="modal-header viewUserRoom">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h2>UNAVAILABLE</h2>
-                      </div>
-                      <div class="modal-body">
-                        The Room is Unavailable
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="$('#viewRoom').modal('hide');">Close <span class="fa fa-close"></span></button>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
+                </form>
+            </div>
+        </div>
+        
       </md-content>
+      
     </div>  
   </section>
 </div>
@@ -180,7 +170,7 @@ include '../control_sidebar.php';
 </body>
 
 <script>
-var active = angular.element( document.querySelector( '#homeTab' ) );
+var active = angular.element( document.querySelector( '#roomTab' ) );
 active.addClass('active');
 
 var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
@@ -214,23 +204,6 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
       });
     };
 
-    
-    $scope.getInfo = function($id, $status){
-      $scope.occupied=false;
-      $scope.available=false;
-      $scope.unavailable=false;
-      if($status=='Occupied'){
-        $scope.occupied = true;
-        $http.get("../queries/get/getUserFromRoomId.php?roomId="+$id).then(function (response) {
-          $scope.user = response.data.records;
-        });
-      }else if($status=='Available'){
-        $scope.available = true;
-      }else if($status=='Unavailable'){
-        $scope.unavailable = true;
-      }
-    };
-
     $scope.createRoomType = function(){
         $http.post('../queries/insert/insertRoomType.php', {
             'name': $scope.name,
@@ -253,5 +226,44 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
             SweetAlert.swal("Success!", "You Created a Room", "success");
         })
     };
+
+    $scope.mod = {
+        $modalId: "",
+        $modalNumber: "",
+        $modalStatus: "",
+        $modalStatusUpdated: ""
+    };
+    
+    $scope.editFoodModal = function($id, $number, $status) {
+        $scope.mod.modalId = $id;
+        $scope.mod.modalNumber = parseInt($number);
+        $scope.mod.modalStatus = $status;
+    };
+
+    $scope.editRoom = function(){
+        SweetAlert.swal({
+            title: "Are you sure?",
+            text: "Do you want to edit Room"+$scope.mod.modalNumber,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55", confirmButtonText: "Yes, edit it!",
+            cancelButtonText: "Cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false }, 
+         function(isConfirm){ 
+            if (isConfirm) {
+                $http.post('../queries/update/editRoom.php', {
+                    'id': $scope.mod.modalId,
+                    'number': $scope.mod.modalNumber,
+                    'status': $scope.mod.modalStatusUpdated
+                }).then(function(data, status){
+                    $scope.init();
+                    SweetAlert.swal("Edit Successful!", "You edited the Room", "success");
+                })
+            } else {
+               SweetAlert.swal("Cancelled", "You cancelled editting", "error");
+            }
+         });
+    }
 });
 </script>
