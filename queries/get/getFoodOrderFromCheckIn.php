@@ -2,8 +2,9 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 require("../../functions/sql_connect.php");
-session_start();
+$postdata = file_get_contents("php://input");
 
+$checkInId = $_GET['check_in_id'];
 //$emp_id = $_SESSION['user_id'];
 $result = $mysqli->query("SELECT `o`.`food_order_id`, `o`.`price`, `o`.`timestamp_ordered`, 
 CONCAT(`u`.`first_Name`,' ', `u`.`middle_initial`, ' ', `u`.`last_name`) AS `name`
