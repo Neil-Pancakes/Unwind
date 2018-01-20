@@ -2,10 +2,10 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 require("../../functions/sql_connect.php");
-session_start();
+$postdata = file_get_contents("php://input");
 
 
-$foodOrderId = $request['food_order_id'];
+$foodOrderId = $_GET['food_order_id'];
 $result = $mysqli->query("SELECT `i`.`food_item_id`, `i`.`qty`, `f`.`name`, `f`.`description`, `f`.`price`
 FROM `food_item` `i`
 INNER JOIN `food` `f`

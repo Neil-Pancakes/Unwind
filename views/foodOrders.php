@@ -5,7 +5,7 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController">
+    <div ng-cloak ng-controller="floorController" data-ng-init="init()">
         <md-content>
             <md-list flex ng-repeat = "x in orderList">
                 <md-list-item class="md-3-line rrList" ng-click="null">
@@ -50,19 +50,22 @@ active.addClass('active');
 var active2 = angular.element( document.querySelector( '#orderTab' ) );
 active2.addClass('active'); 
 
-var app = angular.module('unwindApp', ['ngMaterial']);
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
+app.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  })
+app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
 
-app.controller('floorController', function($scope, $http, $mdDialog) {
-    $scope.init = function () {
+     $scope.init = function () {
         $scope.foodSet = {food: []};
         $scope.food = [];
         
         $http.get("../queries/get/getFoodOrder.php").then(function (response) {
         $scope.orderList = response.data.records;
             for($x=0; $x<$scope.orderList.length; $x++){
-                $http.get("../queries/get/getFoodItemPerOrder.php?menuId="+$scope.orderList[$x].FoodOrderId).then(function (response){
+                $http.get("../queries/get/getFoodItemPerOrder.php?food_order_id="+$scope.orderList[$x].FoodOrderId).then(function (response){
                     $scope.foodPerOrder = response.data.records;
-                    if($scope.foodPerMenu!=""){
+                    if($scope.foodPerOrder!=""){
                         $scope.foodSet.food = $scope.foodPerOrder;
                     }
                 });
