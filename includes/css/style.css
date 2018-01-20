@@ -4,10 +4,14 @@
 #rrListDiv{ float:left; width:100%; margin-bottom:1%;}
 .acceptrejectDiv{ float:right }
 .rrList:nth-child(odd) { background-color: #f2f2f2 }
+.rrListB:nth-child(even) { background-color: #f2f2f2 }
 .createRoomType{ color:white; background-color:#660066 }
 #createHeader{ background-color:#003300; color:white; }
 #createRoomTypeButton{ background-color:#660066; color:white; }
+#createFloorButton{ background-color: #ffcc99; color:white; }
 .createRoom{ background-color:#ff0066; color:white; }
+.createFloor{ background-color: #ffcc99; color:white; }
+.viewUserRoom{ background-color:#ccffff; color:black; }
 .rightFloat{ float:right; }
 md-tabs.md-no-animation md-tab-content {
     transition: none;
@@ -21,6 +25,11 @@ md-tabs.md-no-animation md-ink-bar {
 .logoPic{
     height:128px;
     width:128px;
+    float:left;
+}
+.roomListPic{
+    height:64px;
+    width:64px;
     float:left;
 }
 .servicePic{
