@@ -127,7 +127,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="../includes/img/fancy2.png" class="user-image" alt="User Image">
-              <span class="hidden-xs">User</span>
+              <span class="hidden-xs"><?php echo $_SESSION['name']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -135,8 +135,8 @@
                 <img src="../includes/img/fancy2.png" class="img-circle" alt="User Image">
 
                 <p>
-                  User
-                  <small>Employee</small>
+                  <?php echo $_SESSION['name']; ?>
+                  <small><?php echo $_SESSION['position']; ?></small>
                 </p>
               </li>
               <!-- Menu Body -->

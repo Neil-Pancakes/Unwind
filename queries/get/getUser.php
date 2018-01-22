@@ -8,9 +8,9 @@ $ret=0;
 
 
 $result = $mysqli->query("SELECT *
-FROM `user_account`
+FROM `employee`
 WHERE `email`='".$request["email"]."'");
-while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+while($ret==0 && $rs = $result->fetch_array(MYSQLI_ASSOC)) {
     if(md5($request["password"]) == $rs["password"]){
         $ret=1;
     }
@@ -20,8 +20,9 @@ $mysqli->close();
 
 if($ret==1){
 session_start();
-$_SESSION['email']=$request['email'];
-$_SESSION['password']=$request['password'];
+$_SESSION['email']=$rs['email'];
+$_SESSION['name']=$rs['first_name']." ".$rs['last_name'];
+$_SESSION['position']=$rs['position'];
 // $_SESSION['position']=$request['position'];
 // position needed
 }

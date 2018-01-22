@@ -20,12 +20,13 @@ if(count($request>0)){
 		$bday=$request["birthDate"];
     // $pic = "http://localhost/Unwind/includes/img/".$pic;
 
-	    $query = "INSERT INTO `user_account` 
+	    $query = "INSERT INTO `employee` 
 	    (`password`,`first_name`, `last_name`, `middle_initial`, `email`, `birthdate`, `gender`, 
 	    `contact_no`, `date_account_created`) 
 	    VALUES 
 	    ('$password','$fn', '$ln', '$mi', '$email', '$bday', '$gender', '$num', NOW())";
 	    $result = mysqli_query($mysqli, $query);
+	    header("Location:login.php");
     }else{
     	echo "Username already Exists";
     }

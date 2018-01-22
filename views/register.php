@@ -104,7 +104,7 @@ app.controller('loginCtrl', function($scope, $http) {
             'gender':$scope.gender,
             'birthDate': $scope.birthDate
         }).then(function(response){
-        	console.log(response);
+        	console.log(response.data);
           window.location.assign("login.php");
         })
     };
