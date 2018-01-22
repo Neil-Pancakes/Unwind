@@ -5,7 +5,7 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController" data-ng-init="init()">
+    <div ng-cloak ng-controller="roomController" data-ng-init="init()">
       <div layout="row">
         <md-button id="createRoomTypeButton" class="md-raised" data-target="#createRoomType" data-toggle="modal">Create Room Type</md-button>
         <md-button id="createRoomButton" class="md-accent md-raised" data-target="#createRoom" data-toggle="modal">Add New Room <span class="fa fa-bed"></span></md-button>
@@ -177,7 +177,7 @@ var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'c
 app.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
   })
-app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
+app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) {
 
   
     $scope.init = function () {

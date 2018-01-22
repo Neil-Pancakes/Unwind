@@ -5,7 +5,7 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController">
+    <div ng-cloak ng-controller="inquiriesController">
       <md-content>
         
       </md-content>
@@ -26,14 +26,22 @@ include '../control_sidebar.php';
 var active = angular.element( document.querySelector( '#inquiriesTab' ) );
 active.addClass('active');
 
-var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('floorController', function($scope, $http, $mdDialog) {
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
+app.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  })
+app.controller('inquiriesController', function($scope, $http, $mdDialog, SweetAlert) {
+
     $scope.init = function () {
 
         $http.get("../queries/get/getFeedback.php").then(function (response){
             $scope.feedback = response.data.records;
             
         });
+    };
+
+    $scope.respond = function(){
+      
     };
 });
 </script>

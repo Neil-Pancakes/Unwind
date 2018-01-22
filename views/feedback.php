@@ -5,7 +5,7 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController" data-ng-init="init()">
+    <div ng-cloak ng-controller="feedbackController" data-ng-init="init()">
         <md-content>
             <md-list flex>
                 <md-list-item class="md-3-line rrList" ng-click="null" ng-repeat = "x in feedback track by $index">
@@ -44,8 +44,12 @@ include '../control_sidebar.php';
 <script>
 var active = angular.element( document.querySelector( '#feedbackTab' ) );
 active.addClass('active');
-var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('floorController', function($scope, $http, $mdDialog) {
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
+app.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  })
+app.controller('feedbackController', function($scope, $http, $mdDialog, SweetAlert) {
+
     $scope.init = function () {
 
         $http.get("../queries/get/getFeedback.php").then(function (response){

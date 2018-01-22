@@ -22,7 +22,7 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
 <button class="submit-notification">Go!</button>-->
 <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController" data-ng-init="init()">
+    <div ng-cloak ng-controller="reservationController" data-ng-init="init()">
       <md-content>
         <md-list-item class="md-3-line rrList" ng-repeat="x in pending">
             <div id="rrListDiv">
@@ -60,7 +60,7 @@ var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'c
 app.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
   })
-app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
+app.controller('reservationController', function($scope, $http, $mdDialog, SweetAlert) {
 
     /*
     $pusher = new Pusher('c6d79884ae59d5152965', '5c63ac5939edc6da56dd', '449720');
@@ -122,7 +122,10 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
                 $scope.pending = response.data.records;
            
             });
-            $scope.init();
+            $http.get("../queries/get/getPendingReservations.php").then(function (response) {
+                $scope.pending = response.data.records;
+                
+            });
             SweetAlert.swal("Success!", "You Accepted the Request", "success");
         })
     };
@@ -131,7 +134,10 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
         $http.post('../queries/update/rejectReservationRequest.php', {
             'id': $id,
         }).then(function(data, status){
-            $scope.init();
+            $http.get("../queries/get/getPendingReservations.php").then(function (response) {
+                $scope.pending = response.data.records;
+           
+            });
             SweetAlert.swal("Success!", "You Rejected the Request", "error");
         })
     };
@@ -140,7 +146,10 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
         $http.post('../queries/insert/insertReservation.php', {
             'reservation_request_id': $id,
         }).then(function(data, status){
-            $scope.init();
+            $http.get("../queries/get/getPendingReservations.php").then(function (response) {
+                $scope.pending = response.data.records;
+           
+            });
         })
     };
 

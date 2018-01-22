@@ -5,7 +5,8 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController" data-ng-init="init()">
+    <input ng-model="checkInId" ng-init="checkInId = '<?php if(isset($_GET['checkInId'])){echo $_GET['checkInId'];}else{echo "";}?>'" hidden>
+    <div ng-cloak ng-controller="appController" data-ng-init="init()">
       <div layout="row">
         <md-button id="createRoomTypeButton" class="md-raised" data-target="#createRoomType" data-toggle="modal">Create Room Type</md-button>
         <md-button id="createRoomButton" class="md-accent md-raised" data-target="#createRoom" data-toggle="modal">Add New Room <span class="fa fa-bed"></span></md-button>
@@ -133,14 +134,22 @@ include '../sidebar.php';
                         Check-In Information<br>
                         {{user[0].CheckInMonth}} {{user[0].CheckInDay}}, {{user[0].CheckInYear}} - {{user[0].CheckOutMonth}} {{user[0].CheckOutDay}}, {{user[0].CheckOutYear}}
                       </div>
-                      <div class="modal-footer"><button type="button" class="btn btn-danger" onclick="$('#viewRoom').modal('hide');">Close <span class="fa fa-close"></span></button>
+                      <div>
+                        <a href="services.php?checkInId={{user[0].CheckInId}}"><md-button id="" class="md-raised">View Service Requests <span class="fa fa-wrench"></md-button></a>
+                        <a href="foodOrders.php?checkInId={{user[0].CheckInId}}"><md-button id="" class="md-raised">View Food Orders <span class="fa fa-book"></span></md-button></a>
+                      </div>
+    
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" onclick="$('#viewRoom').modal('hide');">
+                          Close <span class="fa fa-close"></span>
+                        </button>
                       </div>
                     </div>
 
                     <div class="modal-content" ng-if="available">
                       <div class="modal-header viewUserRoom">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h2>Ayyyy</h2>
+                        <h2>Room is Available</h2>
                       </div>
                       <div class="modal-body">
                         There is nobody staying in this Room
@@ -187,13 +196,12 @@ var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'c
 app.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
   })
-app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
+app.controller('appController', function($scope, $http, $mdDialog, SweetAlert) {
 
   
     $scope.init = function () {
       $scope.name=$scope.price=$scope.description=$scope.max_child=$scope.max_adult=$scope.room_type_id=$scope.floor_id="";
-      $scope.roomSet = {rooms: []};
-      $scope.rooms = [];
+
       $http.get("../queries/get/getFloor.php").then(function (response) {
         $scope.floor = response.data.records;
         $floorList = $scope.floor;
@@ -202,17 +210,20 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
             $scope.room = response.data.records;
         });
       });
-      $http.get("../queries/get/getRoomTypes.php").then(function (response) {
-        $scope.roomTypeList = response.data.records;
-      });
+      $scope.getRoomTypes();
     };
 
     $scope.getRooms = function($id){
       $http.get("../queries/get/getRoomPerFloor.php?floorId="+$id).then(function (response) {
-            
-            $scope.room = response.data.records;
+          $scope.room = response.data.records;
       });
     };
+
+    $scope.getRoomTypes = function(){
+      $http.get("../queries/get/getRoomTypes.php").then(function(response){
+        $scope.roomTypeList = response.data.records;
+      });
+    }
 
     
     $scope.getInfo = function($id, $status){
@@ -223,6 +234,20 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
         $scope.occupied = true;
         $http.get("../queries/get/getUserFromRoomId.php?roomId="+$id).then(function (response) {
           $scope.user = response.data.records;
+          $http.get("../queries/get/getServiceRequestFromCheckIn.php?check_in_id="+$scope.user[0].CheckInId).then(function (response){
+            $scope.service = response.data.records;
+          });
+          $http.get("../queries/get/getFoodOrderFromCheckIn.php?check_in_id="+$scope.user[0].CheckInId).then(function (response){
+            $scope.orderList = response.data.records;
+            for($x=0; $x<$scope.orderList.length; $x++){
+                $http.get("../queries/get/getFoodItemPerOrder.php?food_order_id="+$scope.orderList[$x].FoodOrderId).then(function (response){
+                    $scope.foodPerOrder = response.data.records;
+                    if($scope.foodPerOrder!=""){
+                        $scope.foodSet.food = $scope.foodPerOrder;
+                    }
+                });
+            }
+          });
         });
       }else if($status=='Available'){
         $scope.available = true;
@@ -239,7 +264,7 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
             'max_adult': $scope.max_adult,
             'max_child': $scope.max_child
         }).then(function(data, status){
-            $scope.init();
+            $scope.getRoomTypes();
             SweetAlert.swal("Success!", "You Created a New Type of Room", "success");
         })
     };
@@ -249,7 +274,8 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
             'room_type_id': $scope.room_type_id,
             'floor_id': $scope.floor_id
         }).then(function(data, status){
-            $scope.init();
+            $scope.getRooms($scope.floor_id);
+            $scope.name=$scope.price=$scope.description=$scope.max_child=$scope.max_adult=$scope.room_type_id=$scope.floor_id="";
             SweetAlert.swal("Success!", "You Created a Room", "success");
         })
     };

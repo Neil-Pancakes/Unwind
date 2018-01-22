@@ -6,6 +6,7 @@ session_start();
 
 //$emp_id = $_SESSION['user_id'];
 $result = $mysqli->query("SELECT `o`.`food_order_id`, `o`.`price`, `o`.`timestamp_ordered`, 
+YEAR(`o`.`timestamp_ordered`) AS `request_year`, MONTHNAME(`o`.`timestamp_ordered`) AS `request_month`, DAY(`o`.`timestamp_ordered`) AS `request_day`,
 CONCAT(`u`.`first_Name`,' ', `u`.`middle_initial`, ' ', `u`.`last_name`) AS `name`
 FROM `food_order` `o`
 INNER JOIN `check_in` `c`
@@ -16,6 +17,7 @@ INNER JOIN `reservation_request` `rr`
 ON `rr`.`reservation_request_id` = `r`.`reservation_request_id`
 INNER JOIn `user_account` `u`
 ON `rr`.`user_id` = `u`.`user_id`
+AND `o`.`food_order_status` = 'Waiting'
 ORDER BY `o`.`timestamp_ordered`");
 
 $outp = "";
@@ -24,6 +26,9 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
         $outp .= ",";
     }
     $outp .= '{"FoodOrderId":"'  . $rs["food_order_id"] . '",';
+    $outp .= '"FoodOrderYear":"'  . $rs["request_year"] . '",';
+    $outp .= '"FoodOrderMonth":"'  . $rs["request_month"] . '",';
+    $outp .= '"FoodOrderDay":"'  . $rs["request_day"] . '",';
     $outp .= '"Price":"'  . $rs["price"] . '",';
     $outp .= '"TimestampOrdered":"'  . $rs["timestamp_ordered"] . '",';
     $outp .= '"Name":"'   . $rs["name"]        . '"}';

@@ -5,7 +5,7 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController" data-ng-init="init()">
+    <div ng-cloak ng-controller="menuController" data-ng-init="init()">
         
         
       <md-content>
@@ -15,7 +15,7 @@ include '../sidebar.php';
         <md-button class="md-raised" style="color:white; background-color:green" data-target="#insertFood" data-toggle="modal">Add Food to Menu</md-button>
     </div>
     <div>
-        <md-button class="md-raised md-warn" data-target="#removeFood" data-toggle="modal">Remove Food from Menu</md-button>
+        <!--<md-button class="md-raised md-warn" data-target="#removeFood" data-toggle="modal">Remove Food from Menu</md-button>-->
     </div>
         <div id="insertFood" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -26,10 +26,18 @@ include '../sidebar.php';
                             <h2>Create Food</h2>
                         </div>
                         <div class="modal-body">
-                            <input ng-model="menuId" required>
-                            <input class="form-control" placeholder="Menu Name" ng-model="foodName" required>
+                            <input class="form-control" placeholder="Food Name" ng-model="foodName" required>
                             <textarea class="form-control" placeholder="Description" ng-model="foodDesc" required></textarea>
                             <input class="form-control" placeholder="Price" ng-model="foodPrice" type="number" required>
+                            <select class="form-control" placeholder="Room Type" ng-model="foodType" required>
+                              <option value="Main Course">Main Course</option>
+                              <option value="Appetizers">Appetizers</option>
+                              <option value="Soup">Soup</option>
+                              <option value="Salads">Salads</option>
+                              <option value="Side Dish">Side Dish</option>
+                              <option value="Desserts">Desserts</option>
+                              <option value="Beverages">Beverages</option>
+                            </select>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success" onclick="$('#insertFood').modal('hide');">Create Food <span class="fa fa-edit"></span></button>
@@ -46,7 +54,7 @@ include '../sidebar.php';
             <md-content>
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Main Course'">
-                        <md-checkbox ng-model="food.selected"></md-checkbox>
+                        <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
                             </div>
@@ -65,7 +73,7 @@ include '../sidebar.php';
             <md-content>
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Appetizers'">
-                        <md-checkbox ng-model="food.selected"></md-checkbox>
+                        <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
                             </div>
@@ -87,7 +95,7 @@ include '../sidebar.php';
             <md-content>
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Soup'">
-                        <md-checkbox ng-model="food.selected"></md-checkbox>
+                        <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
                             </div>
@@ -109,7 +117,7 @@ include '../sidebar.php';
             <md-content>
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Salads'">
-                        <md-checkbox ng-model="food.selected"></md-checkbox>
+                        <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
                             </div>
@@ -130,7 +138,7 @@ include '../sidebar.php';
             <md-content>
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Side Dish'">
-                        <md-checkbox ng-model="food.selected"></md-checkbox>
+                        <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
                             </div>
@@ -152,7 +160,7 @@ include '../sidebar.php';
             <md-content>
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Desserts'">
-                        <md-checkbox ng-model="food.selected"></md-checkbox>
+                        <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
                             </div>
@@ -240,7 +248,7 @@ var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'c
 app.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
   })
-app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert) {
+app.controller('menuController', function($scope, $http, $mdDialog, SweetAlert) {
 
     $scope.init = function () {
         $scope.foodSet = {food: []};
@@ -253,22 +261,16 @@ app.controller('floorController', function($scope, $http, $mdDialog, SweetAlert)
         
     };
 
-    $scope.createMenu = function() {
-        $http.post('../queries/insert/insertMenu.php', {
-            'menuName': $scope.menuName
-        }).then(function(data, status){
-            $scope.init();
-        })
-    };
 
     $scope.insertFood = function() {
         $http.post('../queries/insert/insertFood.php', {
             'foodName': $scope.foodName,
             'foodDesc': $scope.foodDesc,
             'foodPrice': $scope.foodPrice,
-            'menuId': $scope.menuId
+            'foodType': $scope.foodType
         }).then(function(data, status){
             $scope.init();
+            $scope.foodName=$scope.foodDesc=$scope.foodPrice=$scope.foodType="";
         })
     };
 
