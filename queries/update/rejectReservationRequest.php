@@ -5,9 +5,10 @@
 
     if(count($request>0)){
         $id = $request['id'];
-
-        $query = "UPDATE `unwind_db` 
-        SET `reservation_request_status` = 'Rejected'
+        $employeeId = 1; //Change to session value//
+        
+        $query = "UPDATE `reservation_request` 
+        SET `reservation_request_status` = 'Rejected', `employee_id` = $employeeId
         WHERE `reservation_request_id` = $id";
         $result = mysqli_query($mysqli, $query);
     }

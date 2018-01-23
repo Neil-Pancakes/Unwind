@@ -7,12 +7,12 @@
     $name = $request['foodName'];
     $desc = $request['foodDesc'];
     $price = $request['foodPrice'];
-    $menuId = $request['menu_id'];
+    $category = $request['foodType'];
     
     $query = "INSERT INTO `food` 
-    (`name`,`description`, `price`, `menu_id`) 
+    (`name`,`description`, `price`, `category`) 
     VALUES 
-    ('$name', '$desc', '$price', '$menuId');";
+    ('$name', '$desc', '$price', '$category');";
     
     $result = mysqli_query($mysqli, $query);
   }else{

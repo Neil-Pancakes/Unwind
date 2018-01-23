@@ -1,10 +1,10 @@
+
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 require("../../functions/sql_connect.php");
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata, true);
-
 if(count($request>0)){
 	$result = $mysqli->query("SELECT `password`
 	FROM `user_account`
@@ -19,8 +19,12 @@ if(count($request>0)){
 		$gender=$request["gender"];
 		$bday=$request["birthDate"];
     // $pic = "http://localhost/Unwind/includes/img/".$pic;
+<<<<<<< HEAD
 
 	    $query = "INSERT INTO `employee` 
+=======
+	    $query = "INSERT INTO `user_account` 
+>>>>>>> f7a0507a78a4a1fbe34d5ae1926a57d39bab8fe2
 	    (`password`,`first_name`, `last_name`, `middle_initial`, `email`, `birthdate`, `gender`, 
 	    `contact_no`, `date_account_created`) 
 	    VALUES 
@@ -33,7 +37,5 @@ if(count($request>0)){
   }else{
       echo "error";
   }
-
 $mysqli->close();
-
 ?>

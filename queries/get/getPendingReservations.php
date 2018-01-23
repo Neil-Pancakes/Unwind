@@ -8,7 +8,7 @@ session_start();
 $result = $mysqli->query("SELECT `r`.`reservation_request_id`, `r`.`reservation_request_date`, `r`.`checkin_date`, `r`.`checkout_date`,
 YEAR(`r`.`checkin_date`) AS `checkin_year`, MONTHNAME(`r`.`checkin_date`) AS `checkin_month`, DAY(`r`.`checkin_date`) AS `checkin_day`,
 YEAR(`r`.`checkout_date`) AS `checkout_year`, MONTHNAME(`r`.`checkout_date`) AS `checkout_month`, DAY(`r`.`checkout_date`) AS `checkout_day`,
-`r`.`adult_qty`, `r`.`child_qty`, `r`.`user_id`, CONCAT(`u`.`first_Name`,' ', `u`.`last_name`) AS `name`
+`r`.`adult_qty`, `r`.`child_qty`, `r`.`user_id`, CONCAT(`u`.`first_Name`,' ', `u`.`middle_initial`, ' ', `u`.`last_name`) AS `name`
 FROM `reservation_request` `r`
 INNER JOIN `user_account` `u`
 ON `r`.`user_id` = `u`.`user_id` AND `r`.`reservation_request_status` = 'Pending' AND `r`.`checkout_date` > CURDATE()

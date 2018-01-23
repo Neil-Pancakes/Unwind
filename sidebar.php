@@ -63,6 +63,12 @@
             <span>Employees</span>
           </a>
         </li>
+        <li id="roomTab">
+          <a href="roomList.php">
+            <i class="fa fa-bed"></i> 
+            <span>Rooms</span>
+          </a>
+        </li>
         <li id="uploadTab">
           <a href="uploadTest.php">
             <i class="fa fa-wrench"></i> 

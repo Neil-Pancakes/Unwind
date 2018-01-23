@@ -91,7 +91,6 @@
 </body>
 <script>
 var app = angular.module('unwindApp', ['ngMaterial']);
-
 app.controller('loginCtrl', function($scope, $http) {
 	$scope.registerUser = function(){	
     	$http.post('../queries/insert/registerUser.php', {

@@ -5,7 +5,7 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="floorController" data-ng-init="init()">
+    <div ng-cloak ng-controller="employeeController" data-ng-init="init()">
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
           <md-tab label="Employee List">
@@ -114,7 +114,10 @@ include '../control_sidebar.php';
 var active = angular.element( document.querySelector( '#employeeTab' ) );
 active.addClass('active');
 
-var app = angular.module('unwindApp', ['ngMaterial']);
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
+app.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  })
 
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
@@ -147,8 +150,8 @@ app.service('fileUpload', ['$http', function ($http) {
 }]);
 
 
-app.controller('floorController', function($scope, $http, $mdDialog, fileUpload) {
-    
+app.controller('employeeController', function($scope, $http, $mdDialog, SweetAlert) {
+   
     $scope.$watch('myFile', function(newFileObj){
         if(newFileObj){
             $scope.picture = newFileObj.name; 

@@ -67,7 +67,6 @@
 </body>
 <script>
 var app = angular.module('unwindApp', ['ngMaterial']);
-
 app.controller('loginCtrl', function($scope, $http) {
 	$scope.checkUser = function(){	
     	$http.post('../queries/get/getUser.php', {

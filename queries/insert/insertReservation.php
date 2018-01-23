@@ -11,6 +11,7 @@
     VALUES
     ('$requestId');";
     $result = mysqli_query($mysqli, $query);
+    echo $result;
   }else{
       echo "error";
   }

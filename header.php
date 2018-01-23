@@ -1,8 +1,8 @@
-<?php
+<?php/*
   session_start();
   if(!isset($_SESSION['email'])){
     header("Location: login.php");
-  }
+  }*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@
   <script src="../includes/js/moment.js"></script>
   <script src="../bower_components/angular-pusher/angular-pusher.min.js" type="text/javascript"></script>
   <script src="../includes/js/SweetAlert.min.js"></script>
-  <script src="../includes/js/sweetalert2.min.js"></script>
+  <script src="../includes/js/sweetalert.js"></script>
   <script src="../includes/js/Chart.min.js"></script>
   <script src="../includes/js/angular-chart.min.js"></script>
   <script src='../includes/js/loading-bar.min.js' type='text/javascript'></script>
@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="../includes/css/ionicons.min.css">
   <link rel="stylesheet" href="../includes/css/AdminLTE.min.css">
   <link rel="stylesheet" href="../includes/css/skins/_all-skins.min.css">
-  <link rel="stylesheet" href="../includes/css/sweetalert2.min.css">
+  <link rel="stylesheet" href="../includes/css/sweetalert.css">
   <link rel='stylesheet' href='../includes/css/loading-bar.min.css' type='text/css' media='all' />
   <!--<link rel="stylesheet" href="../https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
   
