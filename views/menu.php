@@ -182,7 +182,7 @@ include '../sidebar.php';
             <md-content>
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Beverages'">
-                        <md-checkbox ng-model="food.selected"></md-checkbox>
+                        <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
                             </div>
