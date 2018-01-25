@@ -78,17 +78,20 @@ include '../sidebar.php';
 
         <div id="createFloor" class="modal fade" role="dialog">
             <div class="modal-dialog">
-                <form ng-submit="createFloor()">
+                <form ng-submit="insertFloor()">
                     <div class="modal-content">
                         <div class="modal-header createFloor">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h2>Create Floor</h2>
                         </div>
                         <div class="modal-body">
-                            
+                          <md-input-container>
+                            <label>Floor Number</label>
+                            <input type="number" class="form-control" ng-model="floor_number" required>
+                          </md-input-container>                        
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn createFloor" onclick="$('#createFloor').modal('hide');">Create Room <span class="fa fa-check"></span></button>
+                            <button type="submit" class="btn createFloor" onclick="$('#createFloor').modal('hide');">Create Floor <span class="fa fa-check"></span></button>
                             <button type="button" class="btn btn-danger" onclick="$('#createFloor').modal('hide');">Close <span class="fa fa-close"></span></button>
                         </div>
                     </div>
@@ -204,9 +207,17 @@ app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) 
       });
     };
 
+    $scope.insertFloor = function(){
+        $http.post('../queries/insert/insertFloor.php', {
+            'floor': $scope.floor_number
+        }).then(function(data, status){
+            SweetAlert.swal("Success!", "You Created a Floor", "success");
+        })
+    }
+
     $scope.createRoomType = function(){
         $http.post('../queries/insert/insertRoomType.php', {
-            'name': $scope.name,
+            'name': $scope.name,  
             'price': $scope.price,
             'description': $scope.description,
             'max_adult': $scope.max_adult,
