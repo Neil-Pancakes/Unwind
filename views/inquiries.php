@@ -5,10 +5,19 @@ include '../sidebar.php';
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
-    <div ng-cloak ng-controller="inquiriesController">
+    <div ng-cloak ng-controller="inquiriesController" data-ng-init="init()">
       <md-content>
-        
-      </md-content>
+          <h3>Inquiries</h3>
+            <md-list flex style="float:left;">
+                <md-list-item ng-repeat = "x in inquiry" class="md-3-line rrList">
+                    <div>
+                        <div>Inquiry by: {{x.Name}}</div>    
+                        <div>{{x.Year}}-{{x.Month}}-{{x.Day}}</div>
+                        <div>{{x.Message}}</div>
+                    </div>  
+                </md-list-item>
+            <md-list>
+        </md-content>
     </div>  
   </section>
 </div>
@@ -34,8 +43,8 @@ app.controller('inquiriesController', function($scope, $http, $mdDialog, SweetAl
 
     $scope.init = function () {
 
-        $http.get("../queries/get/getFeedback.php").then(function (response){
-            $scope.feedback = response.data.records;
+        $http.get("../queries/get/getInquiry.php").then(function (response){
+            $scope.inquiry = response.data.records;
             
         });
     };

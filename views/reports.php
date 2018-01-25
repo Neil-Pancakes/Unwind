@@ -64,7 +64,7 @@ include '../sidebar.php';
           <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">Line Chart</h3>
-
+              <button ng-click="getReports()"></button>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
@@ -136,6 +136,14 @@ app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert
       [65, 59, 80, 81, 56, 55, 40]
     ];
     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+  };
+  $scope.getReports = function(){
+    $http.get('../queries/get/getReport.php').then(function (response) {
+      $scope.records = response.data.records;
+      for($x=0;$x<12;$x++){
+        console.log("Month:"+$scope.records[$x].Month+"||Number:"+$scope.records[$x].Number);
+      }
+    });
   };
 });
 </script>

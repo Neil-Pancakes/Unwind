@@ -3,25 +3,22 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 require("../../functions/sql_connect.php");
 
-$result = $mysqli->query("SELECT `e`.`employee_id`, `e`.`position`, `e`.`email`, `e`.`birthdate`,
-`e`.`gender`, `e`.`contact_no`, CONCAT(`e`.`first_Name`,' ', `e`.`middle_initial`, ' ', `e`.`last_name`) AS `name`,
-`e`.`picture`
-FROM `employee` `e`
-ORDER BY `e`.`position`");
+$result = $mysqli->query("SELECT COUNT(check_in_id)
+FROM `check_in`
+WHERE `MONTH(check_in_start)`= 1");
 $outp = "";
 
-while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+for($x=1;$x <= 12;$x++){
+    $result = $mysqli->query("SELECT COUNT(check_in_id)
+    FROM `check_in`
+    WHERE `MONTH(check_in_start)`= '$x'");
+    while($rs = $result->fetch_array(MYSQLI_NUM)) {
     if ($outp != "") {
         $outp .= ",";
     }
-    $outp .= '{"EmployeeId":"'  . $rs["employee_id"] . '",';
-    $outp .= '"Position":"'  . $rs["position"] . '",';
-    $outp .= '"Email":"'  . $rs["email"] . '",';
-    $outp .= '"Birthdate":"'  . $rs["birthdate"] . '",';
-    $outp .= '"Gender":"'  . $rs["gender"] . '",';
-    $outp .= '"ContactNo":"'  . $rs["contact_no"] . '",';
-    $outp .= '"Picture":"'  . $rs["picture"] . '",';
-    $outp .= '"Name":"'   . $rs["name"] . '"}';
+    $outp .= '{"Month":"'  . $x . '",';
+    $outp .= '"Number":"'  . $rs[0] . '"';
+    }
 }
 $outp ='{"records":['.$outp.']}';
 $mysqli->close();
