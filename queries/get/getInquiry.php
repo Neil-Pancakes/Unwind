@@ -5,7 +5,7 @@ require("../../functions/sql_connect.php");
 session_start();
 
 //$emp_id = $_SESSION['user_id'];
-$result = $mysqli->query("SELECT `i`.`inquiry_id`, `i`.`message`, `u`.`user_id`, DAY(`i`.`inquiry_timestamp`) AS 'day', YEAR(`i`.`inquiry_timestamp`) AS 'year', MONTH(`i`.`inquiry_timestamp`) AS 'month',
+$result = $mysqli->query("SELECT `i`.`inquiry_id`, `i`.`message`, `u`.`user_id`, DAY(`i`.`inquiry_timestamp`) AS 'day', YEAR(`i`.`inquiry_timestamp`) AS 'year', MONTHNAME(`i`.`inquiry_timestamp`) AS 'month',
 CONCAT(`u`.`first_Name`,' ', `u`.`middle_initial`, ' ', `u`.`last_name`) AS `name`
 FROM `inquiry` `i`
 INNER JOIN `user_account` `u`

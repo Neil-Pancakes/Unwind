@@ -57,7 +57,9 @@
             <li id="orderTab"><a href="foodOrders.php"><i class="fa fa-book"></i> <span>Food Order</span></a></li>
           </ul>
         </li>
-        <li id="employeeTab">
+        <?php
+          if($_SESSION['position']=='Admin'){
+            echo '<li id="employeeTab">
           <a href="employeeList.php">
             <i class="fa fa-users"></i> 
             <span>Employees</span>
@@ -69,6 +71,15 @@
             <span>Rooms</span>
           </a>
         </li>
+        <li id="logTab">
+          <a href="logs.php">
+            <i class="fa fa-folder-open"></i> 
+            <span>Employee Logs</span>
+          </a>
+        </li>';
+          }
+        ?>
+        
         <li id="uploadTab">
           <a href="uploadTest.php">
             <i class="fa fa-wrench"></i> 
