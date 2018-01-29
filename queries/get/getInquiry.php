@@ -10,6 +10,7 @@ CONCAT(`u`.`first_Name`,' ', `u`.`middle_initial`, ' ', `u`.`last_name`) AS `nam
 FROM `inquiry` `i`
 INNER JOIN `user_account` `u`
 ON `i`.`user_id` = `u`.`user_id`
+AND `i`.`employee_id` IS NULL
 ORDER BY `i`.`inquiry_timestamp` DESC");
 
 $outp = "";

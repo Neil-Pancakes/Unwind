@@ -8,9 +8,10 @@
         $name = $request['name'];
         $desc = $request['desc'];
         $price = $request['price'];
+        $status = $request['status'];
         
         $query = "UPDATE `food` 
-        SET `name` = '$name', `description` = '$desc', `price` = $price
+        SET `name` = '$name', `description` = '$desc', `price` = $price, `food_status` = '$status'
         WHERE `food_id` = $id";
         $result = mysqli_query($mysqli, $query);
         echo $result;

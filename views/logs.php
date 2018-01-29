@@ -58,10 +58,15 @@ include '../sidebar.php';
             <md-content>
                 <md-list flex>
                     <md-list-item class="md-3-line rrList" ng-repeat = "x in foodLog track by $index">
-                        <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
-                            <div>
-                                {{x.Name}}
-                            </div>
+                      <img src="http://localhost/Unwind/includes/img/waiter.png" class="md-avatar" style="height:32px; width:32px;">
+                            
+                      <div class="md-list-item-text" layout="column">
+                        <h3>{{x.EmployeeName}}</h3>
+                        <h4> Food Order from {{x.Name}} was
+                        <span style="color:green;">{{x.FoodOrderStatus}}</span>
+                        <h4>
+                        <p>{{x.ResponseTime}}</p>
+                      </div>
                     </md-list-item>
                 <md-list>
     
@@ -101,6 +106,10 @@ app.controller('logController', function($scope, $http, $mdDialog, SweetAlert) {
 
     $http.get('../queries/get/getLogsServiceRequest.php').then(function (response){
       $scope.serviceLog = response.data.records;
+    });
+
+    $http.get('../queries/get/getLogsFoodOrder.php').then(function (response){
+      $scope.foodLog = response.data.records;
     });
   }
 });
