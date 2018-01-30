@@ -74,6 +74,7 @@ include '../sidebar.php';
             <md-list flex>
                 <md-list-item class="md-3-line rrListB" ng-repeat = "x in serviceList track by $index" ng-click="null" ng-if="x.ServiceType=='Restock'" style="border: 1px solid grey;">
                     <div>
+                        <img src="x.Picture">
                         <div>{{x.ServiceName}}</div>
                     </div>  
                 </md-list-item>
