@@ -63,7 +63,7 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
+        <!--
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
@@ -72,9 +72,7 @@
             <ul class="dropdown-menu">
               <li class="header">You have 4 messages</li>
               <li>
-                <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <li><!-- start message -->
                     <a href="#">
                       <div class="pull-left">
                         <img src="../includes/img/fancy2.png" class="img-circle" alt="User Image">
@@ -86,13 +84,11 @@
                       <p>Is there a corkage fee?</p>
                     </a>
                   </li>
-                  <!-- end message -->
                 </ul>
               </li>
               <li class="footer"><a href="#">See All Messages</a></li>
             </ul>
           </li>
-          <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
@@ -101,7 +97,6 @@
             <ul class="dropdown-menu">
               <li class="header">You have 3 service requests</li>
               <li>
-                <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li>
                     <a href="#">
@@ -122,18 +117,16 @@
               </li>
               <li class="footer"><a href="#">View all</a></li>
             </ul>
-          </li>
-          <!-- User Account: style can be found in dropdown.less -->
+          </li>-->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="../includes/img/fancy2.png" class="user-image" alt="User Image">
+            <img src="<?php echo $_SESSION['picture'];?>" class="user-image">
               <span class="hidden-xs"><?php echo $_SESSION['name']; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="../includes/img/fancy2.png" class="img-circle" alt="User Image">
-
+                <img src="<?php echo $_SESSION['picture'];?>" class="img-circle">
                 <p>
                   <?php echo $_SESSION['name']; ?>
                   <small><?php echo $_SESSION['position']; ?></small>

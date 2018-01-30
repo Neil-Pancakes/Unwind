@@ -29,8 +29,8 @@
   
   <link rel="stylesheet" href="../includes/css/angular-material.min.css">
 </head>
-<body>
-	<div class="content-wrapper" ng-app="unwindApp">
+<body  >
+	<div ng-app="unwindApp" >
 		<div ng-controller="loginCtrl">
 			<div>
 				<div class="login-box">

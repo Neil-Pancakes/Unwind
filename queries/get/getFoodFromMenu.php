@@ -4,8 +4,9 @@ header("Content-Type: application/json; charset=UTF-8");
 require("../../functions/sql_connect.php");
 $postdata = file_get_contents("php://input");
 
-$result = $mysqli->query("SELECT `food_id`, `name`, `description`, `price`, `food_picture`, `category`
-FROM `food`");
+$result = $mysqli->query("SELECT `food_id`, `name`, `description`, `price`, `food_picture`, `category`, `food_status`
+FROM `food`
+WHERE NOT `food_status` = 'Removed'");
 
 $outp = "";
 while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -17,6 +18,7 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     $outp .= '"Description":"'  . $rs["description"] . '",';
     $outp .= '"Picture":"'  . $rs["food_picture"] . '",';
     $outp .= '"Category":"'  . $rs["category"] . '",';
+    $outp .= '"Status":"'  . $rs["food_status"] . '",';
     $outp .= '"Price":"'   . $rs["price"] . '"}';
 }
 $outp ='{"records":['.$outp.']}';

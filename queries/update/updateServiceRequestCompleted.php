@@ -5,7 +5,7 @@
 
     if(count($request>0)){
         $id = $request['id'];
-        $employeeId = 1; //Change to session value//
+        $employeeId = $_SESSION['employee_id'];
         
         $query = "UPDATE `service_request` 
         SET `service_request_status` = 'Completed', `employee_id` = $employeeId

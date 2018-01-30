@@ -6,15 +6,17 @@ include '../sidebar.php';
  <div class="content-wrapper">
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="inquiriesController" data-ng-init="init()">
-      <md-content>
-          <h3>Inquiries</h3>
-            <md-list flex style="float:left;">
-                <md-list-item ng-repeat = "x in inquiry" class="md-3-line rrList">
-                    <div>
-                        <div>Inquiry by: {{x.Name}}</div>    
-                        <div>{{x.Year}}-{{x.Month}}-{{x.Day}}</div>
-                        <div>{{x.Message}}</div>
-                    </div>  
+        <md-content>
+            <h3>Inquiries</h3>
+            <md-list flex style="float:left;width:100%;">
+                <md-list-item class="md-3-line rrList" ng-repeat="x in inquiry" style="width:100%;">
+                    <div id="rrListDiv">
+                        <div>
+                            <md-button class="md-raised" style="color:white; background-color:orange; float:right;" data-target="#insertFood" data-toggle="modal">Respond</md-button>
+                            <div>{{x.Name}} ({{x.Month}} {{x.Day}}, {{x.Year}}) </div>
+                            <div>{{x.Message}}</div>
+                        </div>  
+                    </div>       
                 </md-list-item>
             <md-list>
         </md-content>

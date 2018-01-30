@@ -6,7 +6,7 @@ $postdata = file_get_contents("php://input");
 
 
 $foodOrderId = $_GET['food_order_id'];
-$result = $mysqli->query("SELECT `i`.`food_item_id`, `i`.`qty`, `f`.`name`, `f`.`description`, `f`.`price`
+$result = $mysqli->query("SELECT `i`.`food_item_id`, `i`.`qty`, `f`.`name`, `f`.`description`, `i`.`food_item_price`
 FROM `food_item` `i`
 INNER JOIN `food` `f`
 ON `i`.`food_id` = `f`.`food_id`
@@ -21,7 +21,7 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     $outp .= '"Qty":"'  . $rs["qty"] . '",';
     $outp .= '"Name":"'  . $rs["name"] . '",';
     $outp .= '"Description":"'  . $rs["description"] . '",';
-    $outp .= '"Price":"'   . $rs["price"]        . '"}';
+    $outp .= '"Price":"'   . $rs["food_item_price"]        . '"}';
 }
 $outp ='{"records":['.$outp.']}';
 $mysqli->close();

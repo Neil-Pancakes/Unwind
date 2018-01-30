@@ -16,9 +16,11 @@ while($ret==0 && $rs = $result->fetch_array(MYSQLI_ASSOC)) {
 $mysqli->close();
 if($ret==1){
 session_start();
+$_SESSION['employee_id']=$rs['employee_id'];
 $_SESSION['email']=$rs['email'];
 $_SESSION['name']=$rs['first_name']." ".$rs['last_name'];
 $_SESSION['position']=$rs['position'];
+$_SESSION['picture']=$rs['picture'];
 // $_SESSION['position']=$request['position'];
 // position needed
 }

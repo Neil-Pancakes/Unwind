@@ -5,10 +5,10 @@
 
     if(count($request>0)){
         $id = $request['id'];
-        $employeeId = 1; //Change to session value//
+        $employeeId = $_SESSION['employee_id'];
         
         $query = "UPDATE `reservation_request` 
-        SET `reservation_request_status` = 'Rejected', `employee_id` = $employeeId
+        SET `reservation_request_status` = 'Rejected', `employee_id` = $employeeId, `response_time` = NOW()
         WHERE `reservation_request_id` = $id";
         $result = mysqli_query($mysqli, $query);
     }

@@ -53,7 +53,7 @@ include '../sidebar.php';
         <md-tab label="Main Course" ng-click="">
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Main Course'">
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Main Course'">
                         <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
@@ -72,7 +72,7 @@ include '../sidebar.php';
           <md-tab label="Appetizers" ng-click="">
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Appetizers'">
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Appetizers'">
                         <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
@@ -94,7 +94,7 @@ include '../sidebar.php';
           <md-tab label="Soup" ng-click="">
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Soup'">
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Soup'">
                         <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
@@ -116,7 +116,7 @@ include '../sidebar.php';
           <md-tab label="Salads" ng-click="">
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Salads'">
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Salads'">
                         <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
@@ -137,7 +137,7 @@ include '../sidebar.php';
           <md-tab label="Side Dish" ng-click="">
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Side Dish'">
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Side Dish'">
                         <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
@@ -159,7 +159,7 @@ include '../sidebar.php';
           <md-tab label="Desserts" ng-click="">
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Desserts'">
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Desserts'">
                         <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
@@ -181,7 +181,7 @@ include '../sidebar.php';
           <md-tab label="Beverages" ng-click="">
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description)" ng-if="food.Category=='Beverages'">
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Beverages'">
                         <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
@@ -214,6 +214,24 @@ include '../sidebar.php';
                                     <input class="form-control" placeholder="Menu Name" ng-model="mod.modalName" required>
                                     <textarea class="form-control" placeholder="Description" ng-model="mod.modalDesc" required></textarea>
                                     <input class="form-control" placeholder="Price" ng-model="mod.modalPrice" type="number" required>
+
+                                    <select class="form-control" ng-if="mod.modalStatus=='Available'" ng-init="mod.modalStatusUpdated=mod.modalStatus" ng-model="mod.modalStatusUpdated" required>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                        <option value="Removed">Removed</option>
+                                    </select>
+
+                                    <select class="form-control" ng-if="mod.modalStatus=='Unavailable'" ng-init="mod.modalStatusUpdated=mod.modalStatus" ng-model="mod.modalStatusUpdated" required>
+                                        <option value="Unavailable">Unavailable</option>
+                                        <option value="Available">Available</option>
+                                        <option value="Removed">Removed</option>
+                                    </select>
+
+                                    <select class="form-control" ng-if="mod.modalStatus=='Removed'" ng-init="mod.modalStatusUpdated=mod.modalStatus" ng-model="mod.modalStatusUpdated" required>
+                                        <option value="Removed">Removed</option>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                    </select>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-warning" onclick="$('#editFood').modal('hide');">Edit Food <span class="fa fa-edit"></span></button>
@@ -278,14 +296,17 @@ app.controller('menuController', function($scope, $http, $mdDialog, SweetAlert) 
         $modalId: "",
         $modalName: "",
         $modalDesc: "",
-        $modalPrice: ""
+        $modalPrice: "",
+        $modalStatus: "",
+        $modalStatusUpdated: ""
     };
     
-    $scope.editFoodModal = function($id, $name, $price, $desc) {
+    $scope.editFoodModal = function($id, $name, $price, $desc, $status) {
         $scope.mod.modalId = $id;
         $scope.mod.modalName = $name;
         $scope.mod.modalDesc = $desc;
         $scope.mod.modalPrice = parseInt($price);
+        $scope.mod.modalStatus = $status;
     };
     
     
@@ -305,7 +326,8 @@ app.controller('menuController', function($scope, $http, $mdDialog, SweetAlert) 
                     'id': $scope.mod.modalId,
                     'name': $scope.mod.modalName,
                     'desc': $scope.mod.modalDesc,
-                    'price': $scope.mod.modalPrice
+                    'price': $scope.mod.modalPrice, 
+                    'status': $scope.mod.modalStatusUpdated
                 }).then(function(data, status){
                     $scope.init();
                     SweetAlert.swal("Edit Successful!", "You edited the Food", "success");

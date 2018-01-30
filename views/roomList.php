@@ -103,7 +103,7 @@ include '../sidebar.php';
         <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
           <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}" ng-click="getRooms(x.FloorId)">
             <div id="rrListDiv">
-                <md-list-item class="md-3-line" ng-repeat="room in room" data-target="#editRoom" data-toggle="modal" ng-click="editFoodModal(room.RoomId, room.RoomNumber, room.RoomStatus)">
+                <md-list-item class="md-3-line" ng-repeat="room in room" data-target="#editRoom" data-toggle="modal" ng-click="editFoodModal(room.RoomId, room.RoomNumber, room.RoomStatus, x.FloorId)">
                     <img ng-src="{{room.Picture}}" class="roomListPic"/>
                     <div class="md-list-item-text" layout="column" style="text-indent:2%;">
                         <h3>{{ room.RoomNumber }}</h3>
@@ -127,6 +127,7 @@ include '../sidebar.php';
                         </div>
                         <div class="modal-body">
                             <input ng-model="mod.modalId" required hidden>
+                            <input ng-model="mod.modalFloor" required hidden>
                             <input class="form-control" placeholder="Price" ng-model="mod.modalNumber" type="number" required>
 
                             <select class="form-control" ng-if="mod.modalStatus=='Available'" ng-init="mod.modalStatusUpdated=mod.modalStatus" ng-model="mod.modalStatusUpdated" required>
@@ -223,7 +224,9 @@ app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) 
             'max_adult': $scope.max_adult,
             'max_child': $scope.max_child
         }).then(function(data, status){
-            $scope.init();
+            $http.get("../queries/get/getRoomTypes.php").then(function (response) {
+                $scope.roomTypeList = response.data.records;
+            });
             SweetAlert.swal("Success!", "You Created a New Type of Room", "success");
         })
     };
@@ -233,7 +236,9 @@ app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) 
             'room_type_id': $scope.room_type_id,
             'floor_id': $scope.floor_id
         }).then(function(data, status){
-            $scope.init();
+            $http.get("../queries/get/getRoomPerFloor.php?floorId="+$scope.floor_id).then(function (response) {
+                $scope.room = response.data.records;
+            });
             SweetAlert.swal("Success!", "You Created a Room", "success");
         })
     };
@@ -242,13 +247,15 @@ app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) 
         $modalId: "",
         $modalNumber: "",
         $modalStatus: "",
-        $modalStatusUpdated: ""
+        $modalStatusUpdated: "",
+        $modalFloor: ""
     };
     
-    $scope.editFoodModal = function($id, $number, $status) {
+    $scope.editFoodModal = function($id, $number, $status, $floor) {
         $scope.mod.modalId = $id;
         $scope.mod.modalNumber = parseInt($number);
         $scope.mod.modalStatus = $status;
+        $scope.mod.modalFloor = $floor;
     };
 
     $scope.editRoom = function(){
@@ -268,7 +275,10 @@ app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) 
                     'number': $scope.mod.modalNumber,
                     'status': $scope.mod.modalStatusUpdated
                 }).then(function(data, status){
-                    $scope.init();
+                    $http.get("../queries/get/getRoomPerFloor.php?floorId="+$scope.mod.modalFloor).then(function (response) {
+                        $scope.room = "";
+                        $scope.room = response.data.records;
+                    });
                     SweetAlert.swal("Edit Successful!", "You edited the Room", "success");
                 })
             } else {
