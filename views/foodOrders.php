@@ -8,7 +8,7 @@ include '../sidebar.php';
     <input ng-model="checkInId" ng-init="checkInId = '<?php if(isset($_GET['checkInId'])){echo $_GET['checkInId'];}else{echo "";}?>'" hidden>
     <div ng-cloak ng-controller="orderController" data-ng-init="init()">
         <md-content>
-        <h3>Food Orders <md-button class="md-raised" ng-click="init()">Refresh</md-button></h3>
+        <h3>Food Orders <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button></h3>
             <md-list flex style="float:left;">
                 <md-list-item ng-repeat = "x in orderList track by $index" class="md-3-line rrList">
                     <div>

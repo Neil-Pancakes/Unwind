@@ -7,7 +7,7 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="logController" data-ng-init="init()">
       <md-content>
-      <md-button class="md-raised" ng-click="init()">Refresh</md-button>
+      <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
       <md-tabs md-dynamic-height md-border-bottom>
         
         <md-tab label="Reservations" ng-click="">

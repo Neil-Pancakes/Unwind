@@ -24,7 +24,7 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="reservationController" data-ng-init="init()">
       <md-content>
-      <md-button class="md-raised" ng-click="init()">Refresh</md-button>
+      <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
         <md-list-item class="md-3-line rrList" ng-repeat="x in pending">
             <div id="rrListDiv">
                 <h3>{{x.Name}}</h3>

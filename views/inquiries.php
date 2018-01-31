@@ -10,6 +10,7 @@ include '../sidebar.php';
                 <section class="content-header">
                     <h1>
                         Inquiries
+                        <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

@@ -8,7 +8,7 @@ include '../sidebar.php';
         <div ng-cloak ng-controller="threadController" data-ng-init="init()">
           <md-content>
             <a href="inquiries.php "><md-button class="md-raised md-warn">Go Back</md-button></a>
-            <md-button class="md-raised" ng-click="getThread()">Refresh</md-button>
+            <md-button class="md-raised" ng-click="getThread()">Refresh <span class="fa fa-refresh"></span></md-button>
             <div ng-repeat="x in inquiry" layout="row">
               <div ng-if="x.EmployeeId==''" class="box-body no-padding">
                 <div class="mailbox-read-info">
