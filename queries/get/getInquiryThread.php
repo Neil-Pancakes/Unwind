@@ -4,15 +4,13 @@ header("Content-Type: application/json; charset=UTF-8");
 require("../../functions/sql_connect.php");
 session_start();
 
-//$emp_id = $_SESSION['user_id'];
+$inquiryId = $_GET["inquiry_id"];
 $result = $mysqli->query("SELECT `i`.`inquiry_id`, `i`.`message`, `u`.`user_id`, DAY(`i`.`inquiry_timestamp`) AS 'day', YEAR(`i`.`inquiry_timestamp`) AS 'year', MONTHNAME(`i`.`inquiry_timestamp`) AS 'month',
-CONCAT(`u`.`first_Name`,' ', `u`.`middle_initial`, ' ', `u`.`last_name`) AS `name`
+CONCAT(`u`.`first_Name`,' ', `u`.`middle_initial`, ' ', `u`.`last_name`) AS `name`, `employee_id`
 FROM `inquiry` `i`
 INNER JOIN `user_account` `u`
 ON `i`.`user_id` = `u`.`user_id`
-AND `i`.`employee_id` IS NULL
-AND `i`.`inquiry_response_id` IS NULL
-ORDER BY `i`.`inquiry_timestamp` DESC");
+AND (`i`.`inquiry_id` = $inquiryId OR `i`.`inquiry_response_id` = $inquiryId)");
 
 $outp = "";
 while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -25,6 +23,7 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     $outp .= '"Day":"'  . $rs["day"] . '",';
     $outp .= '"Year":"'  . $rs["year"] . '",';
     $outp .= '"Name":"'  . $rs["name"] . '",';
+    $outp .= '"EmployeeId":"'  . $rs["employee_id"] . '",';
     $outp .= '"UserId":"'   . $rs["user_id"]        . '"}';
 }
 $outp ='{"records":['.$outp.']}';
