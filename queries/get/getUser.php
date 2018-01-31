@@ -9,7 +9,7 @@ $result = $mysqli->query("SELECT *
 FROM `employee`
 WHERE `email`='".$request["email"]."'");
 while($ret==0 && $rs = $result->fetch_array(MYSQLI_ASSOC)) {
-    if(md5($request["password"]) == $rs["password"]){
+    if(md5($request["password"]) == $rs["password"] && $rs["isDeleted"]==0){
         $ret=1;
     }
 }

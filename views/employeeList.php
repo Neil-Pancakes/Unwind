@@ -10,6 +10,32 @@ include '../sidebar.php';
         <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
           <md-tab label="Employee List">
             <md-content>  
+                <div>
+                    <md-button class="md-raised" style="color:white; background-color:red" data-target="#employeeModal" data-toggle="modal">Remove Employee</md-button>
+                </div>
+
+                <div id="employeeModal" class="modal fade" role="dialog" ng-hide="employeeModal">
+                    <div class="modal-dialog">
+                        <form ng-submit="deleteEmployee()">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#003300; color:white;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h2>Remove Employee</h2>
+                                </div>
+                                <div class="modal-body">
+                                    <select class="form-control" ng-model="employeeModel" required>
+                                        <option value="" hidden disabled selected>Choose Employee</option>
+                                        <option ng-repeat="x in employee" value="{{x.EmployeeId}}">{{x.Name}}</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success" onclick="$('#employeeModal').modal('hide');">Delete Employee <span class="fa fa-check"></span></button>
+                                    <button type="button" class="btn btn-danger" onclick="$('#employeeModal').modal('hide');">Close <span class="fa fa-close"></span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <md-list-item class="md-3-line rrList" ng-repeat="x in employee">
                     <div id="rrListDiv">
                         <span class="employeeName">{{x.Name}}</span>
@@ -164,6 +190,14 @@ app.controller('employeeController', function($scope, $http, $mdDialog, SweetAle
         var fields = [{"name": "picture", "data": $scope.picture}];
         fileUpload.uploadFileAndFieldsToUrl(file, fields, uploadUrl);
     };
+
+    $scope.deleteEmployee = function(){
+        $http.post('../queries/insert/deleteEmployee.php', {
+            'employeeId': $scope.employeeModel
+        }).then(function(data, status){
+            $scope.init();
+        })
+    }
 
     $scope.init = function () {
         $http.get("../queries/get/getEmployee.php").then(function (response) {
