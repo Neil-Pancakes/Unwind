@@ -7,6 +7,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   
+  
   <script src="../includes/js/angular.min.js"></script>
   <script src="../includes/js/angular-animate.min.js"></script>
   <script src="../includes/js/angular-aria.min.js"></script>
@@ -15,7 +16,10 @@
   <script src="../includes/js/moment.js"></script>
   <script src="../bower_components/angular-pusher/angular-pusher.min.js" type="text/javascript"></script>
   <script src="../includes/js/SweetAlert.min.js"></script>
-  <script src="../includes/js/sweetalert2.min.js"></script>
+  <script src="../includes/js/sweetalert.js"></script>
+  <script src="../includes/js/Chart.min.js"></script>
+  <script src="../includes/js/angular-chart.min.js"></script>
+  <script src='../includes/js/loading-bar.min.js' type='text/javascript'></script>
   
   <link rel="stylesheet" href="../includes/css/style.css">
   <link rel="stylesheet" href="../includes/css/bootstrap.min.css">
@@ -23,58 +27,45 @@
   <link rel="stylesheet" href="../includes/css/ionicons.min.css">
   <link rel="stylesheet" href="../includes/css/AdminLTE.min.css">
   <link rel="stylesheet" href="../includes/css/skins/_all-skins.min.css">
-  <link rel="stylesheet" href="../includes/css/sweetalert2.min.css">
+  <link rel="stylesheet" href="../includes/css/sweetalert.css">
+  <link rel='stylesheet' href='../includes/css/loading-bar.min.css' type='text/css' media='all' />
   <!--<link rel="stylesheet" href="../https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
   
   
   <link rel="stylesheet" href="../includes/css/angular-material.min.css">
 </head>
-<body  >
+<body style="background-image:url('../includes/img/rumah/rumah3.jpg'); background-size:100% 100%;">
 	<div ng-app="unwindApp" >
 		<div ng-controller="loginCtrl">
-			<div>
-				<div class="login-box">
-          <div class="login-logo">
-            <b>Unwind</b>
+			
+      <div class="container">
+          <div class="card card-container" style="opacity:0.9;">
+              <img id="profile-img" class="profile-img-card" src="../includes/img/logo2.png" />
+              <p id="profile-name" class="profile-name-card"></p>
+              <form class="form-signin" ng-submit="checkUser()">
+                  <span id="reauth-email" class="reauth-email"></span>
+                  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" ng-model="email" required autofocus>
+                  <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="password" required>
+                  
+                  <button class="btn btn-lg btn-primary btn-block btn-signin" style="background-color:#800300" type="submit">Sign in</button>
+              </form>
           </div>
-					<md-content>
-						<div>
-					         	<!-- /.box-header -->
-					        	<!-- form start -->
-					        <div class="login-box-body">
-					        <form ng-submit="checkUser()">
-                    <md-input-container>
-                      <label>Email</label>
-                      <input type="text" id="username" class="form-control" ng-model="email" required>
-                    </md-input-container>
-                    <md-input-container>
-                      <label>Password</label>
-                      <input type="password" id="password" class="form-control" ng-model="password" required>
-                    </md-input-container>
-					            <!-- /.box-body -->
-                      <br>
-					            <button type="submit" class="btn btn-default">Cancel</button>
-					            <button type="submit" class="btn btn-info pull-right">Sign in</button>
-					            <!-- /.box-footer -->
-					        </form>
-					    	</div>
-					    </div>	
-					</md-content>
-				</div>
-			</div>
+      </div>
 		</div>
 	</div>
 </body>
 <script>
-var app = angular.module('unwindApp', ['ngMaterial']);
-app.controller('loginCtrl', function($scope, $http) {
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
+app.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  })
+app.controller('loginCtrl', function($scope, $http, $mdDialog, SweetAlert) {
 	$scope.checkUser = function(){	
     	$http.post('../queries/get/getUser.php', {
             'email': $scope.email,
             'password': $scope.password  
         }).then(function(response){
         	if(response.data==1){
-            alert("Login Successful!");
             window.location.assign("home.php");
           }else{
             alert("Login Failed!");

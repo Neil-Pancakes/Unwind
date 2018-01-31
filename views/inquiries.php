@@ -7,19 +7,33 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="inquiriesController" data-ng-init="init()">
         <md-content>
-            <h3>Inquiries</h3>
-            <md-list flex style="float:left;width:100%;">
-                <md-list-item class="md-3-line rrList" ng-repeat="x in inquiry" style="width:100%;">
-                    <div id="rrListDiv">
-                        <div>
-                            <md-button class="md-raised" style="color:white; background-color:orange; float:right;" data-target="#insertFood" data-toggle="modal">Respond</md-button>
-                            <div>{{x.Name}} ({{x.Month}} {{x.Day}}, {{x.Year}}) </div>
-                            <div>{{x.Message}}</div>
-                        </div>  
-                    </div>       
-                </md-list-item>
-            <md-list>
-        </md-content>
+                <section class="content-header">
+                    <h1>
+                        Inquiries
+                        <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Inquiries</li>
+                    </ol>
+                </section>
+                <div class="box box-primary">
+                    <div class="box-body no-padding">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    <tr ng-repeat="x in inquiry" ng-click="viewThread(x.InquiryId)">
+                                    <td class="mailbox-name"><b>{{x.Name}}</b></td>
+                                        <td class="mailbox-subject"> {{x.Message}}
+                                        </td>
+                                        <td style="float:right;">{{x.Month}} {{x.Day}}, {{x.Year}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+      </md-content>
     </div>  
   </section>
 </div>
@@ -41,7 +55,7 @@ var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'c
 app.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
   })
-app.controller('inquiriesController', function($scope, $http, $mdDialog, SweetAlert) {
+app.controller('inquiriesController', function($scope, $http, $mdDialog, SweetAlert, $window) {
 
     $scope.init = function () {
 
@@ -51,8 +65,8 @@ app.controller('inquiriesController', function($scope, $http, $mdDialog, SweetAl
         });
     };
 
-    $scope.respond = function(){
-      
+    $scope.viewThread = function(id){
+        $window.location.href = 'thread.php?inquiryId='+id;
     };
 });
 </script>

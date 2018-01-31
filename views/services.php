@@ -86,6 +86,7 @@ include '../sidebar.php';
           </md-tab>
           <md-tab label="Service Requests">
             <md-content>
+            <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
               <md-list flex>
                 <md-list-item class="md-3-line rrList" ng-click="null" ng-repeat = "x in requestList track by $index">
                   <div>

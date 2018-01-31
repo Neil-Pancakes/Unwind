@@ -80,10 +80,26 @@ include '../sidebar.php';
         <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
           <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}" ng-click="getRooms(x.FloorId)">
             
-              <md-content class="md-padding" layout-xs="column" layout="row">
+              <md-content class="md-padding" layout="row" ng-repeat = "room in room">
 
-                <div flex-xs flex-gt-xs="50" layout="column" ng-repeat = "room in room">
-                  <md-card md-theme-watch ng-click="getInfo(room.RoomId, room.RoomStatus)" style="{{room.Color}}" data-target="#viewRoom" data-toggle="modal">
+                <div flex-xs flex-gt-xs="50" layout="column">
+                  <md-card ng-if="$index % 4 == 0" md-theme-watch ng-click="getInfo(room.RoomId, room.RoomStatus)" style="{{room.Color}}" data-target="#viewRoom" data-toggle="modal" style="display:inline-block;">
+                    <md-card-title>
+                      <md-card-title-text>
+                        <span ng-if="room.RoomStatus=='Available' || room.RoomStatus=='Occupied'" class="md-headline">Room {{room.RoomNumber}}</span>
+                        <span ng-if="room.RoomStatus=='Unavailable'" class="md-headline" style="color:white;">Room {{room.RoomNumber}} (Unavailable)</span>
+                      </md-card-title-text>
+                      <md-card-title-media>
+                        <div class="md-media-xs card-media">
+                          <img src="{{room.Picture}}" class="logoPic">
+                        </div>
+                        <img src="../includes/img/room-service.png" class="servicePic">
+                        <img src="../includes/img/cleaning.png" class="servicePic" style="margin-right:2%;">
+                      </md-card-title-media>
+                    </md-card-title>
+                  </md-card>
+
+                  <md-card ng-if="$index % 4 !=0" md-theme-watch ng-click="getInfo(room.RoomId, room.RoomStatus)" style="{{room.Color}}" data-target="#viewRoom" data-toggle="modal">
                     <md-card-title>
                       <md-card-title-text>
                         <span ng-if="room.RoomStatus=='Available' || room.RoomStatus=='Occupied'" class="md-headline">Room {{room.RoomNumber}}</span>
