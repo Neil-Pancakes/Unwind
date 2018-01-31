@@ -7,19 +7,13 @@ $result = $mysqli->query("SELECT COUNT(check_in_id)
 FROM `check_in`
 WHERE `MONTH(check_in_start)`= 1");
 $outp = "";
-
-for($x=1;$x <= 12;$x++){
-    $result = $mysqli->query("SELECT COUNT(check_in_id)
-    FROM `check_in`
-    WHERE `MONTH(check_in_start)`= '$x'");
     while($rs = $result->fetch_array(MYSQLI_NUM)) {
     if ($outp != "") {
         $outp .= ",";
     }
     $outp .= '{"Month":"'  . $x . '",';
-    $outp .= '"Number":"'  . $rs[0] . '"';
+    $outp .= '"Number":"'  . $rs[0] . '"}';
     }
-}
 $outp ='{"records":['.$outp.']}';
 $mysqli->close();
 
