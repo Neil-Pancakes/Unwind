@@ -100,7 +100,7 @@ include '../sidebar.php';
         </div>
 
       <md-content>
-        <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
+        <md-tabs md-dynamic-height md-border-bottom class="md-no-animation" md-selected="active">
           <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}" ng-click="getRooms(x.FloorId)">
             <div id="rrListDiv">
                 <md-list-item class="md-3-line" ng-repeat="room in room" data-target="#editRoom" data-toggle="modal" ng-click="editFoodModal(room.RoomId, room.RoomNumber, room.RoomStatus, x.FloorId)">
@@ -185,6 +185,7 @@ app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) 
 
   
     $scope.init = function () {
+      $scope.active = 0;
       $scope.name=$scope.price=$scope.description=$scope.max_child=$scope.max_adult=$scope.room_type_id=$scope.floor_id="";
       $scope.roomSet = {rooms: []};
       $scope.rooms = [];
@@ -208,10 +209,19 @@ app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) 
       });
     };
 
-    $scope.insertFloor = function(){
+    $scope.insertFloor = function(){ //FIX DISPLAY AFTER FLOOR IS INSERTED//
         $http.post('../queries/insert/insertFloor.php', {
             'floor': $scope.floor_number
         }).then(function(data, status){
+            $http.get("../queries/get/getFloor.php").then(function (response) {
+                $scope.floor = response.data.records;
+                $floorList = $scope.floor;
+                $scope.active = ($scope.floor_number-1);
+                $http.get("../queries/get/getRoomPerFloor.php?floorId="+$scope.floor[0].FloorId).then(function (response) {
+                    
+                    $scope.room = response.data.records;
+                });
+            });
             SweetAlert.swal("Success!", "You Created a Floor", "success");
         })
     }
@@ -239,6 +249,8 @@ app.controller('roomController', function($scope, $http, $mdDialog, SweetAlert) 
             $http.get("../queries/get/getRoomPerFloor.php?floorId="+$scope.floor_id).then(function (response) {
                 $scope.room = response.data.records;
             });
+            $scope.active = ($scope.floor_id-1);
+            $scope.name=$scope.price=$scope.description=$scope.max_child=$scope.max_adult=$scope.room_type_id=$scope.floor_id="";
             SweetAlert.swal("Success!", "You Created a Room", "success");
         })
     };
