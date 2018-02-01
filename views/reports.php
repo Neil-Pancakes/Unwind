@@ -21,16 +21,11 @@ include '../sidebar.php';
         <!-- LINE CHART -->
           <div class="box-header with-border">
             <h3 class="box-title">Check-in per month</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
           </div>
           <div class="box-body">
             <div class="chart">
-            <canvas id="line" class="chart chart-line" chart-data="check" chart-labels="checklabels">
-            </canvas>
+              <canvas id="bar" class="chart chart-bar" chart-data="check" chart-labels="checklabels" chart-series="series">
+              </canvas>
             </div>
           </div>
           <!-- /.box-body -->
@@ -39,16 +34,11 @@ include '../sidebar.php';
         <!-- LINE CHART -->
           <div class="box-header with-border">
             <h3 class="box-title">Frequency of Reservation per Room Type</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
           </div>
           <div class="box-body">
             <div class="chart">
-            <canvas id="line" class="chart chart-line" chart-data="rt" chart-labels="rtlabels">
-            </canvas>
+            <canvas id="bar" class="chart chart-bar" chart-data="rt" chart-labels="rtlabels" chart-series="series">
+              </canvas>
             </div>
           </div>
           <!-- /.box-body -->
@@ -58,15 +48,9 @@ include '../sidebar.php';
           <md-tab label="Food Reports">
             <md-content>  
                 <!-- /.col (LEFT) -->
-      <div class="col-md-6">
         <!-- LINE CHART -->
           <div class="box-header with-border">
             <h3 class="box-title">Food Sold</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
           </div>
           <div class="box-body">
             <div class="chart">
@@ -76,8 +60,6 @@ include '../sidebar.php';
           </div>
           <!-- /.box-body -->
         <!-- /.box -->
-
-        </div>
             </md-content>
           </md-tab>
         </md-tabs>     
@@ -108,8 +90,8 @@ app.config(function (ChartJsProvider) {
 });
 app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert) {
   $scope.init = function(){
-  $scope.checklabels = [" "];
-  $scope.check = [0];
+  $scope.checklabels = [];
+  $scope.check = [];
   $scope.foodlabels = [];
   $scope.fooddata = [];
   $scope.rtlabels = [];
@@ -122,6 +104,8 @@ app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert
         $scope.checklabels.push($scope.checkrecords[$x].Month);
         $scope.check.push($scope.checkrecords[$x].Number);
       }
+      $scope.checklabels.push();
+      $scope.check.push(0);
     });
     $http.get('../queries/get/getFoodReport.php').then(function (response) {
       $scope.foodrecords = response.data.records;
