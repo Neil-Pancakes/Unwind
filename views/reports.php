@@ -18,7 +18,6 @@ include '../sidebar.php';
           <md-tab label="Check-in Reports">
             <md-content>  
                 <!-- /.col (LEFT) -->
-      <div class="col-md-6">
         <!-- LINE CHART -->
           <div class="box-header with-border">
             <h3 class="box-title">Check-in per month</h3>
@@ -30,15 +29,30 @@ include '../sidebar.php';
           </div>
           <div class="box-body">
             <div class="chart">
-            <canvas id="line" class="chart chart-line" chart-data="check"
-            chart-labels="checklabels">
+            <canvas id="line" class="chart chart-line" chart-data="check" chart-labels="checklabels">
             </canvas>
             </div>
           </div>
           <!-- /.box-body -->
         <!-- /.box -->
 
-        </div>
+        <!-- LINE CHART -->
+          <div class="box-header with-border">
+            <h3 class="box-title">Frequency of Reservation per Room Type</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="chart">
+            <canvas id="line" class="chart chart-line" chart-data="rt" chart-labels="rtlabels">
+            </canvas>
+            </div>
+          </div>
+          <!-- /.box-body -->
+        <!-- /.box -->
             </md-content>
           </md-tab>
           <md-tab label="Food Reports">
@@ -98,6 +112,8 @@ app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert
   $scope.check = [0];
   $scope.foodlabels = [];
   $scope.fooddata = [];
+  $scope.rtlabels = [];
+  $scope.rt = [];
     $http.get('../queries/get/getCheckinReportByMonth.php').then(function (response) {
       $scope.checkrecords = response.data.records;
 
@@ -117,6 +133,17 @@ app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert
       }
       $scope.foodlabels.push();
       $scope.fooddata.push(0);
+    });
+    $http.get('../queries/get/getMostReservedRoom.php').then(function (response) {
+      $scope.rtrecords = response.data.rtrecords;
+
+      $len=$scope.rtrecords.length;
+      for($x=0;$x<$len;$x++){
+        $scope.rtlabels.push($scope.rtrecords[$x].rtname);
+        $scope.rt.push($scope.rtrecords[$x].rtnum);
+      }
+      $scope.rtlabels.push();
+      $scope.rt.push(0);
     });
   };
 });
