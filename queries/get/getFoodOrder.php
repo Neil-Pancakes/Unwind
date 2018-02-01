@@ -18,6 +18,7 @@ ON `rr`.`reservation_request_id` = `r`.`reservation_request_id`
 INNER JOIn `user_account` `u`
 ON `rr`.`user_id` = `u`.`user_id`
 AND `o`.`food_order_status` = 'Waiting'
+AND `c`.`check_in_end` IS NULL
 ORDER BY `o`.`timestamp_ordered`");
 
 $outp = "";

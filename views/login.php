@@ -39,7 +39,7 @@
 		<div ng-controller="loginCtrl">
 			
       <div class="container">
-          <div class="card card-container" style="opacity:0.9;">
+          <div class="card card-container" style="opacity:0.9; margin-top:12%;">
               <img id="profile-img" class="profile-img-card" src="../includes/img/logo2.png" />
               <p id="profile-name" class="profile-name-card"></p>
               <form class="form-signin" ng-submit="checkUser()">

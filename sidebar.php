@@ -22,11 +22,28 @@
             <span>Reservations</span>
           </a>
         </li>
+        <li id="checkinTab">
+          <a href="checkin.php">
+            <i class="fa fa-folder-open"></i> 
+            <span>Check In</span>
+          </a>
+        </li>
         <li id="servicesTab">
           <a href="services.php">
             <i class="fa fa-wrench"></i> 
             <span>Services</span>
           </a>
+        </li>
+        <li id="foodTab" class="treeview">
+          <a href="#"><i class="fa fa-cutlery"></i> <span>Food</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="menuTab"><a href="menu.php"><i class="fa fa-coffee"></i> <span>Menu</span></a></li>
+            <li id="orderTab"><a href="foodOrders.php"><i class="fa fa-book"></i> <span>Food Order</span></a></li>
+          </ul>
         </li>
         <li id="reportsTab">
           <a href="reports.php">
@@ -45,17 +62,6 @@
             <i class="fa fa-star"></i> 
             <span>Feedback</span>
           </a>
-        </li>
-        <li id="foodTab" class="treeview">
-          <a href="#"><i class="fa fa-cutlery"></i> <span>Food</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li id="menuTab"><a href="menu.php"><i class="fa fa-coffee"></i> <span>Menu</span></a></li>
-            <li id="orderTab"><a href="foodOrders.php"><i class="fa fa-book"></i> <span>Food Order</span></a></li>
-          </ul>
         </li>
         <?php
           if($_SESSION['position']=='Admin'){
@@ -76,7 +82,8 @@
             <i class="fa fa-folder-open"></i> 
             <span>Employee Logs</span>
           </a>
-        </li>';
+        </li>
+        ';
           }
         ?>
         
