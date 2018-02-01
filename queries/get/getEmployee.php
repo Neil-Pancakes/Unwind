@@ -7,6 +7,7 @@ $result = $mysqli->query("SELECT `e`.`employee_id`, `e`.`position`, `e`.`email`,
 `e`.`gender`, `e`.`contact_no`, CONCAT(`e`.`first_Name`,' ', `e`.`middle_initial`, ' ', `e`.`last_name`) AS `name`,
 `e`.`picture`
 FROM `employee` `e`
+WHERE `e`.`isDeleted` = 0
 ORDER BY `e`.`position`");
 $outp = "";
 
