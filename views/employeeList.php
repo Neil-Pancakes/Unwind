@@ -105,7 +105,7 @@ include '../sidebar.php';
                                     </md-input-container>
                                     <br>
                                     <label>Picture</label>
-                                    <input type="file" file-model="myFile"/>
+                                    <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
                                     <input type="text" ng-model="picture" ng-hide="true"></input>
                                     <br>
                                     <br>
@@ -192,7 +192,7 @@ app.controller('employeeController', function($scope, $http, $mdDialog, SweetAle
     };
 
     $scope.deleteEmployee = function(){
-        $http.post('../queries/insert/deleteEmployee.php', {
+        $http.post('../queries/update/deleteEmployee.php', {
             'employeeId': $scope.employeeModel
         }).then(function(data, status){
             $scope.init();
@@ -203,6 +203,13 @@ app.controller('employeeController', function($scope, $http, $mdDialog, SweetAle
         $http.get("../queries/get/getEmployee.php").then(function (response) {
            $scope.employee = response.data.records;
         });
+    };
+
+    $scope.uploadFile = function(files) {
+    var fd = new FormData();
+    //Take the first selected file
+    fd.append("file", files[0]);
+    console.log(fd.get("file"));
     };
 
     $scope.createEmployee = function(){
