@@ -24,21 +24,50 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="reservationController" data-ng-init="init()">
       <md-content>
-      <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
-        <md-list-item class="md-3-line rrList" ng-repeat="x in pending">
-            <div id="rrListDiv">
-                <h3>{{x.Name}}</h3>
-                <span>{{x.CheckInMonth}} {{x.CheckInDay}}, {{x.CheckInYear}} - {{x.CheckOutMonth}} {{x.CheckOutDay}}, {{x.CheckOutYear}}</span>
-                <br>
-                <span>Adults: {{x.AdultQty}}</span>
-                <br>
-                <span>Children: {{x.ChildQty}}
-                <div class="acceptrejectDiv">
-                    <button class="btn btn-success" ng-click="acceptReservation(x.ReservationRequestId)">Accept</button>
-                    <button class="btn btn-danger" ng-click="rejectReservation(x.ReservationRequestId)">Reject</button>
-                </div>
-            </div>       
-        </md-list-item>
+      <md-tabs md-dynamic-height md-border-bottom>
+        
+        <md-tab label="Pending Reservation Requests">
+            <md-content>
+                
+                <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
+                <md-list-item class="md-3-line rrList" ng-repeat="x in pending">
+                    <div id="rrListDiv">
+                        <h3>{{x.Name}}</h3>
+                        <span>{{x.CheckInMonth}} {{x.CheckInDay}}, {{x.CheckInYear}} - {{x.CheckOutMonth}} {{x.CheckOutDay}}, {{x.CheckOutYear}}</span>
+                        <br>
+                        <span>Adults: {{x.AdultQty}}</span>
+                        <br>
+                        <span>Children: {{x.ChildQty}}
+                        <div class="acceptrejectDiv">
+                            <button class="btn btn-success" ng-click="acceptReservation(x.ReservationRequestId)">Accept</button>
+                            <button class="btn btn-danger" ng-click="rejectReservation(x.ReservationRequestId)">Reject</button>
+                        </div>
+                    </div>       
+                </md-list-item>
+    
+            </md-content>
+          </md-tab>
+
+          <md-tab label="Upcoming Reservations">
+            <md-content>
+                <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
+                <md-list-item class="md-3-line rrList" ng-repeat="x in checkin">
+                    <div id="rrListDiv">
+                        <h3>{{x.Name}}</h3>
+                        <span>{{x.CheckInMonth}} {{x.CheckInDay}}, {{x.CheckInYear}} - {{x.CheckOutMonth}} {{x.CheckOutDay}}, {{x.CheckOutYear}}</span>
+                        <br>
+                        <span>Adults: {{x.AdultQty}}</span>
+                        <br>
+                        <span>Children: {{x.ChildQty}}
+                        <div class="acceptrejectDiv">
+                            <md-button class="md-raised md-primary" ng-click="checkinReservation(x.ReservationId)">Check-In</md-button>
+                            <md-button style="background-color:red; color:white;" ng-click="cancelReservation(x.ReservationId)">Cancel</md-button>
+                        </div>
+                    </div>       
+                </md-list-item>
+            </md-content>
+          </md-tab>
+      </md-tabs>
       </md-content>
     </div>  
   </section>
@@ -63,66 +92,21 @@ app.config(function(cfpLoadingBarProvider) {
   })
 app.controller('reservationController', function($scope, $http, $mdDialog, SweetAlert) {
 
-    /*
-    $pusher = new Pusher('c6d79884ae59d5152965', '5c63ac5939edc6da56dd', '449720');
-	var notificationsChannel = pusher.subscribe('notifications');
-	notificationsChannel.bind('new_notification', function(notification){
-		var message = notification.message;
-		toastr.success(message)
-	});
-	var sendNotification = function(){
-		var text = $('input.create-notification').val();
-		$.post('/notification', {message: text}).success(function(){
-			console.log('Notification sent!');
-		});
-	};
-	
-	$('button.submit-notification').on('click', sendNotification);
-	
-
-    Pusher.subscribe('items', 'updated', function (item) {
-    // an item was updated. find it in our list and update it.
-        for (var i = 0; i < $scope.items.length; i++) {
-        if ($scope.items[i].id === item.id) {
-            $scope.items[i] = item;
-            break;
-        }
-        }
-    });
-
-    var retrieveItems = function () {
-    // get a list of items from the api located at '/api/items'
-        $http.get('../queries/get/getPendingReservations.php').then(function (items) {
-            $scope.items = items;
-        });
-    };
-
-    $scope.updateItem = function (item) {
-        $http.post('../queries/get/getPendingReservations.php', item);
-     };
-
-    retrieveItems();
-*/
     $scope.init = function () {
         $http.get("../queries/get/getPendingReservations.php").then(function (response) {
            $scope.pending = response.data.records;
            
         });
+        $http.get("../queries/get/getUpcomingCheckIn.php").then(function (response){
+                $scope.checkin = response.data.records;
+            })
     };
-    /*
-    $interval(function(){
-        $scope.init();
-    }, 5000);*/
 
     $scope.acceptReservation = function($id){
         $http.post('../queries/update/acceptReservationRequest.php', {
             'id': $id,
         }).then(function(data, status){
             $scope.insertReservation($id);
-            $http.get("../queries/get/getAvailableRoomsByTypeLimited.php").then(function (response) {
-                $scope.pending = response.data.records;
-           
-            });
             $http.get("../queries/get/getPendingReservations.php").then(function (response) {
                 $scope.pending = response.data.records;
                 
@@ -142,6 +126,42 @@ app.controller('reservationController', function($scope, $http, $mdDialog, Sweet
             SweetAlert.swal("Success!", "You Rejected the Request", "error");
         })
     };
+
+    $scope.checkinReservation = function($id){
+        $http.post('../queries/update/checkinReservation.php', {
+            'id': $id,
+        }).then(function(data, status){
+            $http.post('../queries/insert/insertCheckIn.php', {
+                'id': $id,
+            }).then(function(data, status){
+                
+                $http.get("../queries/get/getPendingReservations.php").then(function (response) {
+                    $scope.pending = response.data.records;
+                });
+                $http.get("../queries/get/getUpcomingCheckIn.php").then(function (response){
+                    $scope.checkin = response.data.records;
+                })
+            })
+            SweetAlert.swal("Success!", "Guest was checked in!", "success");
+        })
+    };
+
+    $scope.cancelReservation = function($id){
+        $http.post('../queries/update/cancelReservation.php', {
+            'id': $id,
+        }).then(function(data, status){
+            $http.get("../queries/get/getPendingReservations.php").then(function (response) {
+                $scope.pending = response.data.records;
+           
+            });
+            
+            $http.get("../queries/get/getUpcomingCheckIn.php").then(function (response){
+                $scope.checkin = response.data.records;
+            })
+            SweetAlert.swal("Success!", "You cancelled his reservation!", "error");
+        })
+    };
+
 
     $scope.insertReservation = function($id){
         $http.post('../queries/insert/insertReservation.php', {
