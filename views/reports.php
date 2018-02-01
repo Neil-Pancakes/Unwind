@@ -7,24 +7,21 @@ include '../sidebar.php';
     <section class="content-header">
       <h1>
         Reports
+        <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
       </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
-    <md-tabs md-dynamic-height md-border-bottom>
-        
-        <md-tab label="Monthly Reports" ng-click="">
-            <md-content>
-                
-      <div class="row">
-      
-      <!-- /.col (LEFT) -->
+    <md-content>
+      <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
+          <md-tab label="Check-in Reports">
+            <md-content>  
+                <!-- /.col (LEFT) -->
       <div class="col-md-6">
         <!-- LINE CHART -->
-        <div class="box box-info">
           <div class="box-header with-border">
-            <h3 class="box-title">Check-in</h3>
+            <h3 class="box-title">Check-in per month</h3>
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
@@ -39,14 +36,16 @@ include '../sidebar.php';
             </div>
           </div>
           <!-- /.box-body -->
-        </div>
         <!-- /.box -->
 
         </div>
-
-        <div class="col-md-6">
+            </md-content>
+          </md-tab>
+          <md-tab label="Food Reports">
+            <md-content>  
+                <!-- /.col (LEFT) -->
+      <div class="col-md-6">
         <!-- LINE CHART -->
-        <div class="box box-info">
           <div class="box-header with-border">
             <h3 class="box-title">Food Sold</h3>
             <div class="box-tools pull-right">
@@ -57,24 +56,18 @@ include '../sidebar.php';
           </div>
           <div class="box-body">
             <div class="chart">
-            <canvas id="line" class="chart chart-line" chart-data="fooddata"
-            chart-labels="foodlabels">
-            </canvas>
+              <canvas id="bar" class="chart chart-bar" chart-data="fooddata" chart-labels="foodlabels" chart-series="series">
+              </canvas>
             </div>
           </div>
           <!-- /.box-body -->
-        </div>
         <!-- /.box -->
 
         </div>
-
-        </div>
-    
             </md-content>
           </md-tab>
-          
-      <md-tabs>
-
+        </md-tabs>     
+        </md-content>
       </section>
     </div>  
 </div>
@@ -101,22 +94,29 @@ app.config(function (ChartJsProvider) {
 });
 app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert) {
   $scope.init = function(){
-  $scope.series = ['Series A', 'Series B'];
-    $scope.checklabels = [];
-  $scope.check = [];
+  $scope.checklabels = [" "];
+  $scope.check = [0];
   $scope.foodlabels = [];
   $scope.fooddata = [];
-    $http.get('../queries/get/getReportByMonth.php').then(function (response) {
-      $scope.records = response.data.records;
+    $http.get('../queries/get/getCheckinReportByMonth.php').then(function (response) {
+      $scope.checkrecords = response.data.records;
 
-      $len=$scope.records.length;
+      $len=$scope.checkrecords.length;
       for($x=0;$x<$len;$x++){
-        $scope.checklabels.push($scope.records[$x].Month);
-        $scope.check.push($scope.records[$x].Number);
-        console.log("Month:"+$scope.records[$x].Month+"||Number:"+$scope.records[$x].Number);
-        $scope.foodlabels.push($scope.records[$x].FoodMonth);
-        $scope.fooddata($scope.records[$x].FoodAmount);
+        $scope.checklabels.push($scope.checkrecords[$x].Month);
+        $scope.check.push($scope.checkrecords[$x].Number);
       }
+    });
+    $http.get('../queries/get/getFoodReport.php').then(function (response) {
+      $scope.foodrecords = response.data.records;
+
+      $len=$scope.foodrecords.length;
+      for($x=0;$x<$len;$x++){
+        $scope.foodlabels.push($scope.foodrecords[$x].FoodName);
+        $scope.fooddata.push($scope.foodrecords[$x].FoodAmount);
+      }
+      $scope.foodlabels.push();
+      $scope.fooddata.push(0);
     });
   };
 });
