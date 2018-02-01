@@ -48,7 +48,7 @@ include '../sidebar.php';
         <!-- LINE CHART -->
         <div class="box box-info">
           <div class="box-header with-border">
-            <h3 class="box-title">Check-in</h3>
+            <h3 class="box-title">Food Sold</h3>
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
@@ -57,8 +57,8 @@ include '../sidebar.php';
           </div>
           <div class="box-body">
             <div class="chart">
-            <canvas id="line" class="chart chart-line" chart-data="data"
-            chart-labels="labels">
+            <canvas id="line" class="chart chart-line" chart-data="fooddata"
+            chart-labels="foodlabels">
             </canvas>
             </div>
           </div>
@@ -101,9 +101,11 @@ app.config(function (ChartJsProvider) {
 });
 app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert) {
   $scope.init = function(){
-    $scope.checklabels = [];
   $scope.series = ['Series A', 'Series B'];
+    $scope.checklabels = [];
   $scope.check = [];
+  $scope.foodlabels = [];
+  $scope.fooddata = [];
     $http.get('../queries/get/getReportByMonth.php').then(function (response) {
       $scope.records = response.data.records;
 
@@ -112,6 +114,8 @@ app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert
         $scope.checklabels.push($scope.records[$x].Month);
         $scope.check.push($scope.records[$x].Number);
         console.log("Month:"+$scope.records[$x].Month+"||Number:"+$scope.records[$x].Number);
+        $scope.foodlabels.push($scope.records[$x].FoodMonth);
+        $scope.fooddata($scope.records[$x].FoodAmount);
       }
     });
   };
