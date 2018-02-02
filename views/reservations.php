@@ -39,8 +39,9 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
                         <br>
                         <span>Children: {{x.ChildQty}}
                         <div class="acceptrejectDiv">
-                            <button class="btn btn-success" ng-click="acceptReservation(x.ReservationRequestId)">Accept</button>
-                            <button class="btn btn-danger" ng-click="rejectModal(x.ReservationRequestId)" data-target="#reject" data-toggle="modal">Reject</button>
+                            <button class="btn btn-info" ng-click="getRooms(x.ReservationRequestId)" data-target="#viewRoom" data-toggle="modal">View Rooms <span class="fa fa-eye"></span></button>
+                            <button class="btn btn-success" ng-click="acceptReservation(x.ReservationRequestId)">Accept <span class="fa fa-check"></span></button>
+                            <button class="btn btn-danger" ng-click="rejectModal(x.ReservationRequestId)" data-target="#reject" data-toggle="modal">Reject <span class="fa fa-close"></span></button>
                         </div>
                     </div>       
                 </md-list-item>
@@ -60,8 +61,8 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
                         <br>
                         <span>Children: {{x.ChildQty}}
                         <div class="acceptrejectDiv">
-                            <md-button class="md-raised md-primary" ng-click="checkinReservation(x.ReservationId)">Check-In</md-button>
-                            <md-button style="background-color:red; color:white;" ng-click="cancelReservation(x.ReservationId)">Cancel</md-button>
+                            <md-button class="md-raised md-primary" ng-click="checkinReservation(x.ReservationId)">Check-In <span class="fa fa-calendar"></span></md-button>
+                            <md-button style="background-color:red; color:white;" ng-click="cancelReservation(x.ReservationId)">Cancel Reservation <span class="fa fa-close"></span></md-button>
                         </div>
                     </div>       
                 </md-list-item>
@@ -82,11 +83,35 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
                                     <textarea class="form-control" placeholder="Why did you reject the Reservation?" ng-model="mod.Message" required></textarea>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-warning" onclick="$('#reject').modal('hide');">Reject the request <span class="fa fa-edit"></span></button>
+                                    <button type="submit" class="btn btn-warning" onclick="$('#reject').modal('hide');">Reject the request <span class="fa fa-calendar-minus-o"></span></button>
                                     <button type="button" class="btn btn-danger" onclick="$('#reject').modal('hide');">Close <span class="fa fa-close"></span></button>
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+
+                
+      <div id="viewRoom" class="modal fade" role="dialog" ng-cloak>
+                    <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#00ffff; color:white;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h2>Rooms to Reserve</h2>
+                                </div>
+                                <div class="modal-body">
+                                <md-list>
+                                    <md-list-item ng-repeat="room in rooms">
+                                    <img ng-src="{{room.Picture}}" class="roomListPic"/>
+                                    <h4>Room: {{ room.RoomNumber }}</h4>
+                                    
+                                    </md-list-item>
+                                </md-list>
+                                </div>
+                                <div class="modal-footer">
+                                   <button type="button" class="btn btn-danger" onclick="$('#viewRoom').modal('hide');">Close <span class="fa fa-close"></span></button>
+                                </div>
+                            </div>
                     </div>
                 </div>
       </md-content>
@@ -112,16 +137,24 @@ app.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
   })
 app.controller('reservationController', function($scope, $http, $mdDialog, SweetAlert) {
-
+    
     $scope.init = function () {
         $http.get("../queries/get/getPendingReservations.php").then(function (response) {
            $scope.pending = response.data.records;
-           
+           for($x=0; $x<$scope.pending.length; $x++){
+           }
         });
         $http.get("../queries/get/getUpcomingCheckIn.php").then(function (response){
                 $scope.checkin = response.data.records;
             })
     };
+
+    $scope.getRooms = function ($id){
+        $http.get("../queries/get/getRoomsReservedFromRR.php?rrId="+$id).then(function (response){
+                    $scope.rooms = response.data.records;
+                    
+                })
+    }
 
     $scope.acceptReservation = function($id){
         $http.post('../queries/update/acceptReservationRequest.php', {

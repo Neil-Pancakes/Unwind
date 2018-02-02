@@ -22,7 +22,7 @@ include '../sidebar.php';
                       <span>Children: {{x.ChildQty}}
                       <div class="acceptrejectDiv">
                           <md-button ng-click="checkoutModal(x.ReservationId, x.CheckInId, x.Name, x.CheckInMonth, x.CheckInDay, x.CheckInYear, 
-                          x.CheckOutMonth, x.CheckOutDay, x.CheckOutYear, x.AdultQty, x.ChildQty)" style="background-color:red; color:white;" data-target="#checkout" data-toggle="modal">Check-Out</md-button>
+                          x.CheckOutMonth, x.CheckOutDay, x.CheckOutYear, x.AdultQty, x.ChildQty)" style="background-color:red; color:white;" data-target="#checkout" data-toggle="modal">Check-Out <span class="fa fa-calendar-times-o"></span></md-button>
                       </div>
                   </div>       
               </md-list-item>
@@ -176,7 +176,7 @@ include '../sidebar.php';
     </section>
   </div>
                         <div class="modal-footer">
-                          <md-button style="background-color:red; color:white;" ng-click="checkout(mod.ResId, mod.CheckInId)">Check-Out</md-button>
+                          <md-button style="background-color:red; color:white;" ng-click="checkout(mod.ResId, mod.CheckInId)">Check-Out <span class="fa fa-calendar-times-o"></span></md-button>
                         </div>
                     </div>
             </div>
@@ -264,7 +264,7 @@ app.controller('checkinController', function($scope, $http, $mdDialog, SweetAler
     $http.get("../queries/get/getAllFoodOrderFromCheckIn.php?check_in_id="+$checkin).then(function(response){
       $scope.mod.food = response.data.records;
       for($x=0; $x<$scope.mod.food.length; $x++){
-        $scope.total += parseFloat($scope.mod.room[$x].Total);
+        $scope.total += parseFloat($scope.mod.food[$x].Price);
       }
     })
   }
