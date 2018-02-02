@@ -19,11 +19,11 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
         $outp .= ",";
     }
     if($rs["room_status"] == 'Available'){
-        $color = "background-color:#ffffff;";
+        $color = "background-color:#01A7C2;";
     }else if($rs["room_status"] == 'Occupied'){
-        $color = "background-color:#d9d9d9;";
+        $color = "background-color:#0d2149;";
     }else{
-        $color = "background-color:#000000;";
+        $color = "background-color:#016fb9;";
     }
     $outp .= '{"RoomId":"'  . $rs["room_id"] . '",';
     $outp .= '"RoomNumber":"'  . $rs["room_number"] . '",';

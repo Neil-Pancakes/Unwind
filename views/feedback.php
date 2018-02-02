@@ -7,26 +7,47 @@ include '../sidebar.php';
   <section class="content" ng-app="unwindApp">
     <div ng-cloak ng-controller="feedbackController" data-ng-init="init()">
         <md-content>
-            <md-list flex>
-                <md-list-item class="md-3-line rrList" ng-click="null" ng-repeat = "x in feedback track by $index">
-                    <div>
-                        <div>{{x.Name}}</div>
-                        <div>{{x.Comment}}</div>
-                        <img ng-if="x.Rating>0" src="../includes/img/star.png" style="height:32px; width:32px;">
-                        <img ng-if="x.Rating>1" src="../includes/img/star.png" style="height:32px; width:32px;">
-                        <img ng-if="x.Rating>2" src="../includes/img/star.png" style="height:32px; width:32px;">
-                        <img ng-if="x.Rating>3" src="../includes/img/star.png" style="height:32px; width:32px;">
-                        <img ng-if="x.Rating>4" src="../includes/img/star.png" style="height:32px; width:32px;">
-                        
-                        <img ng-if="x.Rating<5" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
-                        <img ng-if="x.Rating<4" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
-                        <img ng-if="x.Rating<3" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
-                        <img ng-if="x.Rating<2" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
-                        <img ng-if="x.Rating<1" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
-                        
-                    </div>
-                </md-list-item>
-            <md-list>        
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Summary" ng-click="">
+                <md-content>
+                    <md-list flex>
+                        <md-list-item class="md-3-line" ng-repeat = "x in cnt track by $index">
+                            <div>
+                                <img src="../includes/img/star.png" style="height:32px; width:32px;">
+                                <img src="../includes/img/star.png" style="height:32px; width:32px;">
+                                <img src="../includes/img/star.png" style="height:32px; width:32px;">
+                                <img src="../includes/img/star.png" style="height:32px; width:32px;">
+                                <img src="../includes/img/star.png" style="height:32px; width:32px;">
+                                
+                            </div>
+                        </md-list-item>
+                    <md-list>        
+                </md-content>
+            </md-tab>
+            <md-tab label="Feedback List" ng-click="">
+                <md-content>
+                    <md-list flex>
+                        <md-list-item class="md-3-line rrList" ng-click="null" ng-repeat = "x in feedback track by $index">
+                            <div>
+                                <div>{{x.Name}}</div>
+                                <div>{{x.Comment}}</div>
+                                <img ng-if="x.Rating>0" src="../includes/img/star.png" style="height:32px; width:32px;">
+                                <img ng-if="x.Rating>1" src="../includes/img/star.png" style="height:32px; width:32px;">
+                                <img ng-if="x.Rating>2" src="../includes/img/star.png" style="height:32px; width:32px;">
+                                <img ng-if="x.Rating>3" src="../includes/img/star.png" style="height:32px; width:32px;">
+                                <img ng-if="x.Rating>4" src="../includes/img/star.png" style="height:32px; width:32px;">
+                                
+                                <img ng-if="x.Rating<5" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
+                                <img ng-if="x.Rating<4" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
+                                <img ng-if="x.Rating<3" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
+                                <img ng-if="x.Rating<2" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
+                                <img ng-if="x.Rating<1" src="../includes/img/star-empty.png" style="height:32px; width:32px;">
+                                
+                            </div>
+                        </md-list-item>
+                    <md-list>        
+                </md-content>
+            </md-tab>
         </md-content>
     </div>  
   </section>
@@ -48,9 +69,13 @@ var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'c
 app.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
   })
+
 app.controller('feedbackController', function($scope, $http, $mdDialog, SweetAlert) {
 
     $scope.init = function () {
+        $http.get("../queries/get/getFeedbackRatingCount.php").then(function (response){
+            $scope.cnt = response.data.records;
+        });
 
         $http.get("../queries/get/getFeedback.php").then(function (response){
             $scope.feedback = response.data.records;
