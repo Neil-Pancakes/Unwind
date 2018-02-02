@@ -1,26 +1,93 @@
 <?php
-// connect to FTP server
-$ftp_server = "files.000webhost.com";
-$ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
-
-// login
-if (@ftp_login($ftp_conn, "unwindv2", "fluffy1221"))
-  {
-  echo "Connection established.";
-  ftp_put($ftp_conn,"/public_html/pics/bacon1.jpg","C:/xampp/htdocs/Unwind/includes/img/menu/bacon1.jpg",FTP_BINARY);
-  $file_list = ftp_nlist($ftp_conn, "/public_html/pics/");
-  echo "<script>console.log('".$file_list["2"]."')</script>";
-  }
-else
-  {
-  echo "Couldn't establish a connection.";
-  }
-
-// do something...
-
-// close connection
-ftp_close($ftp_conn); 
+require ("../header.php");
+include '../sidebar.php';
 ?>
+ <!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <section class="content" ng-app="unwindApp">
+    <div ng-cloak ng-controller="employeeController" data-ng-init="init()">
+      <md-content>
+        
+                        <div class="file-upload">
+					        <input type="file" file-model="myFile"/>
+					        <button ng-click="uploadFile()">upload me</button>
+					    </div>
+                    
+            </md-content>
+          </md-tab>
+        </md-tabs>
+
+      </md-content>
+    </div>  
+  </section>
+</div>
+
+<?php
+include '../footer.php';
+include '../control_sidebar.php';
+?>
+<!-- End of div wrapper-->
+</div>
+<!-- End of body-->
+</body>
+
+
+<script>
+var active = angular.element( document.querySelector( '#employeeTab' ) );
+active.addClass('active');
+
+var app = angular.module('unwindApp', ['ngMaterial', 'oitozero.ngSweetAlert', 'chieffancypants.loadingBar', 'ngAnimate']);
+app.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+  })
+
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+        var model = $parse(attrs.fileModel);
+        var modelSetter = model.assign;
+
+        element.bind('change', function(){
+            scope.$apply(function(){
+                modelSetter(scope, element[0].files[0]);
+            });
+        });
+    }
+   };
+}]);
+
+// We can write our own fileUpload service to reuse it in the controller
+app.service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function(file){
+         var fd = new FormData();
+         fd.append('file', file);
+         $http.post('../queries/insert/insertPicture.php', fd, {
+             transformRequest: angular.identity,
+             headers: {'Content-Type': undefined,'Process-Data': false}
+         })
+         .success(function(){
+            console.log("Success");
+         })
+         .error(function(){
+            console.log("Success");
+         });
+     }
+ }]);
+
+app.controller('employeeController', function($scope, $http, $mdDialog, SweetAlert) {
+   
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.log('file is ' );
+        console.dir(file);
+
+        fileUpload.uploadFileToUrl(file);
+   };
+});
+
+</script>
+
 <?php
 // require ("../header.php");
 // include '../sidebar.php';
