@@ -16,8 +16,7 @@ INNER JOIN `reservation` `r`
 ON `rr`.`reservation_request_id` = `r`.`reservation_request_id`
 INNER JOIN `check_in` `c`
 ON `r`.`reservation_id` = `c`.`reservation_id`
-AND `r`.`reservation_status` = 'Checked-in'
-GROUP BY `u`.`user_id`");
+AND `r`.`reservation_status` = 'Checked-in'");
 
 $outp = "";
 while($rs = $result->fetch_array(MYSQLI_ASSOC)) {

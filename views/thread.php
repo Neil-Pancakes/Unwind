@@ -13,7 +13,7 @@ include '../sidebar.php';
               <div ng-if="x.EmployeeId==''" class="box-body no-padding">
                 <div class="mailbox-read-info">
                   <h3>From: {{x.Name}}</h3>
-                  <h5><span class="mailbox-read-time">15 Feb. 2016 11:03 PM</span></h5>
+                  <h5><span class="mailbox-read-time">{{x.Month}} {{x.Day}}, {{x.Year}} ({{x.Time}})</span></h5>
                 </div>
                 <div class="mailbox-read-message">
                   <p>{{x.Message}}</p>
@@ -24,7 +24,7 @@ include '../sidebar.php';
               <div ng-if="x.EmployeeId!=''" class="box-body no-padding" style="float:right;">
                 <div class="mailbox-read-info">
                   <h3>From: Employee</h3>
-                  <h5><span class="mailbox-read-time">15 Feb. 2016 11:03 PM</span></h5>
+                  <h5><span class="mailbox-read-time">{{x.Month}} {{x.Day}}, {{x.Year}} ({{x.Time}})</span></h5>
                 </div>
                 <div class="mailbox-read-message">
                   <p>{{x.Message}}</p>

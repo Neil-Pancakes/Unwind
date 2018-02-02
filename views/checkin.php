@@ -21,7 +21,8 @@ include '../sidebar.php';
                       <br>
                       <span>Children: {{x.ChildQty}}
                       <div class="acceptrejectDiv">
-                          <md-button style="background-color:red; color:white;" ng-click="checkout(x.ReservationId, x.CheckInId)">Check-Out</md-button>
+                          <md-button ng-click="checkoutModal(x.ReservationId, x.CheckInId, x.Name, x.CheckInMonth, x.CheckInDay, x.CheckInYear, 
+                          x.CheckOutMonth, x.CheckOutDay, x.CheckOutYear, x.AdultQty, x.ChildQty)" style="background-color:red; color:white;" data-target="#checkout" data-toggle="modal">Check-Out</md-button>
                       </div>
                   </div>       
               </md-list-item>
@@ -79,6 +80,107 @@ include '../sidebar.php';
             </md-content>
           </md-tab>
       </md-tabs>
+      
+      <div id="checkout" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header createRoom">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2>Check-Out Invoice</h2>
+                        </div>
+                        <div class="modal-body">
+                            
+    <section class="invoice">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="page-header">
+            {{mod.Name}}
+          </h2>
+        </div>
+      </div>
+      <div class="row invoice-info">
+        <div class="col-sm-4 invoice-col">
+          From
+          <address>
+            {{mod.CheckInMonth}} {{mod.CheckInDay}}, {{mod.CheckInYear}}
+          </address>
+        </div>
+        <div class="col-sm-4 invoice-col">
+          To
+          <address>
+            {{mod.CheckOutMonth}} {{mod.CheckOutDay}}, {{mod.CheckOutYear}}
+          </address>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Room</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="room in mod.room">
+                <td>{{room.Name}}</td>
+                <td>{{room.Count}}</td>
+                <td>{{room.Price}}</td>
+                <td>{{room.Description}}</td>
+                <td>{{room.Total}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Timestamp Ordered</th>
+                <th>Order Completed</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="food in mod.food">
+                <td>{{food.TimestampOrdered}}</td>
+                <td>{{food.ResponseTime}}</td>
+                <td>{{food.Price}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+       
+        <div class="col-xs-6">
+          <p class="lead">Amount Due</p>
+
+          <div class="table-responsive">
+            <table class="table">
+              <tr>
+                <th>Total:</th>
+                <td>{{total}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+  </div>
+                        <div class="modal-footer">
+                          <md-button style="background-color:red; color:white;" ng-click="checkout(mod.ResId, mod.CheckInId)">Check-Out</md-button>
+                        </div>
+                    </div>
+            </div>
+        </div>
       </md-content>
     </div>  
   </section>
@@ -102,11 +204,29 @@ app.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
   })
 app.controller('checkinController', function($scope, $http, $mdDialog, SweetAlert) {
+  $scope.mod = {
+        $ResId: "",
+        $CheckInId: "",
+        $Name: "",
+        $CheckInMonth: "",
+        $CheckInDay: "",
+        $CheckInYear: "",
+        $CheckOutMonth: "",
+        $CheckOutDay: "",
+        $CheckOutYear: "",
+        $AdultQty: "",
+        $ChildQty: "",
+        $CheckInYear: "",
+        $room: "",
+        $food: ""
+    };
+
   $scope.init = function(){
     $http.get("../queries/get/getCurrentlyCheckedIn.php").then(function (response){
       $scope.checkin = response.data.records;
     })
   };
+<<<<<<< HEAD
   $scope.registerUser = function(){ 
       $http.post('../queries/insert/registerUser.php', {
             'password':$scope.password,
@@ -122,6 +242,36 @@ app.controller('checkinController', function($scope, $http, $mdDialog, SweetAler
           window.location.assign("login.php");
         })
     };
+=======
+
+  $scope.checkoutModal = function($res, $checkin, $name, $cimonth, $ciday, $ciyear, $comonth, $coday, $coyear, $adult, $child){
+    $scope.mod.ResId = $res;
+    $scope.mod.CheckInId = $checkin;
+    $scope.mod.Name = $name;
+    $scope.mod.CheckInMonth = $cimonth;
+    $scope.mod.CheckInDay = $ciday;
+    $scope.mod.CheckInYear = $ciyear;
+    $scope.mod.CheckOutMonth = $comonth;
+    $scope.mod.CheckOutDay = $coday;
+    $scope.mod.CheckOutYear = $coyear;
+    $scope.mod.AdultQty = $adult;
+    $scope.mod.ChildQty = $child;
+    $scope.total = 0;
+    $http.get("../queries/get/getRoomReservedFromCheckIn.php?check_in_id="+$checkin).then(function(response){
+      $scope.mod.room = response.data.records;
+      for($x=0; $x<$scope.mod.room.length; $x++){
+        $scope.total += parseFloat($scope.mod.room[$x].Total);
+      }
+    })
+    $http.get("../queries/get/getAllFoodOrderFromCheckIn.php?check_in_id="+$checkin).then(function(response){
+      $scope.mod.food = response.data.records;
+      for($x=0; $x<$scope.mod.food.length; $x++){
+        $scope.total += parseFloat($scope.mod.room[$x].Total);
+      }
+    })
+  }
+
+>>>>>>> 68dcaaeb96c5a89c4ea3e332cbc89b461a9168e2
   $scope.checkout = function($res, $checkin){
     $http.post("../queries/update/checkoutReservation.php", {
       'id': $res
