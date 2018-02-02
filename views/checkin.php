@@ -30,7 +30,52 @@ include '../sidebar.php';
 
           <md-tab label="Create a Check-in" ng-click="">
             <md-content>
-                
+                <div id="createCheckin">
+                    <div>
+                        <form ng-submit="registerUser()">
+                        <div>
+                                <div>
+                                    <md-input-container>
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" ng-model="firstName" required>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Middle Initial</label>
+                                        <input type="text" class="form-control" max-length="1" ng-model="middleInitial" required>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" ng-model="lastName" required>
+                                    </md-input-container>
+
+                                    <md-input-container>
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" ng-model="email" required>
+                                    </md-input-container>
+                                    
+                                    <md-input-container>
+                                        <label>Password</label>
+                                        <input type="password" class="form-control" ng-model="password" required>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Number</label>
+                                        <input type="number" class="form-control" ng-model="contactNo" required>
+                                    </md-input-container>
+                                    <br>
+                                    <md-input-container>
+                                      <label>Gender</label>
+                                      <md-select ng-model="gender">
+                                          <md-option>Male</md-option>
+                                          <md-option>Female</md-option>
+                                      </md-select>
+                                    </md-input-container>
+                                    <md-datepicker ng-model="birthDate" md-placeholder="Birth date" required></md-datepicker>
+                                </div>
+                            </div>
+                            <md-button type="submit" class="md-raised md-primary">Create Employee <span class="fa fa-check"></span></button>
+                  </form>
+                    </div>
+                </div>
             </md-content>
           </md-tab>
       </md-tabs>
@@ -62,7 +107,21 @@ app.controller('checkinController', function($scope, $http, $mdDialog, SweetAler
       $scope.checkin = response.data.records;
     })
   };
-
+  $scope.registerUser = function(){ 
+      $http.post('../queries/insert/registerUser.php', {
+            'password':$scope.password,
+            'firstName':$scope.firstName,
+            'middleInitial':$scope.middleInitial,
+            'lastName':$scope.lastName,
+            'email':$scope.email,
+            'contactNo':$scope.contactNo,
+            'gender':$scope.gender,
+            'birthDate': $scope.birthDate
+        }).then(function(response){
+          console.log(response.data);
+          window.location.assign("login.php");
+        })
+    };
   $scope.checkout = function($res, $checkin){
     $http.post("../queries/update/checkoutReservation.php", {
       'id': $res
