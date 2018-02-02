@@ -309,7 +309,6 @@ app.controller('menuController', function($scope, $http, $mdDialog, SweetAlert) 
         $scope.mod.modalStatus = $status;
     };
     
-    
     $scope.editFood = function() {
         SweetAlert.swal({
             title: "Are you sure?",

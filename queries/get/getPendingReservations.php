@@ -11,8 +11,7 @@ YEAR(`r`.`checkout_date`) AS `checkout_year`, MONTHNAME(`r`.`checkout_date`) AS 
 `r`.`adult_qty`, `r`.`child_qty`, `r`.`user_id`, CONCAT(`u`.`first_Name`,' ', `u`.`middle_initial`, ' ', `u`.`last_name`) AS `name`
 FROM `reservation_request` `r`
 INNER JOIN `user_account` `u`
-ON `r`.`user_id` = `u`.`user_id` AND `r`.`reservation_request_status` = 'Pending' AND `r`.`checkout_date` > CURDATE()
-GROUP BY `u`.`user_id`");
+ON `r`.`user_id` = `u`.`user_id` AND `r`.`reservation_request_status` = 'Pending' AND `r`.`checkout_date` > CURDATE()");
 
 $outp = "";
 while($rs = $result->fetch_array(MYSQLI_ASSOC)) {

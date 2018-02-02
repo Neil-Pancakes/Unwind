@@ -40,7 +40,7 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
                         <span>Children: {{x.ChildQty}}
                         <div class="acceptrejectDiv">
                             <button class="btn btn-success" ng-click="acceptReservation(x.ReservationRequestId)">Accept</button>
-                            <button class="btn btn-danger" ng-click="rejectReservation(x.ReservationRequestId)">Reject</button>
+                            <button class="btn btn-danger" ng-click="rejectModal(x.ReservationRequestId)" data-target="#reject" data-toggle="modal">Reject</button>
                         </div>
                     </div>       
                 </md-list-item>
@@ -68,6 +68,27 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
             </md-content>
           </md-tab>
       </md-tabs>
+      
+      <div id="reject" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <form ng-submit="sendReject()">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#003300; color:white;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h2>Reject Reservation</h2>
+                                </div>
+                                <div class="modal-body">
+                                    <input ng-model="mod.Id" required hidden>
+                                    <textarea class="form-control" placeholder="Why did you reject the Reservation?" ng-model="mod.Message" required></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-warning" onclick="$('#reject').modal('hide');">Reject the request <span class="fa fa-edit"></span></button>
+                                    <button type="button" class="btn btn-danger" onclick="$('#reject').modal('hide');">Close <span class="fa fa-close"></span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
       </md-content>
     </div>  
   </section>
@@ -119,11 +140,6 @@ app.controller('reservationController', function($scope, $http, $mdDialog, Sweet
         $http.post('../queries/update/rejectReservationRequest.php', {
             'id': $id,
         }).then(function(data, status){
-            $http.get("../queries/get/getPendingReservations.php").then(function (response) {
-                $scope.pending = response.data.records;
-           
-            });
-            SweetAlert.swal("Success!", "You Rejected the Request", "error");
         })
     };
 
@@ -185,6 +201,27 @@ app.controller('reservationController', function($scope, $http, $mdDialog, Sweet
                 })
             }
         });
+    };
+
+    $scope.mod = {
+        $Id: "",
+        $Message: ""
+    };
+
+    
+    $scope.rejectModal = function($id) {
+        $scope.mod.Id = $id;
+    };
+
+    $scope.sendReject = function(){
+        $http.post('../queries/insert/insertReservationReject.php', {
+            'id': $scope.mod.Id,
+            'message': $scope.mod.Message
+        }).then(function(data, status){
+            $scope.rejectReservation($scope.mod.Id);
+            $scope.init();
+            SweetAlert.swal("Success!", "You Rejected the Request", "error");
+        })
     };
 });
 </script>

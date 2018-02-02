@@ -62,6 +62,30 @@ include '../sidebar.php';
         <!-- /.box -->
             </md-content>
           </md-tab>
+
+          <md-tab label="Financial Report">
+            <md-content>  
+              <div class="box-header with-border">
+                <h3 class="box-title">Earnings from Rooms per Month</h3>
+              </div>
+              <div class="box-body">
+                <div class="chart">
+                  <canvas id="line" class="chart chart-line" chart-data="financeRoom" chart-labels="financeRoomLabels" chart-series="series">
+                  </canvas>
+                </div>
+              </div>
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Earnings from Food per Month</h3>
+              </div>
+              <div class="box-body">
+                <div class="chart">
+                <canvas id="line" class="chart chart-line" chart-data="financeFood" chart-labels="financeFoodLabels" chart-series="series">
+                  </canvas>
+                </div>
+              </div>
+            </md-content>
+          </md-tab>
         </md-tabs>     
         </md-content>
       </section>
@@ -92,10 +116,19 @@ app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert
   $scope.init = function(){
   $scope.checklabels = [];
   $scope.check = [];
+  
   $scope.foodlabels = [];
   $scope.fooddata = [];
+  
   $scope.rtlabels = [];
   $scope.rt = [];
+
+  $scope.financeFoodLabels = [];
+  $scope.financeFood = [];
+  
+  $scope.financeRoomLabels = [];
+  $scope.financeRoom = [];
+
     $http.get('../queries/get/getCheckinReportByMonth.php').then(function (response) {
       $scope.checkrecords = response.data.records;
 
@@ -130,5 +163,30 @@ app.controller('reportController', function($scope, $http, $mdDialog, SweetAlert
       $scope.rt.push(0);
     });
   };
+
+  $http.get('../queries/get/getFinancialReportFood.php').then(function (response) {
+      $scope.financeFoodRecords = response.data.records;
+
+      $len=$scope.financeFoodRecords.length;
+      for($x=0;$x<$len;$x++){
+        $scope.financeFoodLabels.push($scope.financeFoodRecords[$x].Month);
+        $scope.financeFood.push($scope.financeFoodRecords[$x].Total);
+      }
+      $scope.financeFoodLabels.push();
+      $scope.financeFood.push(0);
+    });
+
+    
+  $http.get('../queries/get/getFinancialReportRooms.php').then(function (response) {
+      $scope.financeRoomRecords = response.data.records;
+
+      $len=$scope.financeRoomRecords.length;
+      for($x=0;$x<$len;$x++){
+        $scope.financeRoomLabels.push($scope.financeRoomRecords[$x].Month);
+        $scope.financeRoom.push($scope.financeRoomRecords[$x].Total);
+      }
+      $scope.financeRoomLabels.push();
+      $scope.financeRoom.push(0);
+    });
 });
 </script>

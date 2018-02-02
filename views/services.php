@@ -86,27 +86,51 @@ include '../sidebar.php';
           </md-tab>
           <md-tab label="Service Requests">
             <md-content>
-            <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
-              <md-list flex>
-                <md-list-item class="md-3-line rrList" ng-click="null" ng-repeat = "x in requestList track by $index">
-                  <div>
-                    {{x.Name}}
-                    <span><small>({{x.ServiceRequestMonth}} {{x.ServiceRequestDay}}, {{x.ServiceRequestYear}})</small></span><br>
-                    <strong>{{x.ServiceName}}</strong>
-                    ({{x.ServiceType}})<br>
-                    <div ng-if="x.ServiceRequestStatus=='Pending'">
-                        <button class="btn btn-success" ng-click="acceptServiceRequest(x.ServiceRequestId, x.ServiceName, x.Name)">Accept <span class="fa fa-check"></button>
-                        <button class="btn btn-danger" ng-click="rejectServiceRequest(x.ServiceRequestId, x.ServiceName, x.Name)">Reject <span class="fa fa-close"></button>
+            <div style="float:left;">
+                <md-button class="md-raised" ng-click="init()">Refresh <span class="fa fa-refresh"></span></md-button>
+                <md-list flex>
+                    <md-list-item class="md-3-line rrList" ng-repeat = "x in requestList track by $index">
+                    <div>
+                        {{x.Name}}
+                        <span><small>({{x.ServiceRequestMonth}} {{x.ServiceRequestDay}}, {{x.ServiceRequestYear}})</small></span><br>
+                        <strong>{{x.ServiceName}}</strong>
+                        ({{x.ServiceType}})<br>
+                        <div ng-if="x.ServiceRequestStatus=='Pending'">
+                            <button class="btn btn-success" ng-click="acceptServiceRequest(x.ServiceRequestId, x.ServiceName, x.Name)">Accept <span class="fa fa-check"></button>
+                            <button class="btn btn-danger" ng-click="rejectModal(x.ServiceRequestId, x.ServiceName, x.Name)" data-target="#reject" data-toggle="modal">Reject <span class="fa fa-close"></button>
+                        </div>
+                        <div ng-if="x.ServiceRequestStatus=='Waiting'">
+                            <button class="btn btn-warning" ng-click="completeServiceRequest(x.ServiceRequestId, x.ServiceName, x.Name)">Complete Service Request <span class="fa fa-check-square-o"></span></button>
+                        </div>
+                    </div>  
+                    </md-list-item>
+            </div>
+                
+      <div id="reject" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <form ng-submit="sendReject()">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#003300; color:white;">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h2>Reject Reservation</h2>
+                                </div>
+                                <div class="modal-body">
+                                    <input ng-model="mod.Id" required hidden>
+                                    <textarea class="form-control" placeholder="Why did you reject the Service?" ng-model="mod.Message" required></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-warning" onclick="$('#reject').modal('hide');">Reject the request <span class="fa fa-edit"></span></button>
+                                    <button type="button" class="btn btn-danger" onclick="$('#reject').modal('hide');">Close <span class="fa fa-close"></span></button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div ng-if="x.ServiceRequestStatus=='Waiting'">
-                        <button class="btn btn-warning" ng-click="completeServiceRequest(x.ServiceRequestId, x.ServiceName, x.Name)">Complete Service Request <span class="fa fa-check-square-o"></span></button>
-                    </div>
-                  </div>  
-                </md-list-item>
+                </div>
               <md-list>            
             </md-content>
           </md-tab>
         </md-tabs>
+        
       </md-content>
       </md-content>
     </div>  
@@ -134,12 +158,15 @@ app.controller('serviceController', function($scope, $http, $mdDialog, SweetAler
  
     $scope.init = function () {
         $scope.serviceName=$scope.serviceType="";
-
+/*
         $http.get("../queries/get/getServices.php").then(function (response){
             $scope.serviceList = response.data.records;
             
-        });
-
+        });*/
+        $scope.mod = {
+                $Id: "",
+                $Message: ""
+            };
         if($scope.checkInId==""){
             $http.get("../queries/get/getServiceRequest.php").then(function (response){
                 $scope.requestList = response.data.records;
@@ -186,27 +213,12 @@ app.controller('serviceController', function($scope, $http, $mdDialog, SweetAler
     };
 
     $scope.rejectServiceRequest = function($id, $service, $name){
-        SweetAlert.swal({
-            title: "Are you sure?",
-            text: "Do you want to reject "+$service+" request made by "+$name,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55", confirmButtonText: "Accept!",
-            cancelButtonText: "Cancel!",
-            closeOnConfirm: false,
-            closeOnCancel: false }, 
-         function(isConfirm){ 
-            if (isConfirm) {
+       
                 $http.post('../queries/update/updateServiceRequestRejected.php', {
                     'id': $id,
                 }).then(function(data, status){
-                    $scope.init();
-                    SweetAlert.swal("Reject Successful!", "You rejected the service request", "success");
+                   
                 })
-            } else {
-               SweetAlert.swal("Cancelled", "You didn't reject the request", "error");
-            }
-         });
     };
 
     $scope.completeServiceRequest = function($id, $service, $name){
@@ -231,6 +243,29 @@ app.controller('serviceController', function($scope, $http, $mdDialog, SweetAler
                SweetAlert.swal("Cancelled", "You didn't confirm that the service was completed", "error");
             }
         });
+    };
+
+    $scope.mod = {
+        $Id: "",
+        $Message: ""
+    };
+
+    $scope.rejectModal = function($id, $service, $name) {
+        $scope.mod.Id = $id;
+        $scope.mod.Service = $service;
+        $scope.mod.Name = $name;
+    };
+
+    
+    $scope.sendReject = function(){
+        $http.post('../queries/insert/insertServiceReject.php', {
+            'id': $scope.mod.Id,
+            'message': $scope.mod.Message
+        }).then(function(data, status){
+            $scope.rejectServiceRequest($scope.mod.Id, $scope.mod.Service, $scope.mod.Name);
+            $scope.init();
+            SweetAlert.swal("Reject Successful!", "You rejected the service request", "success");
+        })
     };
 });
 </script>

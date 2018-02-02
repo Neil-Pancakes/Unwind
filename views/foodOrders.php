@@ -22,7 +22,7 @@ include '../sidebar.php';
                 </md-list-item>
             <md-list>            
         </md-content>
-        <div id="viewFood" class="modal fade" role="dialog">
+        <div id="viewFood" class="modal fade" role="dialog" ng-cloak>
             <div class="modal-dialog">
                 <form ng-submit="completeOrder()">
                     <div class="modal-content">
