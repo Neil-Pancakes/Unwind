@@ -79,9 +79,11 @@ include '../sidebar.php';
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
           <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}" ng-click="getRooms(x.FloorId)">
-            <!--
-          <md-content class="md-padding" layout-xs="column" layout="row">
-          <md-card ng-repeat = "room in room" md-theme-watch ng-click="getInfo(room.RoomId, room.RoomStatus)" style="{{room.Color}}" data-target="#viewRoom" data-toggle="modal">
+            
+              <md-content class="md-padding" layout="row" ng-repeat = "room in room">
+
+                <div flex-xs flex-gt-xs="50" layout="column">
+                  <md-card ng-if="$index % 4 == 0" md-theme-watch ng-click="getInfo(room.RoomId, room.RoomStatus)" style="{{room.Color}}" data-target="#viewRoom" data-toggle="modal" style="display:inline-block;">
                     <md-card-title>
                       <md-card-title-text>
                         <span ng-if="room.RoomStatus=='Available' || room.RoomStatus=='Occupied'" class="md-headline">Room {{room.RoomNumber}}</span>
@@ -96,21 +98,24 @@ include '../sidebar.php';
                       </md-card-title-media>
                     </md-card-title>
                   </md-card>
-              </md-content>-->
-              <md-grid-list
-        md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="4"
-        md-row-height-gt-md="1:1">
-                
-        <md-grid-tile ng-repeat = "room in room" style=" border-style: solid; border-width:1px;" class="red"
-            md-rowspan="1" md-colspan="1" md-colspan-sm="1" md-colspan-xs="1" ng-click="getInfo(room.RoomId, room.RoomStatus)" data-target="#viewRoom" data-toggle="modal">
-            <img src="{{room.Picture}}" class="logoPic">
-          <md-grid-tile-footer style="{{room.Color}};">
-            <h3><span ng-if="room.RoomStatus=='Available' || room.RoomStatus=='Occupied'">Room {{room.RoomNumber}}</span></h3>
-            <h3><span ng-if="room.RoomStatus=='Unavailable'" style="color:white;">Room {{room.RoomNumber}} (Unavailable)</span></h3>
-          </md-grid-tile-footer>
-        </md-grid-tile>
-    </md-grid-list>
 
+                  <md-card ng-if="$index % 4 !=0" md-theme-watch ng-click="getInfo(room.RoomId, room.RoomStatus)" style="{{room.Color}}" data-target="#viewRoom" data-toggle="modal">
+                    <md-card-title>
+                      <md-card-title-text>
+                        <span ng-if="room.RoomStatus=='Available' || room.RoomStatus=='Occupied'" class="md-headline">Room {{room.RoomNumber}}</span>
+                        <span ng-if="room.RoomStatus=='Unavailable'" class="md-headline" style="color:white;">Room {{room.RoomNumber}} (Unavailable)</span>
+                      </md-card-title-text>
+                      <md-card-title-media>
+                        <div class="md-media-xs card-media">
+                          <img src="{{room.Picture}}" class="logoPic">
+                        </div>
+                        <img src="../includes/img/room-service.png" class="servicePic">
+                        <img src="../includes/img/cleaning.png" class="servicePic" style="margin-right:2%;">
+                      </md-card-title-media>
+                    </md-card-title>
+                  </md-card>
+                </div>
+              </md-content>
               
 <!--
             <md-content class="md-padding" layout-xs="column" layout="row">
