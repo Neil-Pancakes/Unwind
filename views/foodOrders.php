@@ -89,9 +89,6 @@ app.controller('orderController', function($scope, $http, $mdDialog, SweetAlert)
                 for($x=0; $x<$scope.orderList.length; $x++){
                     $http.get("../queries/get/getFoodItemPerOrder.php?food_order_id="+$scope.orderList[$x].FoodOrderId).then(function (response){
                         $scope.foodPerOrder = response.data.records;
-                        if($scope.foodPerOrder!=""){
-                            $scope.foodSet.food = $scope.foodPerOrder;
-                        }
                     });
                 }
             });

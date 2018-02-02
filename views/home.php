@@ -79,6 +79,7 @@ include '../sidebar.php';
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom class="md-no-animation">
           <md-tab ng-repeat="x in floor track by $index" label="Floor {{x.FloorNumber}}" ng-click="getRooms(x.FloorId)">
+<<<<<<< HEAD
             
               <md-content class="md-padding" layout="row" ng-repeat = "room in room">
 
@@ -134,6 +135,22 @@ include '../sidebar.php';
                 </div>
                 
             </md-content>-->
+=======
+           
+              <md-grid-list
+        md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="4"
+        md-row-height-gt-md="1:1">
+                
+        <md-grid-tile ng-repeat = "room in room" style=" border-style: solid; border-width:1px;" class="red"
+            md-rowspan="1" md-colspan="1" md-colspan-sm="1" md-colspan-xs="1" ng-click="getInfo(room.RoomId, room.RoomStatus)" data-target="#viewRoom" data-toggle="modal">
+            <img src="{{room.Picture}}" class="logoPic">
+          <md-grid-tile-footer style="{{room.Color}};">
+            <h3><span>Room {{room.RoomNumber}} ({{room.RoomStatus}})</span></h3>
+          </md-grid-tile-footer>
+        </md-grid-tile>
+    </md-grid-list>
+
+>>>>>>> a3da749edfd65f0de1216c3f96df9fe4d9ec3858
           </md-tab>
 
         </md-tabs>
@@ -199,9 +216,7 @@ include '../sidebar.php';
 include '../footer.php';
 include '../control_sidebar.php';
 ?>
-<!-- End of div wrapper-->
 </div>
-<!-- End of body-->
 </body>
 
 <script>

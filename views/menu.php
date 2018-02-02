@@ -159,7 +159,7 @@ include '../sidebar.php';
           <md-tab label="Desserts" ng-click="">
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Desserts'">
+                    <md-list-item class="md-3-line rrList" ng-repeat = "food in foodPerMenu track by $index" data-target="#editFood" data-toggle="modal" ng-click="editFoodModal(food.FoodId, food.Name, food.Price, food.Description, food.Status)" ng-if="food.Category=='Dessert'">
                         <!--<md-checkbox ng-model="food.selected"></md-checkbox>-->
                             <div>
                                 <img src="{{food.Picture}}" class="logoPic" style="border-radius: 50%;">
