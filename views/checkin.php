@@ -271,7 +271,7 @@ app.controller('checkinController', function($scope, $http, $mdDialog, SweetAler
     })
   }
 
->>>>>>> 68dcaaeb96c5a89c4ea3e332cbc89b461a9168e2
+
   $scope.checkout = function($res, $checkin){
     $http.post("../queries/update/checkoutReservation.php", {
       'id': $res
