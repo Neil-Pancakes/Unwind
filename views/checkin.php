@@ -226,7 +226,6 @@ app.controller('checkinController', function($scope, $http, $mdDialog, SweetAler
       $scope.checkin = response.data.records;
     })
   };
-<<<<<<< HEAD
   $scope.registerUser = function(){ 
       $http.post('../queries/insert/registerUser.php', {
             'password':$scope.password,
@@ -242,7 +241,6 @@ app.controller('checkinController', function($scope, $http, $mdDialog, SweetAler
           window.location.assign("login.php");
         })
     };
-=======
 
   $scope.checkoutModal = function($res, $checkin, $name, $cimonth, $ciday, $ciyear, $comonth, $coday, $coyear, $adult, $child){
     $scope.mod.ResId = $res;

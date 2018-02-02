@@ -6,7 +6,7 @@
   if(count($request>0)){
     $reservationId = $request['id'];
     
-    $query = "INSERT INTO `check_in`
+    $query = "INSERT INTO `reservation_request`
     (`check_in_start`, `reservation_id`)
     VALUES
     (NOW(), $reservationId);";
