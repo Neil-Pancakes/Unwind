@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html>
-<body>
+<?php
+// connect and login to FTP server
+$ftp_server = "ftp.example.com";
+$ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+$login = ftp_login($ftp_conn, $ftp_username, $ftp_userpass);
 
-<form action="../queries/get/uploadTest.php" method="post" enctype="multipart/form-data">
-    Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit">
-</form>
+// then do something...
 
-</body>
-</html>
+// close connection
+ftp_close($ftp_conn); 
+?>
