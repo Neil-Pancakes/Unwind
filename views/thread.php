@@ -21,7 +21,7 @@ include '../sidebar.php';
                 </div>
               </div>
 
-              <div ng-if="x.EmployeeId!=''" class="box-body no-padding" style="float:right;">
+              <div ng-if="x.EmployeeId!=''" class="box-body no-padding">
                 <div class="mailbox-read-info">
                   <h3>From: Employee</h3>
                   <h5><span class="mailbox-read-time">{{x.Month}} {{x.Day}}, {{x.Year}} ({{x.Time}})</span></h5>

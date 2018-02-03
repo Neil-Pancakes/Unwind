@@ -176,7 +176,7 @@ include '../sidebar.php';
     </section>
   </div>
                         <div class="modal-footer">
-                          <md-button style="background-color:red; color:white;" ng-click="checkout(mod.ResId, mod.CheckInId)">Check-Out <span class="fa fa-calendar-times-o"></span></md-button>
+                          <md-button style="background-color:red; color:white;" ng-click="checkout(mod.ResId, mod.CheckInId)" onclick="$('#checkout').modal('hide');">Check-Out <span class="fa fa-calendar-times-o" onclick></span></md-button>
                         </div>
                     </div>
             </div>
