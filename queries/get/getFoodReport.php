@@ -3,7 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 require("../../functions/sql_connect.php");
 
-$result = $mysqli->query("SELECT `f`.`name` AS `food_name`,COUNT(`fi`.`qty`) AS `food_amount`
+$result = $mysqli->query("SELECT `f`.`name` AS `food_name`, SUM(`fi`.`qty`) AS `food_amount`
 FROM `food_item` `fi`
 INNER JOIN `food_order` `fo`
 ON `fo`.`food_order_id` = `fi`.`food_order_id`

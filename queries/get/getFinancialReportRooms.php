@@ -16,6 +16,7 @@ INNER JOIN `reservation` `res`
 ON `rr`.`reservation_request_id` = `res`.`reservation_request_id`
 INNER JOIN `check_in` `c`
 ON `res`.`reservation_id` = `c`.`reservation_id`
+AND (`res`.`reservation_status` = 'Checked-in' OR `res`.`reservation_status` = 'Checked-out')
 GROUP BY MONTH(`c`.`check_in_start`)
 ORDER BY `month`");
 

@@ -26,6 +26,18 @@ $result = $mysqli->query("SELECT `r`.`room_id`, `r`.`room_number`, `rr`.`checkin
     ON `rr`.`reservation_request_id` = `res`.`reservation_request_id`
     AND ((`rr`.`checkin_date` <= '$checkOut' AND `rr`.`checkout_date` > '$checkIn')
     OR (`rr`.`checkout_date` > '$checkOut' AND `rr`.`checkin_date` <= '$checkIn'))");
+/*SELECT `r`.`room_id`, `r`.`room_number`, `rr`.`checkin_date`, `rr`.`checkout_date`
+FROM `room` `r`
+INNER JOIN `room_reserved` `room_res`
+ON `r`.`room_id` = `room_res`.`room_id`
+INNER JOIN `reservation_request` `rr`
+ON `rr`.`reservation_request_id` = `room_res`.`reservation_request_id`
+INNER JOIN `reservation` `res`
+ON `rr`.`reservation_request_id` = `res`.`reservation_request_id`
+AND (`res`.`reservation_status` = 'Waiting' OR `res`.`reservation_status` = 'Checked-in')
+AND ((`rr`.`checkin_date` <= '2018-02-05' AND `rr`.`checkout_date` > '2018-02-04')
+OR (`rr`.`checkout_date` > '2018-02-05' AND `rr`.`checkin_date` <= '2018-02-04'))
+GROUP BY `r`.`room_id`*/
 
 $qry = "SELECT COUNT(*) AS 'type_count', `t`.`room_type_id`, `t`.`name`, `t`.`price`, `t`.`description`
     FROM `room` `r`
