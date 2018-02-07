@@ -35,9 +35,9 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
                         <h3>{{x.Name}}</h3>
                         <span>{{x.CheckInMonth}} {{x.CheckInDay}}, {{x.CheckInYear}} - {{x.CheckOutMonth}} {{x.CheckOutDay}}, {{x.CheckOutYear}}</span>
                         <br>
-                        <span>Adults: {{x.AdultQty}}</span>
+                        <span>Number of Adults: {{x.AdultQty}}</span>
                         <br>
-                        <span>Children: {{x.ChildQty}}
+                        <span>Number of Children: {{x.ChildQty}}
                         <div class="acceptrejectDiv">
                             <button class="btn btn-info" ng-click="getRooms(x.ReservationRequestId)" data-target="#viewRoom" data-toggle="modal">View Rooms <span class="fa fa-eye"></span></button>
                             <button class="btn btn-success" ng-click="acceptReservation(x.ReservationRequestId)">Accept <span class="fa fa-check"></span></button>
@@ -57,9 +57,9 @@ Fatal error: Class 'Pusher' not found in C:\xampp\htdocs\Unwind\views\reservatio
                         <h3>{{x.Name}}</h3>
                         <span>{{x.CheckInMonth}} {{x.CheckInDay}}, {{x.CheckInYear}} - {{x.CheckOutMonth}} {{x.CheckOutDay}}, {{x.CheckOutYear}}</span>
                         <br>
-                        <span>Adults: {{x.AdultQty}}</span>
+                        <span>Number of Adults: {{x.AdultQty}}</span>
                         <br>
-                        <span>Children: {{x.ChildQty}}
+                        <span>Number of Children: {{x.ChildQty}}
                         <div class="acceptrejectDiv">
                             <md-button class="md-raised md-primary" ng-click="checkinReservation(x.ReservationId)">Check-In <span class="fa fa-calendar"></span></md-button>
                             <md-button style="background-color:red; color:white;" ng-click="cancelReservation(x.ReservationId)">Cancel Reservation <span class="fa fa-close"></span></md-button>
@@ -207,7 +207,7 @@ app.controller('reservationController', function($scope, $http, $mdDialog, Sweet
             $http.get("../queries/get/getUpcomingCheckIn.php").then(function (response){
                 $scope.checkin = response.data.records;
             })
-            SweetAlert.swal("Success!", "You cancelled his reservation!", "error");
+            SweetAlert.swal("Success!", "You cancelled his reservation!", "success");
         })
     };
 
@@ -253,7 +253,7 @@ app.controller('reservationController', function($scope, $http, $mdDialog, Sweet
         }).then(function(data, status){
             $scope.rejectReservation($scope.mod.Id);
             $scope.init();
-            SweetAlert.swal("Success!", "You Rejected the Request", "error");
+            SweetAlert.swal("Success!", "You Rejected the Request", "success");
         })
     };
 });

@@ -17,9 +17,9 @@ include '../sidebar.php';
                       <h3>{{x.Name}}</h3>
                       <span>{{x.CheckInMonth}} {{x.CheckInDay}}, {{x.CheckInYear}} - {{x.CheckOutMonth}} {{x.CheckOutDay}}, {{x.CheckOutYear}}</span>
                       <br>
-                      <span>Adults: {{x.AdultQty}}</span>
+                      <span>Number of Adults: {{x.AdultQty}}</span>
                       <br>
-                      <span>Children: {{x.ChildQty}}
+                      <span>Number of Children: {{x.ChildQty}}
                       <div class="acceptrejectDiv">
                           <md-button ng-click="checkoutModal(x.ReservationId, x.CheckInId, x.Name, x.CheckInMonth, x.CheckInDay, x.CheckInYear, 
                           x.CheckOutMonth, x.CheckOutDay, x.CheckOutYear, x.AdultQty, x.ChildQty)" style="background-color:red; color:white;" data-target="#checkout" data-toggle="modal">Check-Out <span class="fa fa-calendar-times-o"></span></md-button>

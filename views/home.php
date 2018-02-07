@@ -31,11 +31,11 @@ include '../sidebar.php';
                             </md-input-container>
                             
                             <md-input-container>
-                              <label>Max Adults</label>
+                              <label>Max Number of Adults</label>
                               <input type="number" class="form-control" ng-model="max_adult" required>
                             </md-input-container>
                             <md-input-container>
-                              <label>Max Children</label>
+                              <label>Max Number of Children</label>
                               <input type="number" class="form-control" ng-model="max_child" required>
                             </md-input-container>
                             <textarea placeholder="Description of the Room" ng-model="description" rows="4" cols="40" style="width:100%;"></textarea>
